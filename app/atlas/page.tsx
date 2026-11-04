@@ -684,16 +684,6 @@ export default function AtlasPage() {
                     height="h-full"
                   />
                 </div>
-
-                {/* Subtle Interactive Guide at Bottom */}
-                <div className="absolute bottom-4 left-4 right-4 z-20 pointer-events-none flex items-center justify-between">
-                  <div className="pointer-events-auto bg-[#003752]/80 backdrop-blur-md px-3.5 py-1.5 rounded-full text-white text-[11px] flex items-center gap-2 shadow-sm border border-sky-400/20">
-                    <span className="material-symbols-outlined text-[16px] text-[#39b8fd]">
-                      touch_app
-                    </span>
-                    <span>{t.atlasPage.rotateHint}</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

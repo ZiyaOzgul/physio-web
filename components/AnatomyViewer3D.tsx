@@ -790,9 +790,9 @@ export default function AnatomyViewer3D({
 
       {/* 3. BOTTOM LAYER SWITCHER & CAMERA CONTROLS HUD */}
       {(showLayerSwitcher || showCameraControls) && (
-        <div className="absolute bottom-3 sm:bottom-4 inset-x-3 sm:inset-x-4 flex items-center justify-between pointer-events-none z-20 gap-2">
+        <div className="absolute bottom-2.5 sm:bottom-3 inset-x-2.5 sm:inset-x-3 flex items-center justify-between pointer-events-none z-20 gap-1.5">
           {showLayerSwitcher && (
-            <div className="pointer-events-auto flex items-center gap-1 sm:gap-1.5 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] overflow-x-auto max-w-[calc(100%-120px)] sm:max-w-[calc(100%-140px)] scrollbar-none">
+            <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] overflow-x-auto max-w-full scrollbar-none">
               {isMultiLayerMode ? (
                 <>
                   {LAYER_ITEMS.map((item) => {
@@ -803,23 +803,18 @@ export default function AnatomyViewer3D({
                         key={item.id}
                         type="button"
                         onClick={() => toggleLayer(item.id)}
-                        className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-['Archivo_Narrow'] text-[10px] sm:text-[11px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                        className={`px-2 py-1 rounded-lg font-['Archivo_Narrow'] text-[10px] font-bold uppercase tracking-tight transition-all whitespace-nowrap cursor-pointer flex items-center gap-1 ${
                           isActive
-                            ? "bg-[#003752] text-white shadow-sm ring-1 ring-[#39b8fd]/60 scale-[1.02]"
+                            ? "bg-[#003752] text-white shadow-xs"
                             : "bg-[#eff4ff]/80 text-[#41474d] hover:bg-[#dce9ff] hover:text-[#003752]"
                         }`}
                         title={`${item.name} (${isActive ? (language === "tr" ? "Aktif - Kapatmak için tıkla" : "Active - Click to hide") : (language === "tr" ? "Kapalı - Katmanı giydirmek için tıkla" : "Hidden - Click to display")})`}
                       >
                         <span
-                          className="w-2 h-2 rounded-full shrink-0"
+                          className="w-1.5 h-1.5 rounded-full shrink-0"
                           style={{ backgroundColor: item.dotColor }}
                         />
                         <span>{shortName}</span>
-                        {isActive ? (
-                          <span className="material-symbols-outlined text-[13px] text-[#39b8fd]">check</span>
-                        ) : (
-                          <span className="material-symbols-outlined text-[13px] text-slate-400">add</span>
-                        )}
                       </button>
                     );
                   })}
@@ -833,16 +828,23 @@ export default function AnatomyViewer3D({
                         if (onMuscleOpacityChange) onMuscleOpacityChange(nextVal);
                         else setInternalMuscleOpacity(nextVal);
                       }}
-                      className={`px-2 py-1 rounded-lg text-[9px] sm:text-[10px] font-mono font-bold transition-all cursor-pointer flex items-center gap-1 border shrink-0 ${
+                      className={`px-2 py-1 rounded-lg text-[9px] font-mono font-bold transition-all cursor-pointer flex items-center gap-0.5 border shrink-0 whitespace-nowrap ${
                         currentOpacity <= 0.4
                           ? "bg-[#ba1a1a] text-white border-[#ba1a1a]"
                           : "bg-[#eff4ff] text-[#006591] hover:bg-[#dce9ff] border-[#cbe1ff]"
                       }`}
                       title={t.atlasPage.peelAll}
                     >
-                      <span className="material-symbols-outlined text-[12px]">opacity</span>
-                      <span className="hidden sm:inline">{currentOpacity <= 0.4 ? t.viewer.peeledMuscle : t.viewer.peelMuscle}</span>
-                      <span className="sm:hidden">{currentOpacity <= 0.4 ? "%25" : (language === "tr" ? "Soy" : "Peel")}</span>
+                      <span className="material-symbols-outlined text-[11px]">opacity</span>
+                      <span>
+                        {currentOpacity <= 0.4
+                          ? language === "tr"
+                            ? "%25"
+                            : "25%"
+                          : language === "tr"
+                          ? "Soy"
+                          : "Peel"}
+                      </span>
                     </button>
                   )}
                 </>
@@ -854,9 +856,9 @@ export default function AnatomyViewer3D({
                       key={item.id}
                       type="button"
                       onClick={() => handleSelectModel(item.id)}
-                      className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-['Archivo_Narrow'] text-[10px] sm:text-[11px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1 sm:gap-1.5 ${
+                      className={`px-2 py-1 rounded-lg font-['Archivo_Narrow'] text-[10px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1 ${
                         isActive
-                          ? "bg-[#003752] text-white shadow-sm scale-[1.02]"
+                          ? "bg-[#003752] text-white shadow-xs"
                           : "bg-[#eff4ff]/80 text-[#003752] hover:bg-[#dce9ff]"
                       }`}
                     >
@@ -872,42 +874,42 @@ export default function AnatomyViewer3D({
           )}
 
           {showCameraControls && (
-            <div className="pointer-events-auto flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] shrink-0">
+            <div className="pointer-events-auto flex items-center gap-0.5 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] shrink-0">
               <button
                 type="button"
                 onClick={toggleAutoRotate}
                 title={t.viewer.rotateTooltip}
-                className={`p-1 sm:p-1.5 rounded-lg transition-all cursor-pointer ${
+                className={`p-1 rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                   isAutoRotating
                     ? "bg-[#003752] text-[#39b8fd] shadow-xs"
                     : "text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752]"
                 }`}
               >
-                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">rotate_right</span>
+                <span className="material-symbols-outlined text-[15px]">rotate_right</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleZoom(-0.5)}
                 title={t.viewer.zoomIn}
-                className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+                className="p-1 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer flex items-center justify-center"
               >
-                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">zoom_in</span>
+                <span className="material-symbols-outlined text-[15px]">zoom_in</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleZoom(+0.5)}
                 title={t.viewer.zoomOut}
-                className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+                className="p-1 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer flex items-center justify-center"
               >
-                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">zoom_out</span>
+                <span className="material-symbols-outlined text-[15px]">zoom_out</span>
               </button>
               <button
                 type="button"
                 onClick={handleResetCamera}
                 title={t.viewer.resetCamera}
-                className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+                className="p-1 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer flex items-center justify-center"
               >
-                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">restart_alt</span>
+                <span className="material-symbols-outlined text-[15px]">restart_alt</span>
               </button>
             </div>
           )}
