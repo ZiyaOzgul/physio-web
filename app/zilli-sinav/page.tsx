@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IPhoneFrame from "@/components/IPhoneFrame";
-
+import { useLanguage } from "@/context/LanguageContext";
 import { EXAM_STATIONS } from "@/components/CadaverExamSimulator3D";
 
 const CadaverExamSimulator3D = dynamic(
@@ -27,6 +27,7 @@ const CadaverExamSimulator3D = dynamic(
 );
 
 export default function ZilliSinavPage() {
+  const { t, language } = useLanguage();
   const [station, setStation] = useState<number>(1);
   const [activePin, setActivePin] = useState<number>(1);
   const [timeLeft, setTimeLeft] = useState<number>(45);
@@ -61,12 +62,19 @@ export default function ZilliSinavPage() {
     const keywords = pinName.split(/[\s,()/-]+/).filter((w) => w.length > 3);
     const matched = keywords.some((kw) => clean.includes(kw)) || clean.includes(pinLabel);
 
-    if (matched || clean.length > 3 && (pinName.includes(clean) || pinLabel.includes(clean))) {
+    if (matched || (clean.length > 3 && (pinName.includes(clean) || pinLabel.includes(clean)))) {
       setIsAnswerCorrect(true);
     } else {
       setIsAnswerCorrect(false);
     }
   };
+
+  const stationNameLabel =
+    station === 1
+      ? t.examPage.station1Name
+      : station === 2
+      ? t.examPage.station2Name
+      : t.examPage.station3Name;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9ff] text-[#0b1c30]">
@@ -79,7 +87,7 @@ export default function ZilliSinavPage() {
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#c9e6ff] text-[#003752] text-[11px] font-bold uppercase tracking-wider font-archivo">
                 <span className="w-2 h-2 rounded-full bg-[#006591] animate-pulse" />
-                Mobil Uygulama Özelliği • Canlı 3D Vitrin
+                {t.examPage.subBadge}
               </span>
               <span className="text-[#c1c7ce] hidden sm:inline">/</span>
               <div className="flex items-center gap-2">
@@ -87,10 +95,10 @@ export default function ZilliSinavPage() {
                   notifications_active
                 </span>
                 <span className="text-[14px] text-[#003752] font-bold">
-                  Kadavra Pratik Simülatörü
+                  {t.examPage.subTitle}
                 </span>
                 <span className="text-[12px] text-[#41474d] hidden lg:inline">
-                  • Zilli Sınav Masası Tanıtım Vitrini
+                  • {t.examPage.subDesc}
                 </span>
               </div>
             </div>
@@ -100,16 +108,16 @@ export default function ZilliSinavPage() {
               <div className="flex items-center gap-1.5 bg-[#eff4ff] px-2.5 py-1 rounded-lg text-[12px] text-[#006591]">
                 <span className="material-symbols-outlined text-[16px]">timer</span>
                 <span className="font-bold font-mono text-[#003752]">{timeLeft}s</span>
-                <span className="text-[#41474d]">Rotasyon Sayacı</span>
+                <span className="text-[#41474d]">{t.examPage.osceBellCountdown}</span>
               </div>
               <div className="flex items-center gap-1.5 bg-[#eff4ff] px-2.5 py-1 rounded-lg text-[12px] text-[#003752]">
                 <span className="material-symbols-outlined text-[16px] text-[#006591]">school</span>
-                <span className="font-semibold">TA2 Uyumlu</span>
+                <span className="font-semibold">{language === "tr" ? "TA2 Uyumlu" : "TA2 Compliant"}</span>
               </div>
               <div className="hidden xl:flex items-center gap-1 text-[12px] bg-[#e5eeff] px-2.5 py-1 rounded-lg text-[#003752] font-semibold">
-                <span>Masa {station}/3:</span>
+                <span>{t.examPage.station} {station}/3:</span>
                 <span className="text-[#006591]">
-                  {station === 1 ? "Toraks & Visseral" : station === 2 ? "Lokomotor & Kas" : "Nöro & Kranial"}
+                  {stationNameLabel}
                 </span>
               </div>
             </div>
@@ -141,14 +149,14 @@ export default function ZilliSinavPage() {
                       <div className="flex flex-col text-left truncate">
                         <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                           <span className="text-[10px] sm:text-[11px] text-[#003752] font-bold uppercase tracking-wider font-archivo truncate">
-                            MASA {station}/3 • {currentStationConfig.name.replace(/Masa \d:\s*/, "")}
+                            {t.examPage.station.toUpperCase()} {station}/3 • {stationNameLabel}
                           </span>
                           <span className="hidden sm:inline-block text-[9px] font-mono font-semibold bg-[#eff4ff] text-[#006591] px-1.5 py-0.5 rounded border border-[#dce9ff]">
-                            Paslanmaz Kadavra Masası
+                            {t.examPage.stainlessTable}
                           </span>
                         </div>
                         <span className="text-[9px] sm:text-[10px] text-[#41474d] truncate">
-                          {currentStationConfig.latinName} • {currentStationConfig.pins.length} İğne
+                          {currentStationConfig.latinName} • {currentStationConfig.pins.length} {t.examPage.pins}
                         </span>
                       </div>
                     </div>
@@ -164,8 +172,8 @@ export default function ZilliSinavPage() {
                             : "text-[#41474d] hover:text-[#003752] hover:bg-[#eff4ff]"
                         }`}
                       >
-                        <span className="sm:hidden">Masa 1</span>
-                        <span className="hidden sm:inline">Masa 1: Toraks & Visseral</span>
+                        <span className="sm:hidden">{t.examPage.station} 1</span>
+                        <span className="hidden sm:inline">{t.examPage.station} 1: {t.examPage.station1Name}</span>
                       </button>
                       <button
                         type="button"
@@ -176,8 +184,8 @@ export default function ZilliSinavPage() {
                             : "text-[#41474d] hover:text-[#003752] hover:bg-[#eff4ff]"
                         }`}
                       >
-                        <span className="sm:hidden">Masa 2</span>
-                        <span className="hidden sm:inline">Masa 2: Lokomotor & Kas</span>
+                        <span className="sm:hidden">{t.examPage.station} 2</span>
+                        <span className="hidden sm:inline">{t.examPage.station} 2: {t.examPage.station2Name}</span>
                       </button>
                       <button
                         type="button"
@@ -188,8 +196,8 @@ export default function ZilliSinavPage() {
                             : "text-[#41474d] hover:text-[#003752] hover:bg-[#eff4ff]"
                         }`}
                       >
-                        <span className="sm:hidden">Masa 3</span>
-                        <span className="hidden sm:inline">Masa 3: Nöro & Kranial</span>
+                        <span className="sm:hidden">{t.examPage.station} 3</span>
+                        <span className="hidden sm:inline">{t.examPage.station} 3: {t.examPage.station3Name}</span>
                       </button>
                     </div>
                   </div>
@@ -222,9 +230,9 @@ export default function ZilliSinavPage() {
                     <div className="flex flex-col text-left">
                       <span className="text-[11px] text-[#ba1a1a] font-bold flex items-center gap-1 font-archivo uppercase">
                         <span className="material-symbols-outlined text-[14px]">notifications</span>
-                        ZİL SAYACI
+                        {t.examPage.osceBellCountdown}
                       </span>
-                      <span className="text-[10px] text-[#41474d]">Süre bitiminde rotasyon</span>
+                      <span className="text-[10px] text-[#41474d]">{t.examPage.secondsLeft}</span>
                     </div>
                   </div>
                 </div>
@@ -234,10 +242,10 @@ export default function ZilliSinavPage() {
               <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e5eeff] shadow-sm flex flex-col gap-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[16px] text-[#003752] font-bold font-archivo">
-                    {currentStationConfig.name} • Aktif İğne Listesi
+                    {stationNameLabel} • {t.examPage.activePinBadge}
                   </span>
                   <span className="text-[11px] text-[#006591] bg-[#e5eeff] px-2.5 py-1 rounded font-semibold font-mono">
-                    {currentStationConfig.pins.length} İğne / 45 Sn Rotasyon
+                    {currentStationConfig.pins.length} {t.examPage.pins} / 45s
                   </span>
                 </div>
 
@@ -286,7 +294,11 @@ export default function ZilliSinavPage() {
                       setUserAnswer(e.target.value);
                       setIsAnswerCorrect(null);
                     }}
-                    placeholder={`Pin #${activePin} için Latince terim yazın (örn: ${currentPin.latin.split(/[\s(]/)[0]})...`}
+                    placeholder={
+                      language === "tr"
+                        ? `Pin #${activePin} için Latince terim yazın (örn: ${currentPin.latin.split(/[\s(]/)[0]})...`
+                        : `Type Latin name for Pin #${activePin} (e.g. ${currentPin.latin.split(/[\s(]/)[0]})...`
+                    }
                     className="flex-1 w-full bg-[#f8f9ff] text-[#0b1c30] px-3.5 py-2 rounded-xl text-[13px] border border-[#dce9ff] focus:outline-none focus:ring-2 focus:ring-[#006591]"
                   />
                   <button
@@ -294,19 +306,19 @@ export default function ZilliSinavPage() {
                     onClick={handleCheckAnswer}
                     className="w-full sm:w-auto px-5 py-2 rounded-xl bg-[#003752] text-white text-[13px] font-semibold hover:bg-[#1f4e6b] transition-all whitespace-nowrap shadow-sm cursor-pointer"
                   >
-                    Cevabı Kontrol Et
+                    {t.examPage.checkAnswer}
                   </button>
                 </div>
                 {isAnswerCorrect === true && (
                   <p className="text-[12px] text-emerald-600 font-semibold flex items-center gap-1">
                     <span className="material-symbols-outlined text-[16px]">check_circle</span>
-                    Tebrikler! Doğru Terminologia Anatomica terimi: {currentPin.latin} ({currentPin.ta2}). +10 XP kazandınız!
+                    {t.examPage.correctAlert} {currentPin.latin} ({currentPin.ta2}). +10 XP!
                   </p>
                 )}
                 {isAnswerCorrect === false && (
                   <p className="text-[12px] text-[#ba1a1a] font-semibold flex items-center gap-1">
                     <span className="material-symbols-outlined text-[16px]">cancel</span>
-                    Yanıt eşleşmedi. Bu iğnenin resmi Latince terimi: {currentPin.latin}.
+                    {t.examPage.wrongAlert} {t.examPage.correctAnswerWas} {currentPin.latin}.
                   </p>
                 )}
               </div>
@@ -321,14 +333,16 @@ export default function ZilliSinavPage() {
                       smartphone
                     </span>
                     <span className="text-[11px] uppercase tracking-wider text-[#006591] font-bold font-archivo">
-                      Mobil Deneyim Vitrini
+                      {language === "tr" ? "Mobil Deneyim Vitrini" : "Mobile Experience Showcase"}
                     </span>
                   </div>
                   <h2 className="text-[28px] text-[#003752] font-bold font-archivo leading-tight">
-                    Zilli Sınav Masası Cebinizde
+                    {language === "tr" ? "Zilli Sınav Masası Cebinizde" : "Cadaver Bell Exam in Your Pocket"}
                   </h2>
                   <p className="text-[14px] text-[#41474d] leading-relaxed">
-                    Tıp fakültesi kadavra salonundaki o meşhur zil sesini, süre stresini ve pin teşhisini Anatomi 3D mobil uygulamasıyla dilediğiniz her an gerçeğe birebir simüle edin.
+                    {language === "tr"
+                      ? "Tıp fakültesi kadavra salonundaki o meşhur zil sesini, süre stresini ve pin teşhisini Anatomi 3D mobil uygulamasıyla dilediğiniz her an gerçeğe birebir simüle edin."
+                      : "Simulate medical school cadaver lab practical exams with authentic 45-second bells, timed pressure, and milimetric pins on your phone anytime."}
                   </p>
                 </div>
 
@@ -336,24 +350,28 @@ export default function ZilliSinavPage() {
                 <div className="flex justify-center py-2">
                   <IPhoneFrame
                     screenSrc="/screens/exam-phone.png"
-                    altText="Anatomi 3D Zilli Sınav Masası Mobil Ekranı"
-                    caption="Masa #01: Abdomen Regio • 45s Zil"
+                    altText={language === "tr" ? "Anatomi 3D Zilli Sınav Masası Mobil Ekranı" : "Anatomy 3D Bell Exam Mobile Screen"}
+                    caption={language === "tr" ? "Masa #01: Abdomen Regio • 45s Zil" : "Station #01: Abdomen Regio • 45s Bell"}
                   />
                 </div>
 
                 {/* Step-by-Step Exam Mechanics Workflow */}
                 <div className="flex flex-col gap-3.5 pt-2 border-t border-[#e5eeff]">
                   <h3 className="text-[12px] text-[#003752] font-bold uppercase tracking-wider font-archivo">
-                    Mekanik Nasıl İşliyor?
+                    {language === "tr" ? "Mekanik Nasıl İşliyor?" : "How Does the Simulator Work?"}
                   </h3>
                   <div className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-[#c9e6ff] text-[#003752] flex items-center justify-center text-[11px] font-bold font-mono shrink-0 mt-0.5">
                       1
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[13px] text-[#003752] font-bold">45 Saniyelik Zil Çalar</span>
+                      <span className="text-[13px] text-[#003752] font-bold">
+                        {language === "tr" ? "45 Saniyelik Zil Çalar" : "45-Second Bell Rings"}
+                      </span>
                       <span className="text-[12px] text-[#41474d]">
-                        Kadavra masası açılır, geri sayım başlar. İki parmakla dokunarak 3D modeli serbestçe çevirirsiniz.
+                        {language === "tr"
+                          ? "Kadavra masası açılır, geri sayım başlar. İki parmakla dokunarak 3D modeli serbestçe çevirirsiniz."
+                          : "The cadaver station opens, countdown begins. Orbit and zoom the 3D model freely above the table."}
                       </span>
                     </div>
                   </div>
@@ -362,9 +380,13 @@ export default function ZilliSinavPage() {
                       2
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[13px] text-[#003752] font-bold">İğneli Yapıları Teşhis Et</span>
+                      <span className="text-[13px] text-[#003752] font-bold">
+                        {language === "tr" ? "İğneli Yapıları Teşhis Et" : "Spot the Pinned Structures"}
+                      </span>
                       <span className="text-[12px] text-[#41474d]">
-                        Dokudaki renkli iğnelere (Pin 1-5) dokunarak arter, sinir veya foramen sınırlarını incelersiniz.
+                        {language === "tr"
+                          ? "Dokudaki renkli iğnelere (Pin 1-5) dokunarak arter, sinir veya foramen sınırlarını incelersiniz."
+                          : "Inspect colored pins in the specimen to evaluate arteries, nerves, or foraminal boundaries."}
                       </span>
                     </div>
                   </div>
@@ -373,9 +395,13 @@ export default function ZilliSinavPage() {
                       3
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[13px] text-[#003752] font-bold">Latince TA2 İsmini Gir</span>
+                      <span className="text-[13px] text-[#003752] font-bold">
+                        {language === "tr" ? "Latince TA2 İsmini Gir" : "Enter Latin TA2 Term"}
+                      </span>
                       <span className="text-[12px] text-[#41474d]">
-                        Klavyeden yazarak veya sesli dikte ile Terminologia Anatomica terimini yazıp anında doğrulama alırsınız.
+                        {language === "tr"
+                          ? "Klavyeden yazarak veya sesli dikte ile Terminologia Anatomica terimini yazıp anında doğrulama alırsınız."
+                          : "Type or dictate the official Terminologia Anatomica term to get immediate OSCE feedback."}
                       </span>
                     </div>
                   </div>
@@ -384,9 +410,13 @@ export default function ZilliSinavPage() {
                       4
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[13px] text-[#003752] font-bold">Zil Çalınca Sonraki Masaya Geç</span>
+                      <span className="text-[13px] text-[#003752] font-bold">
+                        {language === "tr" ? "Zil Çalınca Sonraki Masaya Geç" : "Bell Rings, Rotate to Next Station"}
+                      </span>
                       <span className="text-[12px] text-[#41474d]">
-                        Süre dolduğunda otomatik rotasyon başlar. Tüm komite boyunca gerçek anatomi salonu deneyimi yaşarsınız.
+                        {language === "tr"
+                          ? "Süre dolduğunda otomatik rotasyon başlar. Tüm komite boyunca gerçek anatomi salonu deneyimi yaşarsınız."
+                          : "When time expires, rotation shifts automatically to simulate the actual anatomy lab practical."}
                       </span>
                     </div>
                   </div>
@@ -399,14 +429,14 @@ export default function ZilliSinavPage() {
                     className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#003752] text-white hover:bg-[#1f4e6b] text-[13px] font-semibold transition-all shadow-sm"
                   >
                     <span className="material-symbols-outlined text-[20px]">phone_iphone</span>
-                    <span>iOS için İndir</span>
+                    <span>{language === "tr" ? "iOS için İndir" : "Download for iOS"}</span>
                   </Link>
                   <Link
                     href="/topluluk-ve-indir"
                     className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#006591] text-white hover:bg-[#004c6e] text-[13px] font-semibold transition-all shadow-sm"
                   >
                     <span className="material-symbols-outlined text-[20px]">android</span>
-                    <span>Android için İndir</span>
+                    <span>{language === "tr" ? "Android için İndir" : "Download for Android"}</span>
                   </Link>
                 </div>
               </div>
@@ -420,13 +450,17 @@ export default function ZilliSinavPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div className="flex flex-col gap-2 max-w-2xl">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#006591] font-archivo">
-                  Pedagojik ve Klinik Yaklaşım
+                  {language === "tr" ? "Pedagojik ve Klinik Yaklaşım" : "Pedagogical & Clinical Approach"}
                 </span>
                 <h2 className="text-[32px] text-[#003752] font-bold font-archivo">
-                  Zilli Sınav Neden Tıp Öğrencileri İçin Hayatidir?
+                  {language === "tr"
+                    ? "Zilli Sınav Neden Tıp Öğrencileri İçin Hayatidir?"
+                    : "Why is the Timed Bell Exam Vital for Medical Students?"}
                 </h2>
                 <p className="text-[14px] text-[#41474d] leading-relaxed">
-                  Tıp fakültesi pratik komite sınavlarında öğrencilerin %68&apos;i teorik bilgiden değil; süre kısıtı, kadavradaki oryantasyon kaybı ve Latince imla hataları sebebiyle puan kaybeder.
+                  {language === "tr"
+                    ? "Tıp fakültesi pratik komite sınavlarında öğrencilerin %68'i teorik bilgiden değil; süre kısıtı, kadavradaki oryantasyon kaybı ve Latince imla hataları sebebiyle puan kaybeder."
+                    : "In medical board practicals, 68% of lost points are due to time panic, spatial disorientation on real cadavers, and minor Latin spelling mistakes—not lack of knowledge."}
                 </p>
               </div>
               <div className="flex items-center gap-2 bg-[#ffffff] px-4 py-2.5 rounded-xl shadow-sm border border-[#e5eeff] shrink-0">
@@ -435,9 +469,11 @@ export default function ZilliSinavPage() {
                 </span>
                 <div className="flex flex-col text-left">
                   <span className="text-[12px] text-[#003752] font-bold">
-                    Hacettepe, Cerrahpaşa & Ege Tıp
+                    Hacettepe, Cerrahpaşa & Ege
                   </span>
-                  <span className="text-[11px] text-[#41474d]">Müfredat Uyarlamalı Protokol</span>
+                  <span className="text-[11px] text-[#41474d]">
+                    {language === "tr" ? "Müfredat Uyarlamalı Protokol" : "Curriculum-Aligned Protocol"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -449,10 +485,12 @@ export default function ZilliSinavPage() {
                   <span className="material-symbols-outlined text-[26px]">hourglass_bottom</span>
                 </div>
                 <h3 className="text-[18px] text-[#003752] font-bold font-archivo">
-                  Süre Baskısını Sıfırlama
+                  {language === "tr" ? "Süre Baskısını Sıfırlama" : "Eliminating Time Pressure"}
                 </h3>
                 <p className="text-[13px] text-[#41474d] leading-relaxed">
-                  Her masada çalan 45 saniyelik zili yüzlerce kez simüle ederek panik refleksini ortadan kaldırır, serinkanlı klinik odak geliştirir.
+                  {language === "tr"
+                    ? "Her masada çalan 45 saniyelik zili yüzlerce kez simüle ederek panik refleksini ortadan kaldırır, serinkanlı klinik odak geliştirir."
+                    : "Simulating 45-second bells hundreds of times conditions you against panic reflexes, instilling calm clinical precision."}
                 </p>
               </div>
 
@@ -461,10 +499,12 @@ export default function ZilliSinavPage() {
                   <span className="material-symbols-outlined text-[26px]">screen_rotation</span>
                 </div>
                 <h3 className="text-[18px] text-[#003752] font-bold font-archivo">
-                  Kadavrada 3 Boyutlu Yön Duygusu
+                  {language === "tr" ? "Kadavrada 3 Boyutlu Yön Duygusu" : "3D Cadaver Spatial Sense"}
                 </h3>
                 <p className="text-[13px] text-[#41474d] leading-relaxed">
-                  Kitap sayfalarındaki iki boyutlu illüstrasyonlar yerine, gerçek bir kadavra masasında eğilip sağdan, soldan ve derinden bakma yetisi kazandırır.
+                  {language === "tr"
+                    ? "Kitap sayfalarındaki iki boyutlu illüstrasyonlar yerine, gerçek bir kadavra masasında eğilip sağdan, soldan ve derinden bakma yetisi kazandırır."
+                    : "Replaces 2D textbook drawings with real table viewpoints—look from above, below, anterior, posterior and cross-sectionally."}
                 </p>
               </div>
 
@@ -473,10 +513,12 @@ export default function ZilliSinavPage() {
                   <span className="material-symbols-outlined text-[26px]">spellcheck</span>
                 </div>
                 <h3 className="text-[18px] text-[#003752] font-bold font-archivo">
-                  Terminologia Anatomica (TA2) İmlası
+                  Terminologia Anatomica (TA2)
                 </h3>
                 <p className="text-[13px] text-[#41474d] leading-relaxed">
-                  Hocaların puan kırdığı Latince tek harf imla kusurlarını akıllı klinik otomatik tamamlama motoruyla hafızanıza kazır.
+                  {language === "tr"
+                    ? "Hocaların puan kırdığı Latince tek harf imla kusurlarını akıllı klinik otomatik tamamlama motoruyla hafızanıza kazır."
+                    : "Locks strict Latin nomenclature into memory, avoiding the single-letter typos professors penalize in practical grading."}
                 </p>
               </div>
 
@@ -485,10 +527,12 @@ export default function ZilliSinavPage() {
                   <span className="material-symbols-outlined text-[26px]">troubleshoot</span>
                 </div>
                 <h3 className="text-[18px] text-[#003752] font-bold font-archivo">
-                  İğne Komşuluğu Teşhisi
+                  {language === "tr" ? "İğne Komşuluğu Teşhisi" : "Pin Proximity Spotting"}
                 </h3>
                 <p className="text-[13px] text-[#41474d] leading-relaxed">
-                  İğnenin batırıldığı dokunun sadece adını değil, altından geçen siniri veya besleyen arter dalını saniyeler içinde analiz etmenizi sağlar.
+                  {language === "tr"
+                    ? "İğnenin batırıldığı dokunun sadece adını değil, altından geçen siniri veya besleyen arter dalını saniyeler içinde analiz etmenizi sağlar."
+                    : "Teaches you to spot not only the pinned fascia, but the underlying nerve branch or supplying vessel in seconds."}
                 </p>
               </div>
             </div>
@@ -500,13 +544,15 @@ export default function ZilliSinavPage() {
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#006591] font-archivo">
-                Tıp Fakültesi Komite Müfredatı
+                {language === "tr" ? "Tıp Fakültesi Komite Müfredatı" : "Medical School Block Curriculum"}
               </span>
               <h2 className="text-[32px] text-[#003752] font-bold font-archivo">
-                Mobil Uygulamada Yer Alan Zilli Sınav Masaları
+                {language === "tr" ? "Mobil Uygulamada Yer Alan Zilli Sınav Masaları" : "Bell Exam Stations in the Mobile App"}
               </h2>
               <p className="text-[14px] text-[#41474d] max-w-3xl leading-relaxed">
-                Tıp fakültesi 1, 2 ve 3. sınıfların tüm dönem komiteleri için ayrılmış, üniversite laboratuvarlarındaki gerçek kadavraların yüksek çözünürlüklü 3D modelleri.
+                {language === "tr"
+                  ? "Tıp fakültesi 1, 2 ve 3. sınıfların tüm dönem komiteleri için ayrılmış, üniversite laboratuvarlarındaki gerçek kadavraların yüksek çözünürlüklü 3D modelleri."
+                  : "Dedicated stations covering Year 1, 2 and 3 curriculum blocks with high-resolution 3D models matching actual cadaver lab specimens."}
               </p>
             </div>
 
@@ -516,19 +562,19 @@ export default function ZilliSinavPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[10px] font-bold font-archivo">
-                      KOMİTE I
+                      {language === "tr" ? "KOMİTE I" : "BLOCK I"}
                     </span>
-                    <span className="font-mono text-[11px] text-[#006591] font-semibold">30 Masa</span>
+                    <span className="font-mono text-[11px] text-[#006591] font-semibold">{language === "tr" ? "30 Masa" : "30 Stations"}</span>
                   </div>
                   <h3 className="text-[17px] text-[#003752] font-bold font-archivo">
-                    Lokomotor & Kemik Masası
+                    {language === "tr" ? "Lokomotor & Kemik Masası" : "Locomotor & Bone Table"}
                   </h3>
                   <p className="text-[12px] text-[#41474d] leading-relaxed">
-                    Tuberculum majus, sulcus intertubercularis, foramen obturatum ve eklem yüzeyi pinleri.
+                    Tuberculum majus, sulcus intertubercularis, foramen obturatum et articulares.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-[#f0f4f9] flex items-center justify-between text-[11px] text-[#006591] font-semibold">
-                  <span>Dönem 1 • 120 İğne Noktası</span>
+                  <span>{language === "tr" ? "Dönem 1 • 120 İğne Noktası" : "Year 1 • 120 Pins"}</span>
                   <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </div>
               </div>
@@ -538,19 +584,19 @@ export default function ZilliSinavPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#c9e6ff] text-[#006591] text-[10px] font-bold font-archivo">
-                      KOMİTE II
+                      {language === "tr" ? "KOMİTE II" : "BLOCK II"}
                     </span>
-                    <span className="font-mono text-[11px] text-[#006591] font-semibold">40 Masa</span>
+                    <span className="font-mono text-[11px] text-[#006591] font-semibold">{language === "tr" ? "40 Masa" : "40 Stations"}</span>
                   </div>
                   <h3 className="text-[17px] text-[#003752] font-bold font-archivo">
-                    Toraks & Kalp Masası
+                    {language === "tr" ? "Toraks & Kalp Masası" : "Thorax & Cardia Table"}
                   </h3>
                   <p className="text-[12px] text-[#41474d] leading-relaxed">
-                    Truncus pulmonalis, valvula tricuspidalis, sulcus coronarius ve mediastinum diseksiyonu.
+                    Truncus pulmonalis, valvula tricuspidalis, sulcus coronarius et mediastinum.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-[#f0f4f9] flex items-center justify-between text-[11px] text-[#006591] font-semibold">
-                  <span>Dönem 2 • 180 İğne Noktası</span>
+                  <span>{language === "tr" ? "Dönem 2 • 180 İğne Noktası" : "Year 2 • 180 Pins"}</span>
                   <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </div>
               </div>
@@ -560,19 +606,19 @@ export default function ZilliSinavPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#c9e6ff] text-[#003752] text-[10px] font-bold font-archivo">
-                      KOMİTE III
+                      {language === "tr" ? "KOMİTE III" : "BLOCK III"}
                     </span>
-                    <span className="font-mono text-[11px] text-[#006591] font-semibold">55 Masa</span>
+                    <span className="font-mono text-[11px] text-[#006591] font-semibold">{language === "tr" ? "55 Masa" : "55 Stations"}</span>
                   </div>
                   <h3 className="text-[17px] text-[#003752] font-bold font-archivo">
-                    Nöroanatomi & Foramenler
+                    {language === "tr" ? "Nöroanatomi & Foramenler" : "Neuroanatomy & Foramina"}
                   </h3>
                   <p className="text-[12px] text-[#41474d] leading-relaxed">
-                    Fissura orbitalis superior, Willis poligonu, ventriculus quartus ve kranial sinir kökleri.
+                    Fissura orbitalis superior, Circulus arteriosus cerebri, ventriculus quartus.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-[#f0f4f9] flex items-center justify-between text-[11px] text-[#006591] font-semibold">
-                  <span>Dönem 2 • 220 İğne Noktası</span>
+                  <span>{language === "tr" ? "Dönem 2 • 220 İğne Noktası" : "Year 2 • 220 Pins"}</span>
                   <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </div>
               </div>
@@ -582,19 +628,19 @@ export default function ZilliSinavPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#ffdada] text-[#6d001c] text-[10px] font-bold font-archivo">
-                      KOMİTE IV
+                      {language === "tr" ? "KOMİTE IV" : "BLOCK IV"}
                     </span>
-                    <span className="font-mono text-[11px] text-[#006591] font-semibold">45 Masa</span>
+                    <span className="font-mono text-[11px] text-[#006591] font-semibold">{language === "tr" ? "45 Masa" : "45 Stations"}</span>
                   </div>
                   <h3 className="text-[17px] text-[#003752] font-bold font-archivo">
-                    Abdomen & Retroperiton
+                    {language === "tr" ? "Abdomen & Retroperiton" : "Abdomen & Retroperitoneum"}
                   </h3>
                   <p className="text-[12px] text-[#41474d] leading-relaxed">
-                    Truncus coeliacus dalları, ductus choledochus, lig. hepatoduodenale ve omentum minus.
+                    Truncus coeliacus, ductus choledochus, lig. hepatoduodenale et omentum minus.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-[#f0f4f9] flex items-center justify-between text-[11px] text-[#006591] font-semibold">
-                  <span>Dönem 3 • 160 İğne Noktası</span>
+                  <span>{language === "tr" ? "Dönem 3 • 160 İğne Noktası" : "Year 3 • 160 Pins"}</span>
                   <span className="material-symbols-outlined text-[18px]">chevron_right</span>
                 </div>
               </div>

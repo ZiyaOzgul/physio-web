@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IPhoneFrame from "@/components/IPhoneFrame";
 import TabletFrame from "@/components/TabletFrame";
+import { useLanguage } from "@/context/LanguageContext";
 
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
   ssr: false,
@@ -23,6 +24,7 @@ const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
 });
 
 export default function CihazDeneyimiPage() {
+  const { t, language } = useLanguage();
   const [activeMode, setActiveMode] = useState<"all" | "tablet" | "phone">("all");
 
   return (
@@ -34,22 +36,22 @@ export default function CihazDeneyimiPage() {
         <div className="w-full bg-[#eff4ff] border-b border-[#e5eeff] py-3 px-6 lg:px-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="px-2.5 py-0.5 rounded-full bg-[#dce9ff] text-[#003752] font-mono text-[11px] font-bold">
-              EKOSİSTEM v4.2
+              {t.devicePage.ecosystemBadge}
             </span>
             <span className="text-[#41474d] text-[13px] hidden md:inline">
-              Çoklu Platform & Mobil/Tablet Cihaz Entegrasyonu
+              {t.devicePage.ecosystemDesc}
             </span>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5 text-[#0b1c30] font-mono text-[11px]">
               <span className="w-2 h-2 rounded-full bg-[#006591] animate-pulse" />
-              <span>BULUT SENK: AKTİF</span>
+              <span>{t.devicePage.cloudSyncActive}</span>
             </div>
             <a
               href="#cihaz-karsilastirma"
               className="text-[#006591] hover:text-[#003752] text-[12px] font-bold font-archivo uppercase tracking-wider transition-colors hidden sm:inline-block"
             >
-              Cihaz Matrisi ↓
+              {t.devicePage.deviceMatrixLink}
             </a>
           </div>
         </div>
@@ -61,17 +63,17 @@ export default function CihazDeneyimiPage() {
               <div className="flex flex-col gap-2 max-w-2xl">
                 <div className="flex items-center gap-2">
                   <span className="px-3 py-1 rounded-full bg-[#dce9ff] text-[#006591] text-[11px] font-bold uppercase tracking-wider font-archivo">
-                    Donanım Düzeyi Performans
+                    {t.devicePage.hardwarePerf}
                   </span>
                   <span className="px-3 py-1 rounded-full bg-[#eff4ff] text-[#41474d] font-mono text-[11px]">
-                    Metal 3 & Vulkan
+                    {t.devicePage.metalVulkan}
                   </span>
                 </div>
                 <h1 className="text-[30px] sm:text-[44px] text-[#003752] font-bold uppercase tracking-tight font-archivo leading-tight">
-                  Klinik 3D Atlası Cebinizde ve Masanızda
+                  {t.devicePage.heroTitle}
                 </h1>
                 <p className="text-[14px] sm:text-[16px] text-[#41474d] leading-relaxed">
-                  iPad Pro&apos;nun devasa çizim tuvalinden akıllı telefonunuzun anlık zilli sınav refleksine kadar kesintisiz, sıfır gecikmeli kadavra diseksiyon ortamı.
+                  {t.devicePage.heroDesc}
                 </p>
               </div>
 
@@ -86,8 +88,8 @@ export default function CihazDeneyimiPage() {
                       : "text-[#41474d] hover:text-[#0b1c30]"
                   }`}
                 >
-                  <span className="sm:hidden">Tümü</span>
-                  <span className="hidden sm:inline">Senkronize Görünüm</span>
+                  <span className="sm:hidden">{t.devicePage.allShort}</span>
+                  <span className="hidden sm:inline">{t.devicePage.allModes}</span>
                 </button>
                 <button
                   type="button"
@@ -98,7 +100,7 @@ export default function CihazDeneyimiPage() {
                       : "text-[#41474d] hover:text-[#0b1c30]"
                   }`}
                 >
-                  Tablet Modu
+                  {t.devicePage.tabletMode}
                 </button>
                 <button
                   type="button"
@@ -109,7 +111,7 @@ export default function CihazDeneyimiPage() {
                       : "text-[#41474d] hover:text-[#0b1c30]"
                   }`}
                 >
-                  Telefon Modu
+                  {t.devicePage.phoneMode}
                 </button>
               </div>
             </div>
@@ -120,7 +122,7 @@ export default function CihazDeneyimiPage() {
                 <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
                   {/* Tablet View */}
                   <div className="w-full lg:w-3/5">
-                    <TabletFrame title="iPad Pro 13'' • 3D Diseksiyon Stüdyosu">
+                    <TabletFrame title="iPad Pro 13'' • 3D Dissection Studio">
                       <AnatomyViewer3D
                         modelId="muscular"
                         showCard={false}
@@ -139,7 +141,7 @@ export default function CihazDeneyimiPage() {
                     <IPhoneFrame
                       screenSrc="/screens/exam-phone.png"
                       altText="Anatomi 3D iPhone Zilli Sınav Ekranı"
-                      caption="Masa #01: Abdomen Regio • 45s Geri Sayım"
+                      caption={language === "tr" ? "Masa #01: Abdomen Regio • 45s Geri Sayım" : "Station #01: Abdomen Regio • 45s Countdown"}
                       showSelector={false}
                     />
                   </div>
@@ -149,7 +151,7 @@ export default function CihazDeneyimiPage() {
               {activeMode === "tablet" && (
                 <div className="w-full flex justify-center">
                   <div className="w-full max-w-4xl">
-                    <TabletFrame title="iPad Pro 13'' • 3D Diseksiyon Stüdyosu">
+                    <TabletFrame title="iPad Pro 13'' • 3D Dissection Studio">
                       <AnatomyViewer3D
                         modelId="muscular"
                         showCard={false}
@@ -183,10 +185,12 @@ export default function CihazDeneyimiPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[15px] font-bold text-[#003752] font-archivo">
-                    iPad & Android Tablet
+                    {language === "tr" ? "iPad & Android Tablet" : "iPad & Android Tablet"}
                   </span>
                   <p className="text-[12px] text-[#41474d] mt-0.5 leading-relaxed">
-                    Basınç duyarlı stylus ile kadavra diseksiyon eskizleri, çift pencere PDF ve amfi ders kayıtları.
+                    {language === "tr"
+                      ? "Basınç duyarlı stylus ile kadavra diseksiyon eskizleri, çift pencere PDF ve amfi ders kayıtları."
+                      : "Pressure-sensitive stylus sketching, side-by-side PDF slide annotation and lecture viewing."}
                   </p>
                 </div>
               </div>
@@ -197,10 +201,12 @@ export default function CihazDeneyimiPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[15px] font-bold text-[#003752] font-archivo">
-                    Akıllı Telefon Mobil
+                    {language === "tr" ? "Akıllı Telefon Mobil" : "Smartphone Mobile"}
                   </span>
                   <p className="text-[12px] text-[#41474d] mt-0.5 leading-relaxed">
-                    Tek elle kadavra salonu kontrolü, zilli sınav spot kartları ve intern nöbet modu.
+                    {language === "tr"
+                      ? "Tek elle kadavra salonu kontrolü, zilli sınav spot kartları ve intern nöbet modu."
+                      : "One-handed cadaver lab navigation, bell exam spot cards and clinical night-shift lookups."}
                   </p>
                 </div>
               </div>
@@ -211,10 +217,12 @@ export default function CihazDeneyimiPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[15px] font-bold text-[#003752] font-archivo">
-                    480 MB Çevrimdışı Bellek
+                    {language === "tr" ? "480 MB Çevrimdışı Bellek" : "480 MB Offline Storage"}
                   </span>
                   <p className="text-[12px] text-[#41474d] mt-0.5 leading-relaxed">
-                    Sinyal almayan morfoloji bodrumlarında bile tam 3D kas-iskelet ve damar erişimi.
+                    {language === "tr"
+                      ? "Sinyal almayan morfoloji bodrumlarında bile tam 3D kas-iskelet ve damar erişimi."
+                      : "Full 3D anatomical access even inside windowless anatomy basement dissecting rooms."}
                   </p>
                 </div>
               </div>

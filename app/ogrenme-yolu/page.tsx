@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/context/LanguageContext";
 
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
   ssr: false,
@@ -22,6 +23,7 @@ const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
 });
 
 export default function OgrenmeYoluPage() {
+  const { t, language } = useLanguage();
   const [difficulty, setDifficulty] = useState<"kolay" | "orta" | "zor">("zor");
   const [dailyGoal, setDailyGoal] = useState<number>(100);
 
@@ -40,14 +42,14 @@ export default function OgrenmeYoluPage() {
                   <span className="material-symbols-outlined text-[16px] text-[#006591]">
                     school
                   </span>
-                  Tıp Fakültesi Müfredatı
+                  {t.learnPage.curriculum}
                 </span>
                 <span className="text-[#c1c7ce] text-[12px]">/</span>
                 <span className="text-[12px] font-bold text-[#003752] uppercase font-archivo">
-                  Öğrenme Yolu Haritası
+                  {t.learnPage.roadmap}
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-[#eff4ff] text-[#006591] font-mono text-[11px] font-semibold">
-                  DÖNEM 1 & 2 • 2024-2026
+                  {t.learnPage.period}
                 </span>
               </div>
 
@@ -59,10 +61,10 @@ export default function OgrenmeYoluPage() {
                   </span>
                   <div className="flex flex-col text-left">
                     <span className="text-[11px] text-[#003752] font-bold leading-none font-archivo">
-                      14 Günlük Seri
+                      {t.learnPage.streak14}
                     </span>
                     <span className="text-[10px] text-[#41474d] leading-none mt-0.5">
-                      Kesintisiz Diseksiyon
+                      {t.learnPage.uninterrupted}
                     </span>
                   </div>
                 </div>
@@ -76,7 +78,7 @@ export default function OgrenmeYoluPage() {
                       65 / {dailyGoal} XP
                     </span>
                     <span className="text-[10px] text-[#41474d] leading-none mt-0.5">
-                      Bugünkü Hedef %65
+                      {t.learnPage.todayGoal} %65
                     </span>
                   </div>
                 </div>
@@ -85,10 +87,10 @@ export default function OgrenmeYoluPage() {
                   <span className="material-symbols-outlined text-[18px]">analytics</span>
                   <div className="flex flex-col text-left">
                     <span className="text-[11px] text-[#003752] font-bold leading-none font-archivo">
-                      %42 Hakimiyet
+                      {t.learnPage.masteryPercent}
                     </span>
                     <span className="text-[10px] text-[#41474d] leading-none mt-0.5">
-                      Komite Ortalaması
+                      {t.learnPage.committeeAverage}
                     </span>
                   </div>
                 </div>
@@ -104,28 +106,28 @@ export default function OgrenmeYoluPage() {
                   className="px-3.5 py-1.5 rounded-lg bg-[#003752] text-white text-[13px] font-medium shadow-xs flex items-center gap-1.5"
                 >
                   <span className="material-symbols-outlined text-[16px]">menu_book</span>
-                  Dönem 1 & 2 Komiteleri
+                  {t.learnPage.term12Committees}
                 </button>
                 <button
                   type="button"
                   className="px-3.5 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#e5eeff] text-[#41474d] text-[13px] transition-colors flex items-center gap-1.5"
                 >
                   <span className="material-symbols-outlined text-[16px]">stethoscope</span>
-                  Dönem 3 Klinik Anatomi
+                  {t.learnPage.term3Clinical}
                 </button>
                 <Link
                   href="/zilli-sinav"
                   className="px-3.5 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#e5eeff] text-[#41474d] text-[13px] transition-colors flex items-center gap-1.5"
                 >
                   <span className="material-symbols-outlined text-[16px]">alarm</span>
-                  TUS & Zilli Sınav Hazırlık
+                  {t.learnPage.tusExamPrep}
                 </Link>
               </div>
 
               {/* Difficulty Segmented Control */}
               <div className="flex items-center justify-between sm:justify-end gap-3">
                 <span className="text-[11px] text-[#41474d] uppercase tracking-wider font-bold font-archivo">
-                  Zorluk Seviyesi:
+                  {t.learnPage.difficultyLabel}
                 </span>
                 <div className="p-1 rounded-xl bg-[#eff4ff] flex items-center gap-1 border border-[#e5eeff]">
                   <button
@@ -137,7 +139,7 @@ export default function OgrenmeYoluPage() {
                         : "text-[#41474d] hover:text-[#0b1c30]"
                     }`}
                   >
-                    Kolay
+                    {t.learnPage.easy}
                   </button>
                   <button
                     type="button"
@@ -148,7 +150,7 @@ export default function OgrenmeYoluPage() {
                         : "text-[#41474d] hover:text-[#0b1c30]"
                     }`}
                   >
-                    Orta
+                    {t.learnPage.medium}
                   </button>
                   <button
                     type="button"
@@ -160,7 +162,7 @@ export default function OgrenmeYoluPage() {
                     }`}
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-[#6d001c]" />
-                    Zor (Komite Düzeyi)
+                    {t.learnPage.hard}
                   </button>
                 </div>
               </div>
@@ -370,15 +372,15 @@ export default function OgrenmeYoluPage() {
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#006591] animate-pulse" />
                     <span className="text-[12px] text-[#003752] font-bold uppercase tracking-tight font-archivo">
-                      3D Omurga & Nöral Yol Simülasyonu
+                      {t.learnPage.spineNeuralTitle}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="px-2 py-0.5 rounded bg-[#eff4ff] font-mono text-[10px] text-[#41474d]">
-                      Aksis: Y-Rot
+                      {t.learnPage.axisYRot}
                     </span>
                     <span className="px-2 py-0.5 rounded bg-[#e5eeff] text-[#006591] font-mono text-[10px] font-semibold">
-                      100% Zoom
+                      {t.learnPage.zoom100}
                     </span>
                   </div>
                 </div>
@@ -404,14 +406,14 @@ export default function OgrenmeYoluPage() {
                 <div className="flex items-center justify-between pb-2">
                   <div>
                     <span className="text-[11px] text-[#006591] uppercase font-bold font-archivo">
-                      Adım Adım Yol Haritası
+                      {t.learnPage.stepperTitle}
                     </span>
                     <h3 className="text-[22px] text-[#003752] font-bold font-archivo">
-                      Kemik & Eklem İlerleme Düğümleri
+                      {t.learnPage.stepperSub}
                     </h3>
                   </div>
                   <span className="px-3 py-1 rounded-full bg-[#eff4ff] text-[#003752] text-[11px] font-bold uppercase font-archivo">
-                    Seviye 2 / 5
+                    {t.learnPage.level25}
                   </span>
                 </div>
 
@@ -424,10 +426,10 @@ export default function OgrenmeYoluPage() {
                       <span className="absolute inset-0 rounded-full bg-[#006591]/30 animate-ping" />
                     </div>
                     <span className="mt-2 text-[15px] text-[#003752] font-bold font-archivo">
-                      Node 1.1: Kafatası & Nörokranium
+                      {t.learnPage.node1Title}
                     </span>
                     <span className="text-[11px] text-[#41474d]">
-                      Norma Frontalis • Foramen Magnum • Sfenoid
+                      {t.learnPage.node1Sub}
                     </span>
 
                     {/* Interactive Step Card */}
@@ -436,7 +438,7 @@ export default function OgrenmeYoluPage() {
                         <div className="flex items-center gap-1.5 text-[#006591]">
                           <span className="material-symbols-outlined text-[18px]">verified</span>
                           <span className="text-[11px] uppercase font-bold font-archivo">
-                            Aktif İstasyon
+                            {t.learnPage.activeStation}
                           </span>
                         </div>
                         <span className="px-2 py-0.5 rounded bg-[#ffffff] text-[#003752] font-mono text-[11px] font-bold shadow-xs">
@@ -444,21 +446,25 @@ export default function OgrenmeYoluPage() {
                         </span>
                       </div>
                       <h4 className="text-[14px] text-[#003752] font-bold leading-tight font-archivo">
-                        Kafatası Foramenleri & Çıkış Yapan Kranial Sinirler
+                        {language === "tr"
+                          ? "Kafatası Foramenleri & Çıkış Yapan Kranial Sinirler"
+                          : "Cranial Foramina & Exiting Cranial Nerves"}
                       </h4>
                       <p className="text-[12px] text-[#41474d] leading-relaxed">
-                        12 Klinik Soru • 3D Kesitsel Diseksiyon Pratiği • Terminologia Anatomica Eşleşmesi.
+                        {language === "tr"
+                          ? "12 Klinik Soru • 3D Kesitsel Diseksiyon Pratiği • Terminologia Anatomica Eşleşmesi."
+                          : "12 Clinical Questions • 3D Cross-Sectional Dissection • TA2 Nomenclature."}
                       </p>
                       <div className="flex items-center justify-between pt-1">
                         <span className="text-[11px] text-[#41474d] flex items-center gap-1">
                           <span className="material-symbols-outlined text-[15px]">schedule</span>
-                          Tahmini Süre: 8 Dk
+                          {language === "tr" ? "Tahmini Süre: 8 Dk" : "Est. Time: 8 Min"}
                         </span>
                         <Link
                           href="/atlas?region=head-neck"
                           className="px-4 py-1.5 rounded-lg bg-[#003752] hover:bg-[#1f4e6b] text-white text-[12px] font-semibold transition-all shadow-xs"
                         >
-                          İstasyona Başla
+                          {language === "tr" ? "İstasyona Başla" : "Start Station"}
                         </Link>
                       </div>
                     </div>

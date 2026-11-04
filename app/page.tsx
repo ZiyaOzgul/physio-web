@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IPhoneFrame from "@/components/IPhoneFrame";
 import type { DissectionLayersState } from "@/components/AnatomyViewer3D";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Dynamic Anatomy Viewer 3D
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
@@ -88,6 +89,7 @@ const REGIONS = [
 ];
 
 export default function HomePage() {
+  const { t, language } = useLanguage();
   const [heroLayers, setHeroLayers] = useState<DissectionLayersState>({
     skeleton: true,
     muscle: true,
@@ -115,16 +117,16 @@ export default function HomePage() {
                 <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#dce9ff] w-fit shadow-xs">
                   <span className="w-2 h-2 rounded-full bg-[#006591] animate-pulse" />
                   <span className="text-[12px] font-bold uppercase tracking-wider text-[#003752] font-archivo">
-                    TIP FAKÜLTESİ VE KLİNİK EĞİTİM STANDARDI
+                    {t.hero.badge}
                   </span>
                 </div>
 
                 <div className="space-y-4">
                   <h1 className="text-[40px] sm:text-[48px] lg:text-[52px] leading-[1.08] text-[#003752] tracking-tight font-bold font-archivo">
-                    Kadavra Masasını ve 3D Atlası Cebinizden Keşfedin.
+                    {t.hero.title}
                   </h1>
                   <p className="text-[16px] sm:text-[17px] leading-relaxed text-[#41474d] max-w-xl">
-                    2.900+ mikroskobik ve topografik anatomik yapı, 6 hassas diseksiyon katmanı, kişiselleştirilmiş komite müfredatı ve gerçekçi zilli pratik sınav simülasyonu.
+                    {t.hero.subtitle}
                   </p>
                 </div>
 
@@ -135,14 +137,14 @@ export default function HomePage() {
                     className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#003752] hover:bg-[#1f4e6b] text-white font-semibold text-[15px] shadow-md transition-all hover:shadow-lg active:scale-98"
                   >
                     <span className="material-symbols-outlined text-[20px]">view_in_ar</span>
-                    <span>3D Atlası Canlı Dene</span>
+                    <span>{t.hero.ctaTry}</span>
                   </Link>
                   <Link
                     href="/topluluk-ve-indir"
                     className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#eff4ff] hover:bg-[#dce9ff] text-[#006591] font-semibold text-[15px] transition-all"
                   >
                     <span className="material-symbols-outlined text-[20px]">download_for_offline</span>
-                    <span>App Store & Google Play</span>
+                    <span>{t.hero.ctaStores}</span>
                   </Link>
                 </div>
 
@@ -150,26 +152,26 @@ export default function HomePage() {
                 <div className="pt-6 grid grid-cols-3 gap-3 sm:gap-4">
                   <div className="p-3.5 sm:p-4 rounded-xl bg-[#ffffff] shadow-sm border border-[#e5eeff] flex flex-col">
                     <span className="text-[26px] sm:text-[30px] leading-none text-[#003752] font-bold font-archivo">
-                      15.000+
+                      {t.hero.statStudents}
                     </span>
                     <span className="text-[11px] sm:text-[12px] text-[#41474d] mt-1 font-medium">
-                      Aktif Tıp Öğrencisi
+                      {t.hero.statStudentsLabel}
                     </span>
                   </div>
                   <div className="p-3.5 sm:p-4 rounded-xl bg-[#ffffff] shadow-sm border border-[#e5eeff] flex flex-col">
                     <span className="text-[26px] sm:text-[30px] leading-none text-[#006591] font-bold font-archivo">
-                      12 Fakülte
+                      {t.hero.statFaculties}
                     </span>
                     <span className="text-[11px] sm:text-[12px] text-[#41474d] mt-1 font-medium">
-                      Komite Müfredat Uyumu
+                      {t.hero.statFacultiesLabel}
                     </span>
                   </div>
                   <div className="p-3.5 sm:p-4 rounded-xl bg-[#ffffff] shadow-sm border border-[#e5eeff] flex flex-col">
                     <span className="text-[26px] sm:text-[30px] leading-none text-[#6d001c] font-bold font-archivo">
-                      %98.4
+                      {t.hero.statTa2}
                     </span>
                     <span className="text-[11px] sm:text-[12px] text-[#41474d] mt-1 font-medium">
-                      Terminologia Anatomica
+                      {t.hero.statTa2Label}
                     </span>
                   </div>
                 </div>
@@ -199,13 +201,13 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-12">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#dce9ff] text-[#006591] text-[11px] font-bold uppercase tracking-wider font-archivo">
-                <span>KLİNİK VE AKADEMİK MODÜLLER</span>
+                <span>{t.features.badge}</span>
               </div>
               <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold tracking-tight font-archivo">
-                Tıp Müfredatına Göre Tasarlanan 3 Ana Çalışma Gücü
+                {t.features.title}
               </h2>
               <p className="text-[15px] text-[#41474d] max-w-2xl leading-relaxed">
-                Sadece statik bir atlas değil; komite sınav puanınızı artırmak için yapılandırılmış diseksiyon, öğrenme haritası ve laboratuvar simülatörü.
+                {t.features.desc}
               </p>
             </div>
 
@@ -221,20 +223,20 @@ export default function HomePage() {
                     <span className="material-symbols-outlined text-[24px]">layers</span>
                   </div>
                   <h3 className="text-[22px] text-[#003752] font-bold font-archivo">
-                    6 Katmanlı Diseksiyon Atlası
+                    {t.features.f1Title}
                   </h3>
                   <p className="text-[14px] text-[#41474d] leading-relaxed">
-                    Deri altı fasyadan derin periosta kadar organları şeffaflaştırın, izole edin veya gizleyin. 2.953 tanımlı yapıyı Latin terminolojisiyle keşfedin.
+                    {t.features.f1Desc}
                   </p>
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      Tüm Vücut
+                      {t.features.f1Tag1}
                     </span>
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      Topografik Bölgeler
+                      {t.features.f1Tag2}
                     </span>
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      Organ Sistemleri
+                      {t.features.f1Tag3}
                     </span>
                   </div>
                 </div>
@@ -242,7 +244,7 @@ export default function HomePage() {
                   <div className="w-full h-72 rounded-xl bg-[#ffffff] border border-[#e5eeff] overflow-hidden flex items-center justify-center p-2">
                     <Image
                       src="/screens/atlas.png"
-                      alt="Anatomi 3D Atlas Bölge ve Katman Görünümü"
+                      alt={t.features.f1Title}
                       width={600}
                       height={400}
                       className="h-full w-auto object-contain drop-shadow-sm group-hover:scale-102 transition-transform"
@@ -261,20 +263,20 @@ export default function HomePage() {
                     <span className="material-symbols-outlined text-[24px]">route</span>
                   </div>
                   <h3 className="text-[22px] text-[#003752] font-bold font-archivo">
-                    Komite Odaklı Öğrenme Yolu
+                    {t.features.f2Title}
                   </h3>
                   <p className="text-[14px] text-[#41474d] leading-relaxed">
-                    Kolay, Orta ve Zor seviyelerde tıp komitelerine özel hedefler. Lokomotor, Miyoloji, Kardiyovasküler ve Nöroanatomi sıralı çalışma modülleri.
+                    {t.features.f2Desc}
                   </p>
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#006591] text-[11px] font-semibold">
-                      Komite Hedefleri
+                      {t.features.f2Tag1}
                     </span>
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#006591] text-[11px] font-semibold">
-                      %90 Hakimiyet Eşiği
+                      {t.features.f2Tag2}
                     </span>
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#006591] text-[11px] font-semibold">
-                      3D Bölge Açma
+                      {t.features.f2Tag3}
                     </span>
                   </div>
                 </div>
@@ -282,7 +284,7 @@ export default function HomePage() {
                   <div className="w-full h-72 rounded-xl bg-[#ffffff] border border-[#e5eeff] overflow-hidden flex items-center justify-center p-2">
                     <Image
                       src="/screens/learn.png"
-                      alt="Öğrenme Yolu ve Komite Müfredatı Ekranı"
+                      alt={t.features.f2Title}
                       width={600}
                       height={400}
                       className="h-full w-auto object-contain drop-shadow-sm group-hover:scale-102 transition-transform"
@@ -301,20 +303,20 @@ export default function HomePage() {
                     <span className="material-symbols-outlined text-[24px]">notification_important</span>
                   </div>
                   <h3 className="text-[22px] text-[#003752] font-bold font-archivo">
-                    Zilli Sınav Simülatörü
+                    {t.features.f3Title}
                   </h3>
                   <p className="text-[14px] text-[#41474d] leading-relaxed">
-                    Gerçek diseksiyon laboratuvarı stresi: Masada duran 5 numaralı pin için 45 saniyelik zil çalar. Hızlıca doğru Latince anatomik ismi yazın.
+                    {t.features.f3Desc}
                   </p>
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     <span className="px-2.5 py-1 rounded bg-[#ffdada]/60 text-[#6d001c] text-[11px] font-semibold">
-                      45 Sn Geri Sayım
+                      {t.features.f3Tag1}
                     </span>
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      5 Kadavra Masası
+                      {t.features.f3Tag2}
                     </span>
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      Latince Spot Test
+                      {t.features.f3Tag3}
                     </span>
                   </div>
                 </div>
@@ -322,7 +324,7 @@ export default function HomePage() {
                   <div className="w-full h-72 rounded-xl bg-[#ffffff] border border-[#e5eeff] overflow-hidden flex items-center justify-center p-2">
                     <Image
                       src="/screens/exam-phone.png"
-                      alt="Zilli Sınav Kadavra Masası Simülasyonu"
+                      alt={t.features.f3Title}
                       width={600}
                       height={400}
                       className="h-full w-auto object-contain drop-shadow-sm group-hover:scale-102 transition-transform"
@@ -339,53 +341,56 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-12">
             <div className="text-center max-w-2xl mx-auto space-y-3">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#006591] px-3 py-1 rounded bg-[#eff4ff] font-archivo">
-                ANATOMİK TOPOGRAFİ DİZİNİ
+                {t.regions.badge}
               </span>
               <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold font-archivo">
-                Bölgelere Göre 3D Diseksiyon Kataloğu
+                {t.regions.title}
               </h2>
               <p className="text-[15px] text-[#41474d]">
-                Tıp öğrencilerinin en çok zorlandığı 6 ana anatomik kompartmanı doğrudan izole edilmiş 3 boyutlu derinlikle inceleyin.
+                {t.regions.desc}
               </p>
             </div>
 
             {/* 6 Region Cards with subtle scale animation and pointer cursor */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {REGIONS.map((reg) => (
-                <Link
-                  key={reg.id}
-                  href={`/atlas?region=${reg.id}`}
-                  className="p-6 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-[1.03] cursor-pointer flex flex-col justify-between group"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-1 rounded-md bg-[#dce9ff] text-[#003752] text-[11px] font-bold font-archivo">
-                        {reg.structureCount}
-                      </span>
-                      <span className="material-symbols-outlined text-[22px] text-[#006591] group-hover:rotate-6 transition-transform">
-                        {reg.icon}
-                      </span>
-                    </div>
-                    <div>
-                      <h4 className="text-[20px] text-[#003752] font-bold font-archivo">
-                        {reg.name}
-                      </h4>
-                      <p className="text-[12px] text-[#006591] font-mono mt-0.5 font-medium">
-                        {reg.latin}
+              {REGIONS.map((reg) => {
+                const regData = t.regions.items[reg.id] || reg;
+                return (
+                  <Link
+                    key={reg.id}
+                    href={`/atlas?region=${reg.id}`}
+                    className="p-6 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-[1.03] cursor-pointer flex flex-col justify-between group"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="px-2.5 py-1 rounded-md bg-[#dce9ff] text-[#003752] text-[11px] font-bold font-archivo">
+                          {regData.structureCount || reg.structureCount}
+                        </span>
+                        <span className="material-symbols-outlined text-[22px] text-[#006591] group-hover:rotate-6 transition-transform">
+                          {reg.icon}
+                        </span>
+                      </div>
+                      <div>
+                        <h4 className="text-[20px] text-[#003752] font-bold font-archivo">
+                          {regData.name || reg.name}
+                        </h4>
+                        <p className="text-[12px] text-[#006591] font-mono mt-0.5 font-medium">
+                          {regData.latin || reg.latin}
+                        </p>
+                      </div>
+                      <p className="text-[13px] text-[#41474d] leading-relaxed">
+                        {regData.description || reg.description}
                       </p>
                     </div>
-                    <p className="text-[13px] text-[#41474d] leading-relaxed">
-                      {reg.description}
-                    </p>
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-[#f0f4f9] flex items-center justify-between text-[#006591] font-semibold text-[13px] group-hover:text-[#003752] transition-colors">
-                    <span>3D Bölgeyi İncele</span>
-                    <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">
-                      arrow_forward
-                    </span>
-                  </div>
-                </Link>
-              ))}
+                    <div className="mt-6 pt-4 border-t border-[#f0f4f9] flex items-center justify-between text-[#006591] font-semibold text-[13px] group-hover:text-[#003752] transition-colors">
+                      <span>{t.regions.inspectRegion}</span>
+                      <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">
+                        arrow_forward
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -397,13 +402,13 @@ export default function HomePage() {
               {/* Gamification Details */}
               <div className="lg:col-span-6 space-y-6">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#006591]/10 text-[#006591] text-[11px] font-bold uppercase tracking-wider font-archivo">
-                  <span>ÖĞRENME ALIŞKANLIĞI & OYUNLAŞTIRMA</span>
+                  <span>{t.habit.badge}</span>
                 </div>
                 <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold font-archivo leading-tight">
-                  Komiteye Son Hafta Değil, Her Gün Hazırlanın
+                  {t.habit.title}
                 </h2>
                 <p className="text-[15px] text-[#41474d] leading-relaxed">
-                  Tıp fakültesi yoğunluğunda anatomiyi hafızada tutmanın en iyi yolu aralıklı tekrardır. Anatomi 3D; günlük çalışma serisi (streak), kademe rozetleri ve fakülte arkadaş listenizle sizi motive eder.
+                  {t.habit.desc}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -413,11 +418,11 @@ export default function HomePage() {
                         local_fire_department
                       </span>
                       <span className="text-[16px] font-bold font-archivo">
-                        Seri (Streak) Takibi
+                        {t.habit.streakTitle}
                       </span>
                     </div>
                     <p className="text-[12px] text-[#41474d] leading-relaxed">
-                      28 günlük ısı haritası ve seriyi koruma korumaları ile anatomi tekrarını rutin haline getirin.
+                      {t.habit.streakDesc}
                     </p>
                   </div>
 
@@ -427,11 +432,11 @@ export default function HomePage() {
                         military_tech
                       </span>
                       <span className="text-[16px] font-bold font-archivo">
-                        Klinik Rozetler
+                        {t.habit.badgesTitle}
                       </span>
                     </div>
                     <p className="text-[12px] text-[#41474d] leading-relaxed">
-                      &apos;İlk Kesi&apos;, &apos;Vizit Hazırlığı&apos; ve &apos;Klinik Temel&apos; gibi 18 uzmanlık rozetini tamamlayarak kilidini açın.
+                      {t.habit.badgesDesc}
                     </p>
                   </div>
                 </div>
@@ -440,31 +445,37 @@ export default function HomePage() {
                 <div className="p-5 rounded-2xl bg-[#eff4ff] border border-[#dce9ff] space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[12px] uppercase text-[#003752] font-bold font-archivo tracking-wider">
-                      Fakülte Sıralaması (Haftalık Komite XP)
+                      {t.habit.facultyAlignment}
                     </span>
                     <span className="text-[11px] text-[#006591] font-semibold">
-                      Dönem 2 / Komite 1
+                      {language === "tr" ? "Dönem 2 / Komite 1" : "Year 2 / Block 1"}
                     </span>
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#ffffff] text-[13px] border border-[#e5eeff]">
                       <div className="flex items-center gap-3">
                         <span className="font-bold text-[#003752] w-5">01</span>
-                        <span className="font-medium text-[#0b1c30]">Defne K. (Hacettepe Tıp)</span>
+                        <span className="font-medium text-[#0b1c30]">
+                          {language === "tr" ? "Defne K. (Hacettepe Tıp)" : "Daphne K. (Hacettepe Med)"}
+                        </span>
                       </div>
                       <span className="font-mono text-[11px] text-[#006591] font-bold">1.450 XP</span>
                     </div>
                     <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#ffffff] text-[13px] border border-[#e5eeff]">
                       <div className="flex items-center gap-3">
                         <span className="font-bold text-[#003752] w-5">02</span>
-                        <span className="font-medium text-[#0b1c30]">Kerem S. (Cerrahpaşa Tıp)</span>
+                        <span className="font-medium text-[#0b1c30]">
+                          {language === "tr" ? "Kerem S. (Cerrahpaşa Tıp)" : "Kerem S. (Cerrahpaşa Med)"}
+                        </span>
                       </div>
                       <span className="font-mono text-[11px] text-[#006591] font-bold">1.320 XP</span>
                     </div>
                     <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#003752] text-white text-[13px] shadow-sm">
                       <div className="flex items-center gap-3">
                         <span className="font-bold text-[#39b8fd] w-5">04</span>
-                        <span className="font-semibold text-white">Ziya Özgül (Siz)</span>
+                        <span className="font-semibold text-white">
+                          {language === "tr" ? "Ziya Özgül (Siz)" : "Ziya Özgül (You)"}
+                        </span>
                       </div>
                       <span className="font-mono text-[11px] text-[#39b8fd] font-bold">980 XP</span>
                     </div>
@@ -476,8 +487,8 @@ export default function HomePage() {
               <div className="lg:col-span-6 flex justify-center">
                 <IPhoneFrame
                   screenSrc="/screens/streak2.png"
-                  altText="Öğrenci Profil ve Başarı Takibi Ekranı"
-                  caption="Canlı Öğrenci Profili • Streak Takibi"
+                  altText={t.habit.title}
+                  caption={language === "tr" ? "Canlı Öğrenci Profili • Streak Takibi" : "Live Student Profile • Streak Tracking"}
                 />
               </div>
             </div>
@@ -489,13 +500,15 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-12">
             <div className="text-center max-w-xl mx-auto space-y-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#006591] px-3 py-1 rounded bg-[#eff4ff] font-archivo">
-                KLİNİK DENEYİMLER
+                {t.testimonials.badge}
               </span>
               <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold font-archivo">
-                Tıp Fakültelerinden Geri Bildirimler
+                {t.testimonials.title}
               </h2>
               <p className="text-[15px] text-[#41474d]">
-                Kadavra laboratuvarına girmeden önce ve komite sınavı gecelerinde Anatomi 3D kullananlar anlatıyor.
+                {language === "tr"
+                  ? "Kadavra laboratuvarına girmeden önce ve komite sınavı gecelerinde Anatomi 3D kullananlar anlatıyor."
+                  : "Experiences from medical students and anatomy chairs using Anatomy 3D before cadaver dissection labs and board exams."}
               </p>
             </div>
 
@@ -511,16 +524,16 @@ export default function HomePage() {
                     ))}
                   </div>
                   <p className="text-[14px] text-[#41474d] italic leading-relaxed">
-                    &quot;Zilli sınav masası simülatörü olmasaydı karın komitesini geçmem imkansızdı. 45 saniyelik sayaçla iğneli organı çevirip Latince yazma alıştırması tam olarak bizim laboratuvar ortamı.&quot;
+                    &quot;{t.testimonials.q2}&quot;
                   </p>
                 </div>
                 <div className="flex items-center gap-3 pt-3 border-t border-[#f0f4f9]">
                   <div className="w-10 h-10 rounded-full bg-[#dce9ff] flex items-center justify-center font-bold text-[#003752] text-sm">
-                    EK
+                    SY
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-[#003752]">Elif Karaca</span>
-                    <span className="text-[11px] text-[#41474d]">Hacettepe Tıp Fakültesi • Dönem 2</span>
+                    <span className="text-[14px] font-bold text-[#003752]">{t.testimonials.q2Author}</span>
+                    <span className="text-[11px] text-[#41474d]">{t.testimonials.q2Role}</span>
                   </div>
                 </div>
               </div>
@@ -536,7 +549,9 @@ export default function HomePage() {
                     ))}
                   </div>
                   <p className="text-[14px] text-[#41474d] italic leading-relaxed">
-                    &quot;Kitaplardaki 2D çizimlerde plexus brachialis dallarını 3 boyutlu kafamda canlandıramıyordum. Katman katman kasları kaldırıp arkadaki sinir köklerini görmek her şeyi yerine oturttu.&quot;
+                    &quot;{language === "tr"
+                      ? "Kitaplardaki 2D çizimlerde plexus brachialis dallarını 3 boyutlu kafamda canlandıramıyordum. Katman katman kasları kaldırıp arkadaki sinir köklerini görmek her şeyi yerine oturttu."
+                      : "Visualizing the brachial plexus cords in 2D textbook sketches was a nightmare. Being able to peel muscles layer by layer and isolate nerve trunks in 3D made everything click."}&quot;
                   </p>
                 </div>
                 <div className="flex items-center gap-3 pt-3 border-t border-[#f0f4f9]">
@@ -544,8 +559,12 @@ export default function HomePage() {
                     BA
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-[#003752]">Berk Altınok</span>
-                    <span className="text-[11px] text-[#41474d]">İstanbul (Çapa) Tıp Fakültesi • Dönem 1</span>
+                    <span className="text-[14px] font-bold text-[#003752]">
+                      {language === "tr" ? "Berk Altınok" : "Berk Altinok"}
+                    </span>
+                    <span className="text-[11px] text-[#41474d]">
+                      {language === "tr" ? "İstanbul (Çapa) Tıp Fakültesi • Dönem 1" : "Istanbul Faculty of Medicine (Capa) • Year 1"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -561,16 +580,16 @@ export default function HomePage() {
                     ))}
                   </div>
                   <p className="text-[14px] text-[#41474d] italic leading-relaxed">
-                    &quot;Öğrencilerime kadavra seansları öncesinde hazırlık için bu atlası zorunlu kılıyorum. Özellikle foramen ve kanal ilişkilerini 3D izole edebilmek klinik anatomi anlayışını katbekat artırıyor.&quot;
+                    &quot;{t.testimonials.q1}&quot;
                   </p>
                 </div>
                 <div className="flex items-center gap-3 pt-3 border-t border-[#f0f4f9]">
                   <div className="w-10 h-10 rounded-full bg-[#dce9ff] flex items-center justify-center font-bold text-[#006591] text-sm">
-                    MÖ
+                    MK
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-[#003752]">Doç. Dr. Murat Öztürk</span>
-                    <span className="text-[11px] text-[#41474d]">Anatomi Anabilim Dalı Öğretim Üyesi</span>
+                    <span className="text-[14px] font-bold text-[#003752]">{t.testimonials.q1Author}</span>
+                    <span className="text-[11px] text-[#41474d]">{t.testimonials.q1Role}</span>
                   </div>
                 </div>
               </div>
@@ -588,13 +607,13 @@ export default function HomePage() {
               <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <div className="lg:col-span-8 space-y-4">
                   <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 text-[#c9e6ff] text-[11px] font-bold uppercase tracking-wider font-archivo">
-                    Hemen Başlayın • Ücretsiz Tıp Fakültesi Denemesi
+                    {t.cta.badge}
                   </span>
                   <h2 className="text-[32px] sm:text-[38px] font-bold text-white font-archivo leading-tight">
-                    Anatomi Komitelerine Hazırlanmanın En Hızlı ve Görsel Yolu
+                    {t.cta.title}
                   </h2>
                   <p className="text-[15px] text-white/80 max-w-xl leading-relaxed">
-                    iOS ve Android uygulamamızı indirin ya da tarayıcınızdan Web Atlası başlatın. Tüm kadavra yapılarını, katmanlarını ve zilli sınav sorularını anında deneyimleyin.
+                    {t.cta.desc}
                   </p>
                   <div className="pt-2 flex flex-wrap items-center gap-4">
                     <Link
@@ -602,23 +621,19 @@ export default function HomePage() {
                       className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-white text-[#003752] hover:bg-[#eff4ff] text-[14px] font-bold shadow-md transition-all"
                     >
                       <span className="material-symbols-outlined text-[20px]">phone_iphone</span>
-                      <span>App Store&apos;dan İndir</span>
-                    </Link>
-                    <Link
-                      href="/topluluk-ve-indir"
-                      className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-white text-[#003752] hover:bg-[#eff4ff] text-[14px] font-bold shadow-md transition-all"
-                    >
-                      <span className="material-symbols-outlined text-[20px]">android</span>
-                      <span>Google Play ile İndir</span>
+                      <span>{t.cta.btnDownload}</span>
                     </Link>
                     <Link
                       href="/atlas"
                       className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#1f4e6b] text-white hover:bg-[#006591] text-[14px] font-semibold transition-all border border-white/10"
                     >
                       <span className="material-symbols-outlined text-[18px]">open_in_browser</span>
-                      <span>Web Atlası Başlat</span>
+                      <span>{t.cta.btnAtlas}</span>
                     </Link>
                   </div>
+                  <p className="text-[12px] text-white/60 pt-1">
+                    {t.cta.syncNote}
+                  </p>
                 </div>
 
                 {/* QR Code & Device Verification Card */}
@@ -631,10 +646,10 @@ export default function HomePage() {
                     </div>
                     <div className="space-y-0.5">
                       <span className="text-[12px] uppercase font-bold text-[#003752] font-archivo">
-                        Kamerayla Okutun
+                        {language === "tr" ? "Kamerayla Okutun" : "Scan with Camera"}
                       </span>
                       <p className="text-[11px] text-[#41474d]">
-                        Tüm cihazlarda kesintisiz 3D
+                        {language === "tr" ? "Tüm cihazlarda kesintisiz 3D" : "Seamless 3D across devices"}
                       </p>
                     </div>
                   </div>

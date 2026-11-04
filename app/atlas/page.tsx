@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import type { DissectionLayersState } from "@/components/AnatomyViewer3D";
+import { useLanguage } from "@/context/LanguageContext";
 
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
   ssr: false,
@@ -148,6 +149,7 @@ const LAYER_DEFINITIONS: Array<{
 ];
 
 export default function AtlasPage() {
+  const { t, language } = useLanguage();
   const [selectedStructure, setSelectedStructure] = useState<string>("muscular");
   const [muscleOpacity, setMuscleOpacity] = useState<number>(0.85);
   const [layers, setLayers] = useState<DissectionLayersState>({
@@ -230,6 +232,49 @@ export default function AtlasPage() {
   const activeCount = Object.values(layers).filter(Boolean).length;
   const currentDetail = STRUCTURE_DETAILS[selectedStructure] || STRUCTURE_DETAILS.muscular;
 
+  const localizedLayerDefs = [
+    {
+      key: "skeleton" as keyof DissectionLayersState,
+      structureId: "skeletal",
+      title: language === "tr" ? "İskelet (Osteologia)" : "Skeleton (Osteology)",
+      latin: "Skeleton Axiale & Appendiculare",
+      details: language === "tr" ? "206 Kemik • Eksenel & Ekstremite" : "206 Bones • Axial & Appendicular",
+      colorDot: "bg-slate-400",
+    },
+    {
+      key: "muscle" as keyof DissectionLayersState,
+      structureId: "muscular",
+      title: language === "tr" ? "Kas Sistemi (Myologia)" : "Muscular System (Myology)",
+      latin: "Musculi Trunci & Extremitatum",
+      details: language === "tr" ? "640+ Kas • Yüzeysel & Derin Plan" : "640+ Muscles • Superficial & Deep",
+      colorDot: "bg-rose-500",
+    },
+    {
+      key: "vascular" as keyof DissectionLayersState,
+      structureId: "heart",
+      title: language === "tr" ? "Dolaşım & Damarlar (Angiologia)" : "Cardiovascular (Angiology)",
+      latin: "Aorta, V. Cava, Kalp & Tüm Damar Ağacı",
+      details: language === "tr" ? "Tüm Arterler, Venler & Koroner Dolaşım" : "Arteries, Veins & Coronary Tree",
+      colorDot: "bg-red-500",
+    },
+    {
+      key: "nervous" as keyof DissectionLayersState,
+      structureId: "brain",
+      title: language === "tr" ? "Sinir Sistemi (Neurologia)" : "Nervous System (Neurology)",
+      latin: "Encephalon, Medulla & Bütün Sinir Uçları",
+      details: language === "tr" ? "Beyin + Omurilik + Tüm Periferik Sinir Uçları" : "Brain + Spinal Cord + Peripheral Nerves",
+      colorDot: "bg-amber-500",
+    },
+    {
+      key: "organs" as keyof DissectionLayersState,
+      structureId: "abdomen",
+      title: language === "tr" ? "Organların Tamamı (Splanchnologia)" : "Visceral Organs (Splanchnology)",
+      latin: "Organa Visceralia, Thoracica & Abdominalia",
+      details: language === "tr" ? "Akciğerler, Karaciğer, Mide, Böbrekler, Dalak" : "Lungs, Liver, Stomach, Kidneys, Spleen",
+      colorDot: "bg-emerald-500",
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9ff] text-[#0b1c30]">
       <Navbar activePath="/atlas" />
@@ -243,11 +288,11 @@ export default function AtlasPage() {
               <div className="flex items-center gap-2 text-[#41474d] text-[12px] shrink-0 whitespace-nowrap">
                 <span className="inline-flex items-center gap-1 font-semibold text-[#006591] shrink-0 whitespace-nowrap">
                   <span className="material-symbols-outlined text-[17px]">layers</span>
-                  3D Atlas Studio
+                  {t.atlasPage.subTitle}
                 </span>
                 <span className="text-[#c1c7ce] font-mono">/</span>
                 <span className="font-mono text-[#0b1c30] font-semibold bg-[#eff4ff] px-2.5 py-1 rounded text-[11px] tracking-tight shrink-0 whitespace-nowrap">
-                  Systema Corporis Humani (Diseksiyon Masası)
+                  {language === "tr" ? "Systema Corporis Humani (Diseksiyon Masası)" : "Systema Corporis Humani (Dissection Table)"}
                 </span>
               </div>
 
@@ -257,45 +302,45 @@ export default function AtlasPage() {
                   onClick={applyPresetAll}
                   className="px-3 py-1 text-[11px] font-bold font-archivo rounded whitespace-nowrap transition-all cursor-pointer text-[#41474d] hover:text-[#0b1c30] hover:bg-[#dce9ff]"
                 >
-                  TÜM VÜCUT
+                  {t.atlasPage.presetAll}
                 </button>
                 <button
                   type="button"
                   onClick={applyPresetPeel}
                   className="px-3 py-1 text-[11px] font-bold font-archivo rounded whitespace-nowrap transition-all cursor-pointer text-[#41474d] hover:text-[#0b1c30] hover:bg-[#dce9ff]"
                 >
-                  KASLARI SOY
+                  {t.atlasPage.peelAll}
                 </button>
                 <button
                   type="button"
                   onClick={applyPresetSkeletonVascular}
                   className="px-3 py-1 text-[11px] font-bold font-archivo rounded whitespace-nowrap transition-all cursor-pointer text-[#41474d] hover:text-[#0b1c30] hover:bg-[#dce9ff]"
                 >
-                  İSKELET & VASKÜLER
+                  {language === "tr" ? "İSKELET & VASKÜLER" : "SKELETON & VESSELS"}
                 </button>
                 <button
                   type="button"
                   onClick={applyPresetOrgans}
                   className="px-3 py-1 text-[11px] font-bold font-archivo rounded whitespace-nowrap transition-all cursor-pointer text-[#41474d] hover:text-[#0b1c30] hover:bg-[#dce9ff]"
                 >
-                  ORGANLAR
+                  {t.atlasPage.presetOrgans}
                 </button>
                 <button
                   type="button"
                   onClick={applyPresetNeuro}
                   className="px-3 py-1 text-[11px] font-bold font-archivo rounded whitespace-nowrap transition-all cursor-pointer text-[#41474d] hover:text-[#0b1c30] hover:bg-[#dce9ff]"
                 >
-                  NÖROANATOMİ
+                  {t.atlasPage.presetNeuro}
                 </button>
               </div>
             </div>
 
-            {/* Right: Active Layers Indicator & Quick Toggle (Strictly 1 line, gender/depth/search removed) */}
+            {/* Right: Active Layers Indicator & Quick Toggle */}
             <div className="flex items-center gap-2 shrink-0 whitespace-nowrap">
               <div className="flex items-center gap-2 bg-[#eff4ff] px-3 py-1 rounded-lg">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="font-mono text-[11px] font-bold text-[#003752]">
-                  {activeCount} / 5 KATMAN AKTİF
+                  {activeCount} / 5 {t.atlasPage.activeLayers}
                 </span>
               </div>
               <button
@@ -303,14 +348,14 @@ export default function AtlasPage() {
                 onClick={applyPresetAll}
                 className="px-3 py-1 text-[11px] font-semibold text-[#006591] hover:bg-[#eff4ff] rounded-lg transition-all cursor-pointer"
               >
-                Tümünü Aç
+                {t.atlasPage.openAll}
               </button>
               <button
                 type="button"
                 onClick={applyPresetPeel}
                 className="px-3 py-1 text-[11px] font-semibold text-[#006591] hover:bg-[#eff4ff] rounded-lg transition-all cursor-pointer"
               >
-                Kasları Soy
+                {t.atlasPage.peelAll}
               </button>
             </div>
           </div>
@@ -329,15 +374,15 @@ export default function AtlasPage() {
                       reorder
                     </span>
                     <h2 className="text-[16px] text-[#003752] uppercase font-bold tracking-tight font-archivo">
-                      Diseksiyon Katmanları
+                      {t.atlasPage.dissectionLayersTitle}
                     </h2>
                   </div>
                   <span className="font-mono text-[11px] font-semibold text-[#006591] bg-[#e5eeff] px-2 py-0.5 rounded">
-                    {activeCount}/5 AKTİF
+                    {activeCount}/5 {t.atlasPage.activeLayers}
                   </span>
                 </div>
                 <p className="text-[12px] text-[#41474d]">
-                  Anahtarları açıp kapatarak 3D kadavra modelini katman katman diseke edin.
+                  {t.atlasPage.dissectionLayersSubtitle}
                 </p>
 
                 {/* Quick Presets within Panel */}
@@ -347,27 +392,27 @@ export default function AtlasPage() {
                     onClick={applyPresetAll}
                     className="py-1 px-2 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] text-[10px] font-bold font-archivo transition-all text-center cursor-pointer"
                   >
-                    TÜMÜNÜ AÇ
+                    {t.atlasPage.presetAll}
                   </button>
                   <button
                     type="button"
                     onClick={applyPresetPeel}
                     className="py-1 px-2 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] text-[10px] font-bold font-archivo transition-all text-center cursor-pointer"
                   >
-                    KASLARI SOY
+                    {t.atlasPage.peelAll}
                   </button>
                   <button
                     type="button"
                     onClick={applyPresetOrgans}
                     className="py-1 px-2 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] text-[10px] font-bold font-archivo transition-all text-center cursor-pointer"
                   >
-                    İSKELET & ORGAN
+                    {language === "tr" ? "İSKELET & ORGAN" : "SKELETON & ORGANS"}
                   </button>
                 </div>
 
                 {/* Layer List with Interactive On/Off Toggle Switches */}
                 <div className="flex flex-col gap-2 pt-1">
-                  {LAYER_DEFINITIONS.map((item) => {
+                  {localizedLayerDefs.map((item) => {
                     const isActive = Boolean(layers[item.key]);
                     const isInspected = selectedStructure === item.structureId;
 
@@ -402,7 +447,7 @@ export default function AtlasPage() {
                                 isActive ? "text-[#006591]" : "text-[#72787e]"
                               }`}
                             >
-                              {isActive ? "AÇIK" : "KAPALI"}
+                              {isActive ? (language === "tr" ? "AÇIK" : "ON") : (language === "tr" ? "KAPALI" : "OFF")}
                             </span>
                             <button
                               type="button"
@@ -415,7 +460,7 @@ export default function AtlasPage() {
                               className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer flex items-center ${
                                 isActive ? "bg-[#003752]" : "bg-slate-300"
                               }`}
-                              title={`${item.title} katmanını ${isActive ? "kapat" : "aç"}`}
+                              title={`${item.title} (${isActive ? (language === "tr" ? "Kapat" : "Hide") : (language === "tr" ? "Aç" : "Show")})`}
                             >
                               <div
                                 className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${
@@ -437,18 +482,18 @@ export default function AtlasPage() {
                                 <span className="material-symbols-outlined text-[14px] text-[#006591]">
                                   opacity
                                 </span>
-                                Kas Soyma (Diseksiyon):
+                                {t.atlasPage.musclePeeling}
                               </span>
                               <span className="font-mono text-[11px] font-bold text-[#006591]">
-                                %{Math.round(muscleOpacity * 100)} Opaklık
+                                %{Math.round(muscleOpacity * 100)} {t.atlasPage.opacity}
                               </span>
                             </div>
                             <div className="grid grid-cols-4 gap-1">
                               {[
-                                { label: "Tam", val: 1.0 },
+                                { label: t.atlasPage.full, val: 1.0 },
                                 { label: "%85", val: 0.85 },
-                                { label: "Soy %50", val: 0.5 },
-                                { label: "İnce %20", val: 0.2 },
+                                { label: t.atlasPage.peel, val: 0.5 },
+                                { label: t.atlasPage.thin, val: 0.2 },
                               ].map((opt) => (
                                 <button
                                   key={opt.val}
@@ -477,7 +522,7 @@ export default function AtlasPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex flex-col text-left">
                     <span className="text-[10px] text-[#006591] uppercase font-bold tracking-wider font-archivo">
-                      CANLI SEÇİLİ ANATOMİK YAPI
+                      {t.atlasPage.activeStructure}
                     </span>
                     <h3 className="text-[18px] text-[#003752] font-bold font-archivo">
                       {currentDetail.name}
@@ -494,25 +539,25 @@ export default function AtlasPage() {
                 {/* Metadata & Metric Badges */}
                 <div className="grid grid-cols-2 gap-2 bg-[#eff4ff] p-2.5 rounded-xl">
                   <div className="flex flex-col">
-                    <span className="text-[9px] text-[#41474d] font-mono">TA2 KODU</span>
+                    <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "TA2 KODU" : "TA2 CODE"}</span>
                     <span className="font-mono text-[12px] font-bold text-[#003752]">
                       {currentDetail.ta2}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] text-[#41474d] font-mono">KOMİTE ÖNEMİ</span>
+                    <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "KOMİTE ÖNEMİ" : "IMPORTANCE"}</span>
                     <span className="text-[12px] font-bold text-[#6d001c]">
                       {currentDetail.importance}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] text-[#41474d] font-mono">SINAV SIKLIĞI</span>
+                    <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "SINAV SIKLIĞI" : "EXAM FREQUENCY"}</span>
                     <span className="font-mono text-[12px] font-bold text-[#006591]">
                       {currentDetail.examRate}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] text-[#41474d] font-mono">İNERVASYON</span>
+                    <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "İNERVASYON" : "INNERVATION"}</span>
                     <span className="text-[12px] font-medium text-[#0b1c30]">
                       {currentDetail.innervation}
                     </span>
@@ -525,7 +570,7 @@ export default function AtlasPage() {
                     <span className="material-symbols-outlined text-[15px] text-[#006591]">
                       clinical_notes
                     </span>
-                    Klinik Diseksiyon Notu:
+                    {t.atlasPage.clinicalNoteTitle}
                   </span>
                   <p className="text-[11px] text-[#41474d] leading-relaxed">
                     {currentDetail.clinicalNote}
@@ -539,7 +584,7 @@ export default function AtlasPage() {
                     className="w-full py-2.5 px-3 rounded-xl bg-[#003752] hover:bg-[#1f4e6b] text-white text-[12px] font-semibold flex items-center justify-center gap-2 transition-all shadow-sm"
                   >
                     <span className="material-symbols-outlined text-[18px]">timer</span>
-                    <span>Bu Bölgeyle Zilli Sınava Gir</span>
+                    <span>{t.atlasPage.startExamWithRegion}</span>
                   </Link>
                 </div>
               </div>
@@ -554,7 +599,7 @@ export default function AtlasPage() {
                   <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
                     <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
                     <span className="font-['Archivo_Narrow'] text-[11px] sm:text-[12px] font-bold uppercase text-[#003752] tracking-wider truncate max-w-[200px] sm:max-w-none">
-                      {currentDetail.name} ({activeCount} Katman Aktif)
+                      {currentDetail.name} ({activeCount} {t.atlasPage.activeLayers})
                     </span>
                   </div>
 
@@ -590,7 +635,7 @@ export default function AtlasPage() {
                     <span className="material-symbols-outlined text-[16px] text-[#39b8fd]">
                       touch_app
                     </span>
-                    <span>Modeli döndürmek için sürükleyin • Yakınlaştırmak için kaydırın</span>
+                    <span>{t.atlasPage.rotateHint}</span>
                   </div>
                 </div>
               </div>

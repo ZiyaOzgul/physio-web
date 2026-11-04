@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface AnatomyModelOption {
   id: string;
@@ -161,6 +162,7 @@ export default function AnatomyViewer3D({
   showFooter = true,
   height = "h-[380px] sm:h-[480px] lg:h-[520px]",
 }: AnatomyViewer3DProps) {
+  const { t, language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [internalModelId, setInternalModelId] = useState(modelId || "muscular");
   const [internalLayers, setInternalLayers] = useState<DissectionLayersState>({
@@ -171,6 +173,17 @@ export default function AnatomyViewer3D({
     organs: true,
   });
   const [internalMuscleOpacity, setInternalMuscleOpacity] = useState(muscleOpacity);
+
+  const getLayerShortName = (id: keyof DissectionLayersState) => {
+    switch (id) {
+      case "skeleton": return t.viewer.skeleton;
+      case "muscle": return t.viewer.muscle;
+      case "vascular": return t.viewer.vascular;
+      case "nervous": return t.viewer.nervous;
+      case "organs": return t.viewer.organs;
+      default: return id;
+    }
+  };
 
   const isMultiLayerMode = Boolean(activeLayers || !modelId);
   const currentLayers = activeLayers || internalLayers;
@@ -628,7 +641,9 @@ export default function AnatomyViewer3D({
         <div className="absolute inset-0 bg-[#0a1926]/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3 z-30 pointer-events-none">
           <div className="w-10 h-10 rounded-full border-2 border-sky-400/30 border-t-sky-400 animate-spin" />
           <span className="text-xs font-mono text-sky-300 tracking-wider font-semibold">
-            {activeLayers ? "KATMAN DİSEKSİYONU GÜNCELLENİYOR..." : `${activeModel.name.toUpperCase()} DİSEKSİYONU YÜKLENİYOR... ${loadProgress}%`}
+            {activeLayers
+              ? (language === "tr" ? "KATMAN DİSEKSİYONU GÜNCELLENİYOR..." : "UPDATING LAYER DISSECTION...")
+              : `${activeModel.name.toUpperCase()} ${language === "tr" ? "DİSEKSİYONU YÜKLENİYOR..." : "DISSECTION LOADING..."} ${loadProgress}%`}
           </span>
         </div>
       )}
@@ -639,11 +654,11 @@ export default function AnatomyViewer3D({
           <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
             <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
             <span className="font-['Archivo_Narrow'] text-[11px] sm:text-[12px] font-bold uppercase text-[#003752] tracking-wider whitespace-nowrap">
-              {isMultiLayerMode ? `${activeLayersCount}/5 KATMAN GİYİLİ` : activeModel.name}
+              {isMultiLayerMode ? `${activeLayersCount}/5 ${t.viewer.layersDressed}` : activeModel.name}
             </span>
             <span className="hidden sm:inline text-[#c1c7ce]">•</span>
             <span className="hidden sm:inline text-[11px] font-medium text-[#41474d]">
-              {isMultiLayerMode ? "Diseksiyon Katmanları" : activeModel.category}
+              {isMultiLayerMode ? t.viewer.dissectionLayers : activeModel.category}
             </span>
           </div>
 
@@ -662,14 +677,14 @@ export default function AnatomyViewer3D({
           <Link
             href={`/atlas?region=${activeModel.id}`}
             className="px-3.5 py-2 rounded-xl bg-[#003752] text-white shadow-md flex items-center gap-2.5 border border-[#39b8fd]/30 hover:bg-[#1f4e6b] transition-all hover:scale-[1.03]"
-            title="3D Atlasta Ayrıntılı İncele"
+            title={language === "tr" ? "3D Atlasta Ayrıntılı İncele" : "Inspect Detailed in 3D Atlas"}
           >
             <span className="material-symbols-outlined text-[19px] text-[#39b8fd]">
               view_in_ar
             </span>
             <div className="flex flex-col text-left">
               <span className="font-mono text-[9px] text-[#a0ccee] tracking-wider font-semibold leading-tight">
-                01 ATLAS
+                01 {t.viewer.atlasStudio}
               </span>
               <span className="font-['Archivo_Narrow'] text-[12px] uppercase font-bold tracking-tight whitespace-nowrap leading-tight">
                 {activeModel.name}
@@ -680,26 +695,26 @@ export default function AnatomyViewer3D({
           <Link
             href="/ogrenme-yolu"
             className="hidden sm:flex px-3 py-1.5 rounded-lg bg-[#ffffff]/90 backdrop-blur-md text-[#0b1c30] shadow-sm items-center gap-2 hover:bg-[#ffffff] hover:scale-[1.02] transition-all border border-[#e5eeff]"
-            title="Öğrenme Yolunu Aç"
+            title={language === "tr" ? "Öğrenme Yolunu Aç" : "Open Learning Path"}
           >
             <span className="material-symbols-outlined text-[16px] text-[#006591]">
               menu_book
             </span>
             <span className="font-['Archivo_Narrow'] text-[11px] font-bold whitespace-nowrap">
-              02 ÖĞREN
+              02 {t.viewer.learn}
             </span>
           </Link>
 
           <Link
             href="/zilli-sinav"
             className="hidden sm:flex px-3 py-1.5 rounded-lg bg-[#ffffff]/90 backdrop-blur-md text-[#0b1c30] shadow-sm items-center gap-2 hover:bg-[#ffffff] hover:scale-[1.02] transition-all border border-[#e5eeff]"
-            title="Zilli Sınav Simülatörünü Aç"
+            title={language === "tr" ? "Zilli Sınav Simülatörünü Aç" : "Open Bell Exam Simulator"}
           >
             <span className="material-symbols-outlined text-[16px] text-[#6d001c]">
               timer
             </span>
             <span className="font-['Archivo_Narrow'] text-[11px] font-bold whitespace-nowrap">
-              03 ZİLLİ TEST
+              03 {t.viewer.exam}
             </span>
           </Link>
         </div>
@@ -714,6 +729,7 @@ export default function AnatomyViewer3D({
                 <>
                   {LAYER_ITEMS.map((item) => {
                     const isActive = Boolean(currentLayers[item.id]);
+                    const shortName = getLayerShortName(item.id);
                     return (
                       <button
                         key={item.id}
@@ -724,13 +740,13 @@ export default function AnatomyViewer3D({
                             ? "bg-[#003752] text-white shadow-sm ring-1 ring-[#39b8fd]/60 scale-[1.02]"
                             : "bg-[#eff4ff]/80 text-[#41474d] hover:bg-[#dce9ff] hover:text-[#003752]"
                         }`}
-                        title={`${item.name} (${isActive ? "Aktif - Kapatmak için tıkla" : "Kapalı - Katmanı giydirmek için tıkla"})`}
+                        title={`${item.name} (${isActive ? (language === "tr" ? "Aktif - Kapatmak için tıkla" : "Active - Click to hide") : (language === "tr" ? "Kapalı - Katmanı giydirmek için tıkla" : "Hidden - Click to display")})`}
                       >
                         <span
                           className="w-2 h-2 rounded-full shrink-0"
                           style={{ backgroundColor: item.dotColor }}
                         />
-                        <span>{item.shortName}</span>
+                        <span>{shortName}</span>
                         {isActive ? (
                           <span className="material-symbols-outlined text-[13px] text-[#39b8fd]">check</span>
                         ) : (
@@ -754,11 +770,11 @@ export default function AnatomyViewer3D({
                           ? "bg-[#ba1a1a] text-white border-[#ba1a1a]"
                           : "bg-[#eff4ff] text-[#006591] hover:bg-[#dce9ff] border-[#cbe1ff]"
                       }`}
-                      title="Kasları soyarak iç organ ve damarları göster"
+                      title={t.atlasPage.peelAll}
                     >
                       <span className="material-symbols-outlined text-[12px]">opacity</span>
-                      <span className="hidden sm:inline">{currentOpacity <= 0.4 ? "Soyuldu" : "Kas Soy"}</span>
-                      <span className="sm:hidden">{currentOpacity <= 0.4 ? "%25" : "Soy"}</span>
+                      <span className="hidden sm:inline">{currentOpacity <= 0.4 ? t.viewer.peeledMuscle : t.viewer.peelMuscle}</span>
+                      <span className="sm:hidden">{currentOpacity <= 0.4 ? "%25" : (language === "tr" ? "Soy" : "Peel")}</span>
                     </button>
                   )}
                 </>
@@ -792,7 +808,7 @@ export default function AnatomyViewer3D({
               <button
                 type="button"
                 onClick={toggleAutoRotate}
-                title={isAutoRotating ? "Döndürmeyi Durdur" : "Otomatik Döndürmeyi Başlat"}
+                title={t.viewer.rotateTooltip}
                 className={`p-1 sm:p-1.5 rounded-lg transition-all cursor-pointer ${
                   isAutoRotating
                     ? "bg-[#003752] text-[#39b8fd] shadow-xs"
@@ -804,7 +820,7 @@ export default function AnatomyViewer3D({
               <button
                 type="button"
                 onClick={() => handleZoom(-0.5)}
-                title="Yakınlaştır (+)"
+                title={t.viewer.zoomIn}
                 className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[16px] sm:text-[18px]">zoom_in</span>
@@ -812,7 +828,7 @@ export default function AnatomyViewer3D({
               <button
                 type="button"
                 onClick={() => handleZoom(+0.5)}
-                title="Uzaklaştır (-)"
+                title={t.viewer.zoomOut}
                 className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[16px] sm:text-[18px]">zoom_out</span>
@@ -820,7 +836,7 @@ export default function AnatomyViewer3D({
               <button
                 type="button"
                 onClick={handleResetCamera}
-                title="Kamerayı Sıfırla"
+                title={t.viewer.resetCamera}
                 className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[16px] sm:text-[18px]">restart_alt</span>
@@ -854,10 +870,10 @@ export default function AnatomyViewer3D({
             <span className="material-symbols-outlined text-[14px] text-[#006591]">
               verified
             </span>
-            Terminologia Anatomica (TA2) Uyumlu 3D Veri Seti
+            {t.viewer.ta2Compliant}
           </span>
           <span className="font-mono text-[10px] text-[#72787e]">
-            Model: BodyParts3D Reference / Dik Anatomik Pozisyon
+            {t.viewer.positionRef}
           </span>
         </div>
       )}

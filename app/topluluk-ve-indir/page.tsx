@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IPhoneFrame from "@/components/IPhoneFrame";
+import { useLanguage } from "@/context/LanguageContext";
 
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
   ssr: false,
@@ -22,42 +23,51 @@ const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
 });
 
 export default function ToplulukVeIndirPage() {
+  const { t, language } = useLanguage();
   const faculties = [
     {
       code: "HT",
-      name: "Hacettepe Üniversitesi Tıp",
-      term: "DÖNEM 2",
-      group: "Lokomotor & Dolaşım Çalışma Grubu",
-      desc: "Üst ve alt ekstremite kas insersiyoları, pleksus brachialis varyasyonları ve maket fotoğrafları arşivi.",
-      students: "482 Öğrenci",
+      name: language === "tr" ? "Hacettepe Üniversitesi Tıp" : "Hacettepe Faculty of Medicine",
+      term: language === "tr" ? "DÖNEM 2" : "YEAR 2",
+      group: language === "tr" ? "Lokomotor & Dolaşım Çalışma Grubu" : "Locomotor & Circulation Pod",
+      desc: language === "tr"
+        ? "Üst ve alt ekstremite kas insersiyoları, pleksus brachialis varyasyonları ve maket fotoğrafları arşivi."
+        : "Upper & lower limb muscle insertions, brachial plexus variants, and high-yield cadaver photos.",
+      students: language === "tr" ? "482 Öğrenci" : "482 Students",
       leader: "Defne K.",
     },
     {
       code: "CT",
-      name: "İstanbul Cerrahpaşa Tıp",
-      term: "DÖNEM 1 · 2",
-      group: "Kadavra Laboratuvarı & Diseksiyon",
-      desc: "Salon 3 kadavraları üzerinden hazırlanmış 3D kesitler ve cuma günkü pratik zil provası simülasyonları.",
-      students: "415 Öğrenci",
+      name: language === "tr" ? "İstanbul Cerrahpaşa Tıp" : "Istanbul Cerrahpaşa Medicine",
+      term: language === "tr" ? "DÖNEM 1 · 2" : "YEAR 1 · 2",
+      group: language === "tr" ? "Kadavra Laboratuvarı & Diseksiyon" : "Cadaver Dissection Practical Pod",
+      desc: language === "tr"
+        ? "Salon 3 kadavraları üzerinden hazırlanmış 3D kesitler ve cuma günkü pratik zil provası simülasyonları."
+        : "3D reconstructions from Lab 3 cadavers and Friday practical bell exam simulation rehearsals.",
+      students: language === "tr" ? "415 Öğrenci" : "415 Students",
       leader: "Kerem S.",
     },
     {
       code: "ET",
-      name: "Ege Üniversitesi Tıp",
-      term: "DÖNEM 2",
-      group: "Topografik Anatomi & Zilli Ekip",
-      desc: "Toraks, mediastinum organları ve trigonum colli diseksiyonlarına özel 45 saniyelik zilli sınav maratonu.",
-      students: "390 Öğrenci",
+      name: language === "tr" ? "Ege Üniversitesi Tıp" : "Ege University Faculty of Medicine",
+      term: language === "tr" ? "DÖNEM 2" : "YEAR 2",
+      group: language === "tr" ? "Topografik Anatomi & Zilli Ekip" : "Topographic Anatomy & Bell Team",
+      desc: language === "tr"
+        ? "Toraks, mediastinum organları ve trigonum colli diseksiyonlarına özel 45 saniyelik zilli sınav maratonu."
+        : "Thorax, mediastinum viscera, and cervical triangles 45-second bell exam marathon sets.",
+      students: language === "tr" ? "390 Öğrenci" : "390 Students",
       leader: "Elif Y.",
     },
     {
       code: "AG",
-      name: "Ankara & Gazi Tıp",
-      term: "DÖNEM 3 · NÖRO",
-      group: "Nöroanatomi & Traktuslar Kolu",
-      desc: "Tractus corticospinalis, bazal ganglionlar ve medulla spinalis kesitlerini 3D boyama grubu.",
-      students: "340 Öğrenci",
-      leader: "Moderatör Ekibi",
+      name: language === "tr" ? "Ankara & Gazi Tıp" : "Ankara & Gazi Medical Faculties",
+      term: language === "tr" ? "DÖNEM 3 · NÖRO" : "YEAR 3 · NEURO",
+      group: language === "tr" ? "Nöroanatomi & Traktuslar Kolu" : "Neuroanatomy & Tracts Branch",
+      desc: language === "tr"
+        ? "Tractus corticospinalis, bazal ganglionlar ve medulla spinalis kesitlerini 3D boyama grubu."
+        : "Corticospinal tract, basal ganglia, and spinal cord 3D section annotation study circle.",
+      students: language === "tr" ? "340 Öğrenci" : "340 Students",
+      leader: language === "tr" ? "Moderatör Ekibi" : "Moderator Team",
     },
   ];
 
@@ -73,16 +83,15 @@ export default function ToplulukVeIndirPage() {
             <div className="lg:col-span-6 flex flex-col gap-6 z-10">
               <div className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-[#dce9ff] text-[#003752] text-[11px] font-bold uppercase tracking-wider font-archivo">
                 <span className="w-2 h-2 rounded-full bg-[#006591] animate-pulse" />
-                <span>v4.2 Mobil · Terminologia Anatomica Uyumlu</span>
+                <span>{t.communityPage.heroBadge}</span>
               </div>
 
               <h1 className="text-[38px] sm:text-[46px] text-[#003752] font-bold font-archivo leading-[1.08] tracking-tight">
-                Kadavra Salonu ve 3D Atlas Cebinizde. <br className="hidden xl:inline" />
-                <span className="text-[#006591]">15.000+ Tıp Öğrencisiyle</span> Birlikte Çalışın.
+                {t.communityPage.heroTitle}
               </h1>
 
               <p className="text-[16px] text-[#41474d] max-w-xl leading-relaxed">
-                Bodrum katındaki diseksiyon salonlarından amfilere kadar internet gerektirmeyen bağımsız yerel 3D motoru. iOS (Metal 3 & iPad optimize), Android (Vulkan API) ve masaüstü bulut senkronizasyonu tek hesapta.
+                {t.communityPage.heroDesc}
               </p>
 
               {/* Download Buttons Strip */}
@@ -93,7 +102,9 @@ export default function ToplulukVeIndirPage() {
                 >
                   <span className="material-symbols-outlined text-[28px]">phone_iphone</span>
                   <div className="flex flex-col text-left">
-                    <span className="text-[10px] opacity-80 uppercase leading-none">İndirin</span>
+                    <span className="text-[10px] opacity-80 uppercase leading-none">
+                      {language === "tr" ? "İndirin" : "Download on"}
+                    </span>
                     <span className="text-[14px] font-bold font-archivo leading-tight">App Store</span>
                   </div>
                 </a>
@@ -104,7 +115,9 @@ export default function ToplulukVeIndirPage() {
                 >
                   <span className="material-symbols-outlined text-[28px] text-[#006591]">play_arrow</span>
                   <div className="flex flex-col text-left">
-                    <span className="text-[10px] text-[#41474d] uppercase leading-none">Edinin</span>
+                    <span className="text-[10px] text-[#41474d] uppercase leading-none">
+                      {language === "tr" ? "Edinin" : "Get it on"}
+                    </span>
                     <span className="text-[14px] font-bold font-archivo leading-tight">Google Play</span>
                   </div>
                 </a>
@@ -114,7 +127,7 @@ export default function ToplulukVeIndirPage() {
                   className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#eff4ff] text-[#006591] text-[13px] font-bold font-archivo hover:bg-[#dce9ff] transition-all"
                 >
                   <span className="material-symbols-outlined text-[20px]">system_update</span>
-                  <span>Doğrudan APK (v4.2.1)</span>
+                  <span>{t.communityPage.btnDirectDownload}</span>
                 </a>
               </div>
 
@@ -144,10 +157,10 @@ export default function ToplulukVeIndirPage() {
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-[15px] text-[#003752] font-bold font-archivo">
-                    Kameranızı Açıp Okutun
+                    {t.communityPage.qrTitle}
                   </span>
                   <span className="text-[12px] text-[#41474d]">
-                    iOS ve Android telefonunuzdan taratarak anında kurulum dosyasını başlatın.
+                    {t.communityPage.qrSub}
                   </span>
                   <span className="font-mono text-[11px] text-[#006591] font-bold mt-1">
                     HTTPS://APP.ANATOMI3D.MED/GET

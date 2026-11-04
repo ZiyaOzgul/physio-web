@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface PinData {
   number: number;
@@ -227,6 +228,7 @@ export default function CadaverExamSimulator3D({
   onSelectPin,
   showTopBadges = false,
 }: CadaverExamSimulator3DProps) {
+  const { t, language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -237,7 +239,9 @@ export default function CadaverExamSimulator3D({
   const animFrameRef = useRef<number | null>(null);
 
   const [loading, setLoading] = useState(true);
-  const [loadText, setLoadText] = useState("Kadavra masası hazırlanıyor...");
+  const [loadText, setLoadText] = useState(
+    language === "tr" ? "Kadavra masası hazırlanıyor..." : "Preparing cadaver station..."
+  );
   const [isAutoRotating, setIsAutoRotating] = useState(false);
 
   const currentStation = EXAM_STATIONS[station] || EXAM_STATIONS[1];
@@ -677,9 +681,9 @@ export default function CadaverExamSimulator3D({
           {/* Telemetry Badge */}
           <div className="pointer-events-auto flex items-center gap-2 bg-[#ffffff]/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-sm border border-[#e5eeff] font-mono text-[11px] text-[#41474d]">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-bold text-[#003752]">Paslanmaz Kadavra Masası</span>
+            <span className="font-bold text-[#003752]">{t.examPage.stainlessTable}</span>
             <span className="text-[#c1c7ce]">•</span>
-            <span className="text-[#006591] font-semibold">{currentStation.pins.length} İğne</span>
+            <span className="text-[#006591] font-semibold">{currentStation.pins.length} {t.examPage.pins}</span>
           </div>
         </div>
       )}
@@ -714,7 +718,7 @@ export default function CadaverExamSimulator3D({
         <button
           type="button"
           onClick={toggleAutoRotate}
-          title={isAutoRotating ? "Döndürmeyi Durdur" : "Otomatik Döndürmeyi Başlat"}
+          title={isAutoRotating ? (language === "tr" ? "Döndürmeyi Durdur" : "Stop Rotation") : (language === "tr" ? "Otomatik Döndürmeyi Başlat" : "Start Auto-Rotate")}
           className={`p-1.5 rounded-lg transition-all cursor-pointer ${
             isAutoRotating
               ? "bg-[#003752] text-[#39b8fd]"
@@ -728,7 +732,7 @@ export default function CadaverExamSimulator3D({
         <button
           type="button"
           onClick={() => handleZoom(-0.35)}
-          title="Yakınlaştır"
+          title={t.viewer.zoomIn}
           className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">zoom_in</span>
@@ -736,7 +740,7 @@ export default function CadaverExamSimulator3D({
         <button
           type="button"
           onClick={() => handleZoom(0.35)}
-          title="Uzaklaştır"
+          title={t.viewer.zoomOut}
           className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">zoom_out</span>
@@ -744,7 +748,7 @@ export default function CadaverExamSimulator3D({
         <button
           type="button"
           onClick={handleResetCamera}
-          title="Kamera Açısını Sıfırla"
+          title={t.viewer.resetCamera}
           className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">center_focus_strong</span>
@@ -757,7 +761,11 @@ export default function CadaverExamSimulator3D({
           <span className="material-symbols-outlined text-[14px] text-[#39b8fd]">
             pan_tool
           </span>
-          <span>Masa üstünde serbestçe döndürün • Kamera masanın altına inmez</span>
+          <span>
+            {language === "tr"
+              ? "Masa üstünde serbestçe döndürün • Kamera masanın altına inmez"
+              : "Orbit freely around table • Camera bounded above tabletop"}
+          </span>
         </div>
       </div>
     </div>

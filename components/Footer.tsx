@@ -1,7 +1,12 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
+  const { language, t } = useLanguage();
+
   return (
     <footer className="w-full bg-[#eaf1f8] border-t border-[#d3e0ed] text-[#0b1c30] shadow-[0_-1px_6px_rgba(0,0,0,0.03)] mt-auto">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-12">
@@ -17,16 +22,16 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-[14px] leading-relaxed text-[#41474d] max-w-sm">
-              Tıp fakülteleri, diş hekimliği ve sağlık bilimleri öğrencileri için tasarlanmış yüksek hassasiyetli 3 boyutlu diseksiyon ve simülasyon altyapısı.
+              {t.footer.description}
             </p>
             <div className="pt-2 flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#ffffff] text-[#003752] text-[11px] font-medium border border-[#d3e0ed]">
                 <span className="material-symbols-outlined text-[16px] text-[#006591]">verified</span>
-                Medikal Akreditasyonlu Model Veritabanı
+                {t.footer.badgeMedical}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#ffffff] text-[#006591] text-[11px] font-medium border border-[#d3e0ed]">
                 <span className="material-symbols-outlined text-[16px]">school</span>
-                Terminologia Anatomica (TA2) Uyumlu
+                {t.footer.badgeTa2}
               </span>
             </div>
           </div>
@@ -34,32 +39,32 @@ export default function Footer() {
           {/* Module Links */}
           <div className="space-y-3">
             <h4 className="text-[15px] text-[#003752] font-bold tracking-wide uppercase font-archivo">
-              Anatomi Modülleri
+              {t.footer.modulesTitle}
             </h4>
             <ul className="space-y-2 text-[14px] text-[#41474d]">
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  Lokomotor Sistem (Kemik & Kas)
+                  {t.footer.moduleLocomotor}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  Kardiyovasküler Dolaşım
+                  {t.footer.moduleCardio}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  Nöroanatomi & MSS
+                  {t.footer.moduleNeuro}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  Visseral Organlar & Toraks
+                  {t.footer.moduleVisceral}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/zilli-sinav">
-                  Zilli Sınav Simülatörü
+                  {t.footer.moduleExam}
                 </Link>
               </li>
             </ul>
@@ -68,32 +73,32 @@ export default function Footer() {
           {/* Academic & Faculty */}
           <div className="space-y-3">
             <h4 className="text-[15px] text-[#003752] font-bold tracking-wide uppercase font-archivo">
-              Kurumsal & Akademi
+              {t.footer.academicTitle}
             </h4>
             <ul className="space-y-2 text-[14px] text-[#41474d]">
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/ogrenme-yolu">
-                  Tıp Fakültesi Komite Müfredatı
+                  {t.footer.academicCurriculum}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/cihaz-deneyimi">
-                  Tablet & iPad Laboratuvar Modu
+                  {t.footer.academicLab}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/topluluk-ve-indir">
-                  Fakülte Toplu Lisanslama
+                  {t.footer.academicLicense}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/topluluk-ve-indir">
-                  Kadavra Salonu Entegrasyonu
+                  {t.footer.academicCadaver}
                 </Link>
               </li>
               <li>
                 <Link className="hover:text-[#003752] transition-colors" href="/topluluk-ve-indir">
-                  Tıp Öğrenci Topluluğu
+                  {t.footer.academicCommunity}
                 </Link>
               </li>
             </ul>
@@ -102,10 +107,12 @@ export default function Footer() {
           {/* Mobile Platforms */}
           <div className="space-y-3">
             <h4 className="text-[15px] text-[#003752] font-bold tracking-wide uppercase font-archivo">
-              Mobil Platformlar
+              {t.footer.appsTitle}
             </h4>
             <p className="text-[12px] text-[#41474d] leading-relaxed">
-              Çevrimdışı 3D motoruyla sinyal almayan morfoloji bodrumlarında bile kesintisiz pratik yapın.
+              {language === "tr"
+                ? "Çevrimdışı 3D motoruyla sinyal almayan morfoloji bodrumlarında bile kesintisiz pratik yapın."
+                : "Practice uninterrupted even in morphology basements with zero reception using our offline 3D engine."}
             </p>
             <div className="flex flex-col gap-2.5 pt-1">
               <Link
@@ -116,9 +123,11 @@ export default function Footer() {
                   phone_iphone
                 </span>
                 <div className="flex flex-col text-left">
-                  <span className="text-[10px] text-[#41474d]">App Store üzerinden</span>
+                  <span className="text-[10px] text-[#41474d]">
+                    {language === "tr" ? "App Store üzerinden" : "Available on"}
+                  </span>
                   <span className="text-[13px] text-[#003752] font-semibold leading-tight">
-                    iOS İndir
+                    iOS {language === "tr" ? "İndir" : "Download"}
                   </span>
                 </div>
               </Link>
@@ -130,9 +139,11 @@ export default function Footer() {
                   android
                 </span>
                 <div className="flex flex-col text-left">
-                  <span className="text-[10px] text-[#41474d]">Google Play ile</span>
+                  <span className="text-[10px] text-[#41474d]">
+                    {language === "tr" ? "Google Play ile" : "Get it on"}
+                  </span>
                   <span className="text-[13px] text-[#003752] font-semibold leading-tight">
-                    Android İndir
+                    Android {language === "tr" ? "İndir" : "Download"}
                   </span>
                 </div>
               </Link>
@@ -147,24 +158,28 @@ export default function Footer() {
               clinical_notes
             </span>
             <p className="text-[12px] text-[#41474d] leading-relaxed">
-              <strong className="font-semibold text-[#0b1c30]">Tıbbi Uyarı & Sorumluluk Reddi:</strong>{" "}
-              Anatomi3D platformu yalnızca tıbbi eğitim, araştırma ve akademik anatomi pratikleri amacıyla hazırlanmıştır. İçerikler doğrudan tanı, tedavi veya cerrahi müdahale kararları için bağımsız bir kılavuz niteliği taşımaz. Klinik uygulamalarda güncel tıp literatürü ve resmi teşhis protokolleri esas alınmalıdır.
+              <strong className="font-semibold text-[#0b1c30]">
+                {language === "tr" ? "Tıbbi Uyarı & Sorumluluk Reddi:" : "Medical Disclaimer:"}
+              </strong>{" "}
+              {language === "tr"
+                ? "Anatomi3D platformu yalnızca tıbbi eğitim, araştırma ve akademik anatomi pratikleri amacıyla hazırlanmıştır. İçerikler doğrudan tanı, tedavi veya cerrahi müdahale kararları için bağımsız bir kılavuz niteliği taşımaz. Klinik uygulamalarda güncel tıp literatürü ve resmi teşhis protokolleri esas alınmalıdır."
+                : "The Anatomi3D platform is designed solely for medical education, academic research, and anatomical dissection training. Content does not serve as an independent guide for clinical diagnosis, treatment, or surgical interventions. Official medical literature and diagnostic protocols must always be consulted in clinical practice."}
             </p>
           </div>
         </div>
 
         {/* Legal & Copyright */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#41474d]">
-          <p>© 2026 Anatomi3D Sağlık Bilişim Teknolojileri A.Ş. Tüm hakları saklıdır.</p>
+          <p>© 2026 Anatomi3D Health Tech Corp. {t.footer.copyright}</p>
           <div className="flex items-center gap-6">
             <Link className="hover:text-[#003752] transition-colors" href="/kvkk">
-              Kullanım Şartları
+              {t.footer.legalTerms}
             </Link>
             <Link className="hover:text-[#003752] transition-colors" href="/kvkk">
-              Aydınlatma Metni (KVKK)
+              {t.footer.legalKvkk}
             </Link>
             <Link className="hover:text-[#003752] transition-colors" href="/kvkk">
-              Çerez Politikası
+              {t.footer.legalCookies}
             </Link>
             <span className="text-[#72787e] font-mono">v4.2.0</span>
           </div>
