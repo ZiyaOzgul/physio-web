@@ -571,11 +571,13 @@ export default function AtlasPage() {
                 <div className="w-full h-full flex items-center justify-center relative">
                   <AnatomyViewer3D
                     activeLayers={layers}
+                    onLayersChange={setLayers}
                     muscleOpacity={muscleOpacity}
+                    onMuscleOpacityChange={setMuscleOpacity}
                     showCard={false}
                     showHud={false}
                     showLayersWidget={false}
-                    showLayerSwitcher={false}
+                    showLayerSwitcher={true}
                     showCameraControls={true}
                     showFooter={false}
                     height="h-full"

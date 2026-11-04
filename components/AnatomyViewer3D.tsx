@@ -114,12 +114,28 @@ const LAYER_CONFIGS: Record<
   },
 };
 
+export const LAYER_ITEMS: Array<{
+  id: keyof DissectionLayersState;
+  name: string;
+  shortName: string;
+  latinName: string;
+  dotColor: string;
+}> = [
+  { id: "skeleton", name: "İskelet Sistemi", shortName: "İSKELET", latinName: "Systema Skeletale", dotColor: "#e8dfd1" },
+  { id: "muscle", name: "Kas Sistemi", shortName: "KAS", latinName: "Systema Musculare", dotColor: "#b84a39" },
+  { id: "vascular", name: "Damarlar & Dolaşım", shortName: "DAMAR", latinName: "Vasa Sanguinea", dotColor: "#d32f2f" },
+  { id: "nervous", name: "Sinir Sistemi", shortName: "SİNİR", latinName: "Systema Nervosum", dotColor: "#f59e0b" },
+  { id: "organs", name: "Visseral Organlar", shortName: "ORGANLAR", latinName: "Organa Visceralia", dotColor: "#a84236" },
+];
+
 interface AnatomyViewer3DProps {
   className?: string;
   modelId?: string;
   onModelChange?: (modelId: string) => void;
   activeLayers?: DissectionLayersState;
+  onLayersChange?: (layers: DissectionLayersState) => void;
   muscleOpacity?: number;
+  onMuscleOpacityChange?: (opacity: number) => void;
   showCard?: boolean;
   showHud?: boolean;
   showLayersWidget?: boolean;
@@ -134,7 +150,9 @@ export default function AnatomyViewer3D({
   modelId,
   onModelChange,
   activeLayers,
+  onLayersChange,
   muscleOpacity = 0.85,
+  onMuscleOpacityChange,
   showCard = true,
   showHud = true,
   showLayersWidget = true,
@@ -145,6 +163,37 @@ export default function AnatomyViewer3D({
 }: AnatomyViewer3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [internalModelId, setInternalModelId] = useState(modelId || "muscular");
+  const [internalLayers, setInternalLayers] = useState<DissectionLayersState>({
+    skeleton: true,
+    muscle: true,
+    vascular: true,
+    nervous: false,
+    organs: true,
+  });
+  const [internalMuscleOpacity, setInternalMuscleOpacity] = useState(muscleOpacity);
+
+  const isMultiLayerMode = Boolean(activeLayers || !modelId);
+  const currentLayers = activeLayers || internalLayers;
+  const currentOpacity = muscleOpacity !== undefined ? muscleOpacity : internalMuscleOpacity;
+
+  const toggleLayer = (layerKey: keyof DissectionLayersState) => {
+    const nextLayers = {
+      ...currentLayers,
+      [layerKey]: !currentLayers[layerKey],
+    };
+    // Ensure at least one layer is active
+    const anyActive = Object.values(nextLayers).some(Boolean);
+    if (!anyActive) {
+      nextLayers[layerKey] = true;
+    }
+    if (onLayersChange) {
+      onLayersChange(nextLayers);
+    } else {
+      setInternalLayers(nextLayers);
+    }
+  };
+
+  const activeLayersCount = Object.values(currentLayers).filter(Boolean).length;
 
   useEffect(() => {
     if (modelId) {
@@ -171,8 +220,8 @@ export default function AnatomyViewer3D({
 
   // Multi-layer caching for full-body dissection
   const layerCacheRef = useRef<Map<keyof DissectionLayersState, THREE.Group>>(new Map());
-  const activeLayersRef = useRef<DissectionLayersState | undefined>(activeLayers);
-  activeLayersRef.current = activeLayers;
+  const activeLayersRef = useRef<DissectionLayersState | undefined>(currentLayers);
+  activeLayersRef.current = currentLayers;
   const pendingLoadsRef = useRef(0);
 
   const handleSelectModel = (id: string) => {
@@ -194,8 +243,8 @@ export default function AnatomyViewer3D({
     const w = container.clientWidth || 550;
     const h = container.clientHeight || 500;
     const camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 100);
-    // If activeLayers is used, start at whole body view distance (4.0)
-    camera.position.set(0, 0.1, activeLayers ? 4.0 : 3.8);
+    // If multi-layer mode is used, start at whole body view distance (4.0)
+    camera.position.set(0, 0.1, isMultiLayerMode ? 4.0 : 3.8);
     cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({
@@ -297,19 +346,19 @@ export default function AnatomyViewer3D({
     };
   }, []);
 
-  // 2. Multi-layer Dissection Mode (when activeLayers is provided)
+  // 2. Multi-layer Dissection Mode (when isMultiLayerMode is active)
   useEffect(() => {
-    if (!activeLayers) return;
+    if (!isMultiLayerMode) return;
     const modelGroup = modelGroupRef.current;
     if (!modelGroup) return;
 
     const loader = new GLTFLoader();
 
-    // Check each layer in activeLayers
+    // Check each layer in currentLayers
     const layerKeys = Object.keys(LAYER_CONFIGS) as (keyof DissectionLayersState)[];
 
     layerKeys.forEach((key) => {
-      const isLayerActive = Boolean(activeLayers[key]);
+      const isLayerActive = Boolean(currentLayers[key]);
       const cached = layerCacheRef.current.get(key);
 
       if (cached) {
@@ -362,8 +411,8 @@ export default function AnatomyViewer3D({
                   });
 
                   if (key === "muscle") {
-                    mat.transparent = muscleOpacity < 1;
-                    mat.opacity = muscleOpacity;
+                    mat.transparent = currentOpacity < 1;
+                    mat.opacity = currentOpacity;
                   }
                   child.material = mat;
                 }
@@ -419,27 +468,27 @@ export default function AnatomyViewer3D({
       }
     });
     if (currentTris > 0) setTrisCount(`${(currentTris / 1000).toFixed(1)}k tris`);
-  }, [activeLayers]);
+  }, [isMultiLayerMode, currentLayers]);
 
   // 3. Update Muscle Opacity when changed
   useEffect(() => {
-    if (!activeLayers) return;
+    if (!isMultiLayerMode) return;
     const muscleGroup = layerCacheRef.current.get("muscle");
     if (muscleGroup) {
       muscleGroup.traverse((child) => {
         if (child instanceof THREE.Mesh && child.material) {
           const mat = child.material as THREE.MeshStandardMaterial;
-          mat.transparent = muscleOpacity < 1;
-          mat.opacity = muscleOpacity;
+          mat.transparent = currentOpacity < 1;
+          mat.opacity = currentOpacity;
           mat.needsUpdate = true;
         }
       });
     }
-  }, [muscleOpacity, activeLayers]);
+  }, [currentOpacity, isMultiLayerMode]);
 
-  // 4. Single-model Mode (when activeLayers is not provided)
+  // 4. Single-model Mode (when activeLayers is not provided and not multi-layer)
   useEffect(() => {
-    if (activeLayers) return; // handled by multi-layer effect above
+    if (isMultiLayerMode) return; // handled by multi-layer effect above
 
     const modelGroup = modelGroupRef.current;
     if (!modelGroup) return;
@@ -586,18 +635,20 @@ export default function AnatomyViewer3D({
 
       {/* 1. TOP LIVE HUD BAR */}
       {showHud && (
-        <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-20">
-          <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
-            <span className="material-symbols-outlined text-[16px] text-[#006591] animate-pulse">
-              touch_app
+        <div className="absolute top-3 sm:top-4 inset-x-3 sm:inset-x-4 flex items-center justify-between pointer-events-none z-20 gap-2">
+          <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
+            <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
+            <span className="font-['Archivo_Narrow'] text-[11px] sm:text-[12px] font-bold uppercase text-[#003752] tracking-wider whitespace-nowrap">
+              {isMultiLayerMode ? `${activeLayersCount}/5 KATMAN GİYİLİ` : activeModel.name}
             </span>
-            <span className="font-['Archivo_Narrow'] text-[11px] font-bold uppercase text-[#003752] tracking-wider whitespace-nowrap">
-              Canlı 3D Model: Çevirin &amp; İnceleyin
+            <span className="hidden sm:inline text-[#c1c7ce]">•</span>
+            <span className="hidden sm:inline text-[11px] font-medium text-[#41474d]">
+              {isMultiLayerMode ? "Diseksiyon Katmanları" : activeModel.category}
             </span>
           </div>
 
-          <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#ffffff]/95 backdrop-blur-md text-[#0b1c30] font-mono text-[11px] font-semibold border border-[#e5eeff] shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <div className="pointer-events-auto flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#ffffff]/95 backdrop-blur-md text-[#0b1c30] font-mono text-[10px] sm:text-[11px] font-semibold border border-[#e5eeff] shadow-sm">
+            <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             <span className="text-[#006591] font-bold">{fps} FPS</span>
             <span className="text-[#c1c7ce]">/</span>
             <span className="text-[#41474d]">{trisCount}</span>
@@ -659,26 +710,80 @@ export default function AnatomyViewer3D({
         <div className="absolute bottom-3 sm:bottom-4 inset-x-3 sm:inset-x-4 flex items-center justify-between pointer-events-none z-20 gap-2">
           {showLayerSwitcher && (
             <div className="pointer-events-auto flex items-center gap-1 sm:gap-1.5 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] overflow-x-auto max-w-[calc(100%-120px)] sm:max-w-[calc(100%-140px)] scrollbar-none">
-              {ANATOMY_MODELS.map((item) => {
-                const isActive = activeModelId === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => handleSelectModel(item.id)}
-                    className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-['Archivo_Narrow'] text-[10px] sm:text-[11px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1 sm:gap-1.5 ${
-                      isActive
-                        ? "bg-[#003752] text-white shadow-sm scale-[1.02]"
-                        : "bg-[#eff4ff]/80 text-[#003752] hover:bg-[#dce9ff]"
-                    }`}
-                  >
-                    <span>{item.shortName}</span>
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#39b8fd]" />
-                    )}
-                  </button>
-                );
-              })}
+              {isMultiLayerMode ? (
+                <>
+                  {LAYER_ITEMS.map((item) => {
+                    const isActive = Boolean(currentLayers[item.id]);
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => toggleLayer(item.id)}
+                        className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-['Archivo_Narrow'] text-[10px] sm:text-[11px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                          isActive
+                            ? "bg-[#003752] text-white shadow-sm ring-1 ring-[#39b8fd]/60 scale-[1.02]"
+                            : "bg-[#eff4ff]/80 text-[#41474d] hover:bg-[#dce9ff] hover:text-[#003752]"
+                        }`}
+                        title={`${item.name} (${isActive ? "Aktif - Kapatmak için tıkla" : "Kapalı - Katmanı giydirmek için tıkla"})`}
+                      >
+                        <span
+                          className="w-2 h-2 rounded-full shrink-0"
+                          style={{ backgroundColor: item.dotColor }}
+                        />
+                        <span>{item.shortName}</span>
+                        {isActive ? (
+                          <span className="material-symbols-outlined text-[13px] text-[#39b8fd]">check</span>
+                        ) : (
+                          <span className="material-symbols-outlined text-[13px] text-slate-400">add</span>
+                        )}
+                      </button>
+                    );
+                  })}
+
+                  {/* Muscle Peeling Toggle Button */}
+                  {Boolean(currentLayers.muscle) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const nextVal = currentOpacity > 0.4 ? 0.25 : 0.85;
+                        if (onMuscleOpacityChange) onMuscleOpacityChange(nextVal);
+                        else setInternalMuscleOpacity(nextVal);
+                      }}
+                      className={`px-2 py-1 rounded-lg text-[9px] sm:text-[10px] font-mono font-bold transition-all cursor-pointer flex items-center gap-1 border shrink-0 ${
+                        currentOpacity <= 0.4
+                          ? "bg-[#ba1a1a] text-white border-[#ba1a1a]"
+                          : "bg-[#eff4ff] text-[#006591] hover:bg-[#dce9ff] border-[#cbe1ff]"
+                      }`}
+                      title="Kasları soyarak iç organ ve damarları göster"
+                    >
+                      <span className="material-symbols-outlined text-[12px]">opacity</span>
+                      <span className="hidden sm:inline">{currentOpacity <= 0.4 ? "Soyuldu" : "Kas Soy"}</span>
+                      <span className="sm:hidden">{currentOpacity <= 0.4 ? "%25" : "Soy"}</span>
+                    </button>
+                  )}
+                </>
+              ) : (
+                ANATOMY_MODELS.map((item) => {
+                  const isActive = activeModelId === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => handleSelectModel(item.id)}
+                      className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-['Archivo_Narrow'] text-[10px] sm:text-[11px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1 sm:gap-1.5 ${
+                        isActive
+                          ? "bg-[#003752] text-white shadow-sm scale-[1.02]"
+                          : "bg-[#eff4ff]/80 text-[#003752] hover:bg-[#dce9ff]"
+                      }`}
+                    >
+                      <span>{item.shortName}</span>
+                      {isActive && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#39b8fd]" />
+                      )}
+                    </button>
+                  );
+                })
+              )}
             </div>
           )}
 

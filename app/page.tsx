@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IPhoneFrame from "@/components/IPhoneFrame";
+import type { DissectionLayersState } from "@/components/AnatomyViewer3D";
 
 // Dynamic Anatomy Viewer 3D
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
@@ -87,7 +88,14 @@ const REGIONS = [
 ];
 
 export default function HomePage() {
-  const [heroModelId, setHeroModelId] = useState("muscular");
+  const [heroLayers, setHeroLayers] = useState<DissectionLayersState>({
+    skeleton: true,
+    muscle: true,
+    vascular: true,
+    nervous: false,
+    organs: true,
+  });
+  const [heroMuscleOpacity, setHeroMuscleOpacity] = useState(0.85);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9ff] text-[#0b1c30]">
@@ -170,11 +178,13 @@ export default function HomePage() {
               {/* Right 3D Viewport Column */}
               <div className="lg:col-span-6 relative">
                 <AnatomyViewer3D
-                  modelId={heroModelId}
-                  onModelChange={setHeroModelId}
+                  activeLayers={heroLayers}
+                  onLayersChange={setHeroLayers}
+                  muscleOpacity={heroMuscleOpacity}
+                  onMuscleOpacityChange={setHeroMuscleOpacity}
                   showCard={true}
                   showHud={true}
-                  showLayersWidget={true}
+                  showLayersWidget={false}
                   showLayerSwitcher={true}
                   showCameraControls={true}
                   showFooter={true}
