@@ -14,6 +14,7 @@ export interface AnatomyModelOption {
   category: string;
   file: string;
   defaultZoom: number;
+  fallbackColor?: number;
 }
 
 export interface DissectionLayersState {
@@ -33,6 +34,7 @@ export const ANATOMY_MODELS: AnatomyModelOption[] = [
     category: "Osteoloji",
     file: "/models/skeletal.glb",
     defaultZoom: 3.4,
+    fallbackColor: 0xe8dfd1,
   },
   {
     id: "muscular",
@@ -42,6 +44,7 @@ export const ANATOMY_MODELS: AnatomyModelOption[] = [
     category: "Miyoloji",
     file: "/models/muscular.glb",
     defaultZoom: 3.4,
+    fallbackColor: 0xb84a39,
   },
   {
     id: "heart",
@@ -51,6 +54,7 @@ export const ANATOMY_MODELS: AnatomyModelOption[] = [
     category: "Kardiyovasküler",
     file: "/models/arterial.glb",
     defaultZoom: 3.2,
+    fallbackColor: 0xd32f2f,
   },
   {
     id: "brain",
@@ -60,6 +64,7 @@ export const ANATOMY_MODELS: AnatomyModelOption[] = [
     category: "Nöroanatomi",
     file: "/models/nervous.glb",
     defaultZoom: 3.2,
+    fallbackColor: 0xf59e0b,
   },
   {
     id: "abdomen",
@@ -69,37 +74,43 @@ export const ANATOMY_MODELS: AnatomyModelOption[] = [
     category: "Splanknoloji",
     file: "/models/organs.glb",
     defaultZoom: 3.2,
+    fallbackColor: 0xa84236,
   },
 ];
 
 const LAYER_CONFIGS: Record<
   keyof DissectionLayersState,
-  { files: string[]; roughness: number; metalness: number }
+  { files: string[]; roughness: number; metalness: number; fallbackColor: number }
 > = {
   skeleton: {
     files: ["/models/skeletal.glb"],
     roughness: 0.55,
     metalness: 0.05,
+    fallbackColor: 0xe8dfd1,
   },
   muscle: {
     files: ["/models/muscular.glb"],
     roughness: 0.42,
     metalness: 0.08,
+    fallbackColor: 0xb84a39,
   },
   vascular: {
-    files: ["/models/arterial.glb", "/models/venous.glb", "/models/heart.glb"],
+    files: ["/models/arterial.glb", "/models/venous.glb"],
     roughness: 0.35,
     metalness: 0.12,
+    fallbackColor: 0xd32f2f,
   },
   nervous: {
     files: ["/models/nervous.glb", "/models/peripheralNerves.glb"],
     roughness: 0.38,
     metalness: 0.1,
+    fallbackColor: 0xf59e0b,
   },
   organs: {
     files: ["/models/organs.glb"],
     roughness: 0.45,
     metalness: 0.08,
+    fallbackColor: 0xa84236,
   },
 };
 
@@ -130,12 +141,18 @@ export default function AnatomyViewer3D({
   showLayerSwitcher = true,
   showCameraControls = true,
   showFooter = true,
-  height = "h-[480px] sm:h-[520px]",
+  height = "h-[380px] sm:h-[480px] lg:h-[520px]",
 }: AnatomyViewer3DProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [internalModelId, setInternalModelId] = useState("muscular");
+  const [internalModelId, setInternalModelId] = useState(modelId || "muscular");
 
-  const activeModelId = modelId || internalModelId;
+  useEffect(() => {
+    if (modelId) {
+      setInternalModelId(modelId);
+    }
+  }, [modelId]);
+
+  const activeModelId = onModelChange ? (modelId || internalModelId) : internalModelId;
   const activeModel =
     ANATOMY_MODELS.find((m) => m.id === activeModelId) || ANATOMY_MODELS[1];
 
@@ -275,6 +292,7 @@ export default function AnatomyViewer3D({
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       controls.dispose();
       renderer.dispose();
+      layerCacheRef.current.clear();
       if (container) container.innerHTML = "";
     };
   }, []);
@@ -295,12 +313,15 @@ export default function AnatomyViewer3D({
       const cached = layerCacheRef.current.get(key);
 
       if (cached) {
+        if (!modelGroup.children.includes(cached)) {
+          modelGroup.add(cached);
+        }
         cached.visible = isLayerActive;
       } else if (isLayerActive) {
         // Create parent group for this layer (which may contain multiple co-registered files)
         const layerWrapper = new THREE.Group();
         layerCacheRef.current.set(key, layerWrapper);
-        layerWrapper.visible = Boolean(activeLayersRef.current?.[key]);
+        layerWrapper.visible = true;
         modelGroup.add(layerWrapper);
 
         // Load all files for this layer
@@ -327,10 +348,19 @@ export default function AnatomyViewer3D({
 
               root.traverse((child) => {
                 if (child instanceof THREE.Mesh) {
-                  const mat = (child.material ? child.material.clone() : new THREE.MeshStandardMaterial()) as THREE.MeshStandardMaterial;
-                  mat.side = THREE.DoubleSide;
-                  mat.roughness = config.roughness;
-                  mat.metalness = config.metalness;
+                  const hasVertexColors = Boolean(child.geometry?.attributes?.color);
+                  let customColor = config.fallbackColor;
+                  if (file.includes("venous")) customColor = 0x1565c0;
+                  if (file.includes("arterial")) customColor = 0xd32f2f;
+
+                  const mat = new THREE.MeshStandardMaterial({
+                    side: THREE.DoubleSide,
+                    roughness: config.roughness,
+                    metalness: config.metalness,
+                    vertexColors: hasVertexColors,
+                    color: hasVertexColors ? 0xffffff : customColor,
+                  });
+
                   if (key === "muscle") {
                     mat.transparent = muscleOpacity < 1;
                     mat.opacity = muscleOpacity;
@@ -340,6 +370,7 @@ export default function AnatomyViewer3D({
               });
 
               layerWrapper.add(subWrapper);
+              layerWrapper.visible = Boolean(activeLayersRef.current?.[key]);
 
               pendingLoadsRef.current = Math.max(0, pendingLoadsRef.current - 1);
               if (pendingLoadsRef.current === 0) {
@@ -456,13 +487,16 @@ export default function AnatomyViewer3D({
         let triangles = 0;
         root.traverse((child) => {
           if (child instanceof THREE.Mesh) {
-            if (child.material) {
-              const mat = child.material.clone() as THREE.MeshStandardMaterial;
-              mat.side = THREE.DoubleSide;
-              mat.roughness = 0.42;
-              mat.metalness = 0.08;
-              child.material = mat;
-            }
+            const hasVertexColors = Boolean(child.geometry?.attributes?.color);
+            const mat = new THREE.MeshStandardMaterial({
+              side: THREE.DoubleSide,
+              roughness: 0.42,
+              metalness: 0.08,
+              vertexColors: hasVertexColors,
+              color: hasVertexColors ? 0xffffff : (activeModel.fallbackColor || 0xd1d5db),
+            });
+            child.material = mat;
+
             if (child.geometry) {
               const geo = child.geometry;
               if (geo.index) {
@@ -594,7 +628,7 @@ export default function AnatomyViewer3D({
 
           <Link
             href="/ogrenme-yolu"
-            className="px-3 py-1.5 rounded-lg bg-[#ffffff]/90 backdrop-blur-md text-[#0b1c30] shadow-sm flex items-center gap-2 hover:bg-[#ffffff] hover:scale-[1.02] transition-all border border-[#e5eeff]"
+            className="hidden sm:flex px-3 py-1.5 rounded-lg bg-[#ffffff]/90 backdrop-blur-md text-[#0b1c30] shadow-sm items-center gap-2 hover:bg-[#ffffff] hover:scale-[1.02] transition-all border border-[#e5eeff]"
             title="Öğrenme Yolunu Aç"
           >
             <span className="material-symbols-outlined text-[16px] text-[#006591]">
@@ -607,7 +641,7 @@ export default function AnatomyViewer3D({
 
           <Link
             href="/zilli-sinav"
-            className="px-3 py-1.5 rounded-lg bg-[#ffffff]/90 backdrop-blur-md text-[#0b1c30] shadow-sm flex items-center gap-2 hover:bg-[#ffffff] hover:scale-[1.02] transition-all border border-[#e5eeff]"
+            className="hidden sm:flex px-3 py-1.5 rounded-lg bg-[#ffffff]/90 backdrop-blur-md text-[#0b1c30] shadow-sm items-center gap-2 hover:bg-[#ffffff] hover:scale-[1.02] transition-all border border-[#e5eeff]"
             title="Zilli Sınav Simülatörünü Aç"
           >
             <span className="material-symbols-outlined text-[16px] text-[#6d001c]">
@@ -622,9 +656,9 @@ export default function AnatomyViewer3D({
 
       {/* 3. BOTTOM LAYER SWITCHER & CAMERA CONTROLS HUD */}
       {(showLayerSwitcher || showCameraControls) && (
-        <div className="absolute bottom-4 inset-x-4 flex items-center justify-between pointer-events-none z-20 gap-2">
+        <div className="absolute bottom-3 sm:bottom-4 inset-x-3 sm:inset-x-4 flex items-center justify-between pointer-events-none z-20 gap-2">
           {showLayerSwitcher && (
-            <div className="pointer-events-auto flex items-center gap-1.5 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] overflow-x-auto max-w-[calc(100%-140px)] scrollbar-none">
+            <div className="pointer-events-auto flex items-center gap-1 sm:gap-1.5 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] overflow-x-auto max-w-[calc(100%-120px)] sm:max-w-[calc(100%-140px)] scrollbar-none">
               {ANATOMY_MODELS.map((item) => {
                 const isActive = activeModelId === item.id;
                 return (
@@ -632,7 +666,7 @@ export default function AnatomyViewer3D({
                     key={item.id}
                     type="button"
                     onClick={() => handleSelectModel(item.id)}
-                    className={`px-3 py-1.5 rounded-lg font-['Archivo_Narrow'] text-[11px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                    className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg font-['Archivo_Narrow'] text-[10px] sm:text-[11px] font-bold uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-1 sm:gap-1.5 ${
                       isActive
                         ? "bg-[#003752] text-white shadow-sm scale-[1.02]"
                         : "bg-[#eff4ff]/80 text-[#003752] hover:bg-[#dce9ff]"
@@ -649,42 +683,42 @@ export default function AnatomyViewer3D({
           )}
 
           {showCameraControls && (
-            <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] shrink-0">
+            <div className="pointer-events-auto flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] shrink-0">
               <button
                 type="button"
                 onClick={toggleAutoRotate}
                 title={isAutoRotating ? "Döndürmeyi Durdur" : "Otomatik Döndürmeyi Başlat"}
-                className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                className={`p-1 sm:p-1.5 rounded-lg transition-all cursor-pointer ${
                   isAutoRotating
                     ? "bg-[#003752] text-[#39b8fd] shadow-xs"
                     : "text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752]"
                 }`}
               >
-                <span className="material-symbols-outlined text-[18px]">rotate_right</span>
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">rotate_right</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleZoom(-0.5)}
                 title="Yakınlaştır (+)"
-                className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+                className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[18px]">zoom_in</span>
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">zoom_in</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleZoom(+0.5)}
                 title="Uzaklaştır (-)"
-                className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+                className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[18px]">zoom_out</span>
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">zoom_out</span>
               </button>
               <button
                 type="button"
                 onClick={handleResetCamera}
                 title="Kamerayı Sıfırla"
-                className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+                className="p-1 sm:p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[18px]">restart_alt</span>
+                <span className="material-symbols-outlined text-[16px] sm:text-[18px]">restart_alt</span>
               </button>
             </div>
           )}

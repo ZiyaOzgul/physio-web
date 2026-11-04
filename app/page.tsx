@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -87,19 +87,21 @@ const REGIONS = [
 ];
 
 export default function HomePage() {
+  const [heroModelId, setHeroModelId] = useState("muscular");
+
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9ff] text-[#0b1c30]">
       <Navbar activePath="/" />
 
       <main className="w-full pt-20 bg-[#f8f9ff]">
         {/* ================= HERO SECTION (Stitch 1:1) ================= */}
-        <section className="relative w-full overflow-hidden bg-[#f8f9ff] py-12 lg:py-20">
+        <section className="relative w-full overflow-hidden bg-[#f8f9ff] py-8 sm:py-12 lg:py-20">
           {/* Subtle technical grid backdrop decoration */}
           <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(#006591_1px,transparent_1px)] [background-size:24px_24px]" />
           <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#39b8fd]/15 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
               {/* Left Editorial Presentation */}
               <div className="lg:col-span-6 flex flex-col space-y-6">
                 <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#dce9ff] w-fit shadow-xs">
@@ -168,7 +170,8 @@ export default function HomePage() {
               {/* Right 3D Viewport Column */}
               <div className="lg:col-span-6 relative">
                 <AnatomyViewer3D
-                  modelId="muscular"
+                  modelId={heroModelId}
+                  onModelChange={setHeroModelId}
                   showCard={true}
                   showHud={true}
                   showLayersWidget={true}

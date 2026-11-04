@@ -117,12 +117,12 @@ export default function ZilliSinavPage() {
         </section>
 
         {/* ================= SHOWCASE HERO & DUAL SPLIT (Stitch 1:1) ================= */}
-        <section className="w-full py-8 lg:py-12 px-6 lg:px-12 max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-start gap-8">
+        <section className="w-full py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
             {/* LEFT & CENTER: 3D Cadaver Table Interactive Showcase HUD */}
             <div className="w-full lg:w-7/12 flex flex-col gap-4">
               {/* Viewport Outer Frame */}
-              <div className="relative w-full h-[520px] lg:h-[620px] rounded-2xl bg-[#0a1926] border border-[#e5eeff] overflow-hidden shadow-md flex flex-col justify-between">
+              <div className="relative w-full h-[420px] sm:h-[520px] lg:h-[620px] rounded-2xl bg-[#0a1926] border border-[#e5eeff] overflow-hidden shadow-md flex flex-col justify-between">
                 {/* Real 3D Cadaver Simulator Canvas with Dissection Table and Pins */}
                 <div className="absolute inset-0 w-full h-full">
                   <CadaverExamSimulator3D
@@ -134,67 +134,70 @@ export default function ZilliSinavPage() {
                 </div>
 
                 {/* Top HUD Layer */}
-                <div className="relative z-10 flex items-start justify-between gap-4 pointer-events-none p-4">
-                  <div className="flex flex-col gap-2">
-                    <div className="pointer-events-auto bg-[#ffffff]/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-sm border border-[#e5eeff] flex items-center gap-2.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#ba1a1a] animate-ping shrink-0" />
-                      <div className="flex flex-col text-left">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-[11px] text-[#003752] font-bold uppercase tracking-wider font-archivo">
+                <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-4 pointer-events-none p-3 sm:p-4">
+                  <div className="flex flex-col gap-1.5 sm:gap-2 max-w-[calc(100%-110px)] sm:max-w-none">
+                    <div className="pointer-events-auto bg-[#ffffff]/95 backdrop-blur-md px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl shadow-sm border border-[#e5eeff] flex items-center gap-2">
+                      <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#ba1a1a] animate-ping shrink-0" />
+                      <div className="flex flex-col text-left truncate">
+                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                          <span className="text-[10px] sm:text-[11px] text-[#003752] font-bold uppercase tracking-wider font-archivo truncate">
                             MASA {station}/3 • {currentStationConfig.name.replace(/Masa \d:\s*/, "")}
                           </span>
-                          <span className="text-[9px] font-mono font-semibold bg-[#eff4ff] text-[#006591] px-1.5 py-0.5 rounded border border-[#dce9ff]">
+                          <span className="hidden sm:inline-block text-[9px] font-mono font-semibold bg-[#eff4ff] text-[#006591] px-1.5 py-0.5 rounded border border-[#dce9ff]">
                             Paslanmaz Kadavra Masası
                           </span>
                         </div>
-                        <span className="text-[10px] text-[#41474d]">
+                        <span className="text-[9px] sm:text-[10px] text-[#41474d] truncate">
                           {currentStationConfig.latinName} • {currentStationConfig.pins.length} İğne
                         </span>
                       </div>
                     </div>
 
                     {/* Station Selection Pills with Explicit cursor-pointer */}
-                    <div className="pointer-events-auto flex items-center gap-1.5 bg-[#ffffff]/80 backdrop-blur-sm p-1 rounded-xl shadow-sm border border-[#e5eeff]">
+                    <div className="pointer-events-auto flex items-center gap-1 sm:gap-1.5 bg-[#ffffff]/80 backdrop-blur-sm p-1 rounded-xl shadow-sm border border-[#e5eeff] overflow-x-auto max-w-full scrollbar-none">
                       <button
                         type="button"
                         onClick={() => handleStationChange(1)}
-                        className={`px-2.5 py-1 rounded-lg text-[10px] font-bold font-archivo uppercase transition-all cursor-pointer ${
+                        className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] font-bold font-archivo uppercase transition-all whitespace-nowrap cursor-pointer ${
                           station === 1
                             ? "bg-[#003752] text-white shadow-xs"
                             : "text-[#41474d] hover:text-[#003752] hover:bg-[#eff4ff]"
                         }`}
                       >
-                        Masa 1: Toraks & Visseral
+                        <span className="sm:hidden">Masa 1</span>
+                        <span className="hidden sm:inline">Masa 1: Toraks & Visseral</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => handleStationChange(2)}
-                        className={`px-2.5 py-1 rounded-lg text-[10px] font-bold font-archivo uppercase transition-all cursor-pointer ${
+                        className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] font-bold font-archivo uppercase transition-all whitespace-nowrap cursor-pointer ${
                           station === 2
                             ? "bg-[#003752] text-white shadow-xs"
                             : "text-[#41474d] hover:text-[#003752] hover:bg-[#eff4ff]"
                         }`}
                       >
-                        Masa 2: Lokomotor & Kas
+                        <span className="sm:hidden">Masa 2</span>
+                        <span className="hidden sm:inline">Masa 2: Lokomotor & Kas</span>
                       </button>
                       <button
                         type="button"
                         onClick={() => handleStationChange(3)}
-                        className={`px-2.5 py-1 rounded-lg text-[10px] font-bold font-archivo uppercase transition-all cursor-pointer ${
+                        className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] font-bold font-archivo uppercase transition-all whitespace-nowrap cursor-pointer ${
                           station === 3
                             ? "bg-[#003752] text-white shadow-xs"
                             : "text-[#41474d] hover:text-[#003752] hover:bg-[#eff4ff]"
                         }`}
                       >
-                        Masa 3: Nöro & Kranial
+                        <span className="sm:hidden">Masa 3</span>
+                        <span className="hidden sm:inline">Masa 3: Nöro & Kranial</span>
                       </button>
                     </div>
                   </div>
 
                   {/* Dynamic 45-Second Bell Countdown Prototype HUD */}
-                  <div className="pointer-events-auto bg-[#ffffff]/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-sm border border-[#e5eeff] flex items-center gap-3">
+                  <div className="pointer-events-auto bg-[#ffffff]/90 backdrop-blur-md px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl shadow-sm border border-[#e5eeff] flex items-center gap-2 sm:gap-3 shrink-0">
                     <div className="relative flex items-center justify-center">
-                      <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 36 36">
+                      <svg className="w-8 sm:w-10 h-8 sm:h-10 transform -rotate-90" viewBox="0 0 36 36">
                         <path
                           className="text-[#d3e4fe]"
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"

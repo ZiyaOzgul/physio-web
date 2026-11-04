@@ -19,9 +19,9 @@ export default function TabletFrame({
       <div className="absolute -inset-4 bg-gradient-to-tr from-[#006591]/15 via-[#39b8fd]/10 to-transparent rounded-[48px] blur-2xl opacity-75 pointer-events-none" />
 
       {/* Realistic iPad Pro Landscape Chassis */}
-      <div className="relative w-full max-w-[820px] h-[480px] sm:h-[540px] bg-gradient-to-b from-[#2d3748] via-[#1a202c] to-[#0f172a] rounded-[36px] sm:rounded-[42px] p-[10px] sm:p-[12px] shadow-[0_25px_60px_-15px_rgba(0,55,82,0.3),0_0_0_1px_rgba(255,255,255,0.12)]">
+      <div className="relative w-full max-w-[820px] h-[340px] sm:h-[480px] md:h-[540px] bg-gradient-to-b from-[#2d3748] via-[#1a202c] to-[#0f172a] rounded-[28px] sm:rounded-[42px] p-[8px] sm:p-[12px] shadow-[0_25px_60px_-15px_rgba(0,55,82,0.3),0_0_0_1px_rgba(255,255,255,0.12)]">
         {/* Apple Pencil Pro Attached Magnetically at Top */}
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-48 sm:w-64 h-3 bg-gradient-to-r from-slate-200 via-white to-slate-200 rounded-full shadow-md flex items-center justify-between px-3 text-[8px] font-mono text-slate-700 font-bold border border-slate-300 z-30">
+        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 w-36 sm:w-64 h-3 bg-gradient-to-r from-slate-200 via-white to-slate-200 rounded-full shadow-md flex items-center justify-between px-2 sm:px-3 text-[7px] sm:text-[8px] font-mono text-slate-700 font-bold border border-slate-300 z-30">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
             <span> PENCIL PRO</span>

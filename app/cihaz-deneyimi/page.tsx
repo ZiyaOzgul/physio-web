@@ -55,7 +55,7 @@ export default function CihazDeneyimiPage() {
         </div>
 
         {/* ================= SECTION 1: DUAL DEVICE HERO (Stitch 1:1) ================= */}
-        <section className="w-full px-6 lg:px-12 pt-8 pb-14 max-w-7xl mx-auto">
+        <section className="w-full px-4 sm:px-6 lg:px-12 pt-6 sm:pt-8 pb-10 sm:pb-14 max-w-7xl mx-auto">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
               <div className="flex flex-col gap-2 max-w-2xl">
@@ -67,31 +67,32 @@ export default function CihazDeneyimiPage() {
                     Metal 3 & Vulkan
                   </span>
                 </div>
-                <h1 className="text-[36px] sm:text-[44px] text-[#003752] font-bold uppercase tracking-tight font-archivo leading-tight">
+                <h1 className="text-[30px] sm:text-[44px] text-[#003752] font-bold uppercase tracking-tight font-archivo leading-tight">
                   Klinik 3D Atlası Cebinizde ve Masanızda
                 </h1>
-                <p className="text-[16px] text-[#41474d] leading-relaxed">
+                <p className="text-[14px] sm:text-[16px] text-[#41474d] leading-relaxed">
                   iPad Pro&apos;nun devasa çizim tuvalinden akıllı telefonunuzun anlık zilli sınav refleksine kadar kesintisiz, sıfır gecikmeli kadavra diseksiyon ortamı.
                 </p>
               </div>
 
               {/* Mode switch pills */}
-              <div className="flex items-center bg-[#ffffff] p-1 rounded-xl shadow-xs border border-[#e5eeff]">
+              <div className="flex items-center bg-[#ffffff] p-1 rounded-xl shadow-xs border border-[#e5eeff] overflow-x-auto max-w-full scrollbar-none">
                 <button
                   type="button"
                   onClick={() => setActiveMode("all")}
-                  className={`px-3 py-1.5 rounded-lg text-[12px] font-bold font-archivo uppercase transition-all ${
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-bold font-archivo uppercase transition-all whitespace-nowrap ${
                     activeMode === "all"
                       ? "bg-[#003752] text-white shadow-xs"
                       : "text-[#41474d] hover:text-[#0b1c30]"
                   }`}
                 >
-                  Senkronize Görünüm
+                  <span className="sm:hidden">Tümü</span>
+                  <span className="hidden sm:inline">Senkronize Görünüm</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveMode("tablet")}
-                  className={`px-3 py-1.5 rounded-lg text-[12px] font-bold font-archivo uppercase transition-all ${
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-bold font-archivo uppercase transition-all whitespace-nowrap ${
                     activeMode === "tablet"
                       ? "bg-[#003752] text-white shadow-xs"
                       : "text-[#41474d] hover:text-[#0b1c30]"
@@ -102,7 +103,7 @@ export default function CihazDeneyimiPage() {
                 <button
                   type="button"
                   onClick={() => setActiveMode("phone")}
-                  className={`px-3 py-1.5 rounded-lg text-[12px] font-bold font-archivo uppercase transition-all ${
+                  className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-bold font-archivo uppercase transition-all whitespace-nowrap ${
                     activeMode === "phone"
                       ? "bg-[#003752] text-white shadow-xs"
                       : "text-[#41474d] hover:text-[#0b1c30]"

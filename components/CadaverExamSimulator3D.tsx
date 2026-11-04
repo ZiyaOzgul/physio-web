@@ -37,7 +37,6 @@ export const EXAM_STATIONS: Record<number, StationConfig> = {
       "/models/skeletal.glb",
       "/models/organs.glb",
       "/models/arterial.glb",
-      "/models/heart.glb",
     ],
     cameraPos: [-0.42, 1.15, 1.85],
     targetPos: [-0.42, 0.2, 0],
@@ -508,12 +507,22 @@ export default function CadaverExamSimulator3D({
 
           root.traverse((child) => {
             if (child instanceof THREE.Mesh) {
-              const mat = (child.material
-                ? child.material.clone()
-                : new THREE.MeshStandardMaterial()) as THREE.MeshStandardMaterial;
-              mat.side = THREE.DoubleSide;
-              mat.roughness = 0.42;
-              mat.metalness = 0.08;
+              const hasVertexColors = Boolean(child.geometry?.attributes?.color);
+              let fallbackColor = 0xd1d5db;
+              if (file.includes("skeletal")) fallbackColor = 0xe8dfd1;
+              if (file.includes("muscular")) fallbackColor = 0xb84a39;
+              if (file.includes("arterial")) fallbackColor = 0xd32f2f;
+              if (file.includes("venous")) fallbackColor = 0x1565c0;
+              if (file.includes("nervous")) fallbackColor = 0xf59e0b;
+              if (file.includes("organs")) fallbackColor = 0xa84236;
+
+              const mat = new THREE.MeshStandardMaterial({
+                side: THREE.DoubleSide,
+                roughness: 0.42,
+                metalness: 0.08,
+                vertexColors: hasVertexColors,
+                color: hasVertexColors ? 0xffffff : fallbackColor,
+              });
               child.material = mat;
             }
           });

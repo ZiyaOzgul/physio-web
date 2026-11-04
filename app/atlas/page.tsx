@@ -236,8 +236,8 @@ export default function AtlasPage() {
 
       <main className="w-full pt-20 bg-[#f8f9ff]">
         {/* ================= SUB-HEADER & SCOPE TOOLBAR (Clean, single-line, strictly uncluttered) ================= */}
-        <section className="w-full bg-[#ffffff] border-b border-[#e5eeff] shadow-sm z-30 overflow-x-auto scrollbar-none">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4 min-w-[760px]">
+        <section className="w-full bg-[#ffffff] border-b border-[#e5eeff] shadow-sm z-30 overflow-x-auto scrollbar-none touch-pan-x">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4 min-w-[720px] sm:min-w-[760px]">
             {/* Left: Breadcrumb & Scope Presets (Strictly 1 line) */}
             <div className="flex items-center gap-3 shrink-0 whitespace-nowrap">
               <div className="flex items-center gap-2 text-[#41474d] text-[12px] shrink-0 whitespace-nowrap">
@@ -319,8 +319,8 @@ export default function AtlasPage() {
         {/* ================= MAIN ANATOMICAL WORKSPACE ================= */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-            {/* LEFT COLUMN: DİSEKSİYON KATMANLARI & DİNAMİK YAPILANDIRICI */}
-            <aside className="lg:col-span-4 flex flex-col gap-4">
+            {/* LEFT COLUMN: DİSEKSİYON KATMANLARI & DİNAMİK YAPILANDIRICI (order-2 on mobile, under 3D viewer) */}
+            <aside className="order-2 lg:order-1 lg:col-span-4 flex flex-col gap-4">
               {/* Layer Dissection Panel with Live On/Off Switches */}
               <div className="bg-[#ffffff] rounded-2xl p-4 border border-[#e5eeff] shadow-sm flex flex-col gap-3">
                 <div className="flex items-center justify-between">
@@ -545,25 +545,25 @@ export default function AtlasPage() {
               </div>
             </aside>
 
-            {/* RIGHT COLUMN: EXPANDED, CLEAN 3D VIEWPORT CANVAS */}
-            <div className="lg:col-span-8 flex flex-col gap-3">
-              <div className="relative w-full h-[640px] sm:h-[700px] lg:h-[740px] rounded-2xl bg-[#0a1926] border border-[#e5eeff] overflow-hidden shadow-md flex flex-col">
+            {/* RIGHT COLUMN: EXPANDED, CLEAN 3D VIEWPORT CANVAS (order-1 on mobile) */}
+            <div className="order-1 lg:order-2 lg:col-span-8 flex flex-col gap-3">
+              <div className="relative w-full h-[420px] sm:h-[560px] lg:h-[740px] rounded-2xl bg-[#0a1926] border border-[#e5eeff] overflow-hidden shadow-md flex flex-col">
                 {/* Clean Top HUD Overlay */}
-                <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+                <div className="absolute top-3 sm:top-4 left-3 sm:left-4 right-3 sm:right-4 z-20 flex flex-wrap sm:flex-nowrap items-center justify-between pointer-events-none gap-2">
                   {/* Active Structure Badge */}
-                  <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#39b8fd] animate-pulse" />
-                    <span className="font-['Archivo_Narrow'] text-[12px] font-bold uppercase text-[#003752] tracking-wider whitespace-nowrap">
+                  <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
+                    <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
+                    <span className="font-['Archivo_Narrow'] text-[11px] sm:text-[12px] font-bold uppercase text-[#003752] tracking-wider truncate max-w-[200px] sm:max-w-none">
                       {currentDetail.name} ({activeCount} Katman Aktif)
                     </span>
                   </div>
 
                   {/* Telemetry */}
-                  <div className="pointer-events-auto flex items-center gap-2 bg-[#ffffff]/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-sm border border-[#e5eeff] font-mono text-[11px] text-[#41474d]">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 bg-[#ffffff]/95 backdrop-blur-md px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl shadow-sm border border-[#e5eeff] font-mono text-[10px] sm:text-[11px] text-[#41474d] shrink-0">
+                    <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="font-bold text-[#003752]">60 FPS</span>
-                    <span className="text-[#c1c7ce]">•</span>
-                    <span className="text-[#006591] font-semibold">BodyParts3D</span>
+                    <span className="text-[#c1c7ce] hidden sm:inline">•</span>
+                    <span className="text-[#006591] font-semibold hidden sm:inline">BodyParts3D</span>
                   </div>
                 </div>
 
