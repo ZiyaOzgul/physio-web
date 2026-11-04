@@ -99,7 +99,7 @@ export const EXAM_STATIONS: Record<number, StationConfig> = {
       {
         number: 1,
         label: "Pin #1: M. Deltoideus",
-        latin: "M. deltoideus (N. axillaris inervasyonu)",
+        latin: "M. deltoideus (N. axillaris)",
         ta2: "TA2: 2150",
         color: "#dc2626",
         emissive: "#ef4444",
@@ -109,7 +109,7 @@ export const EXAM_STATIONS: Record<number, StationConfig> = {
       {
         number: 2,
         label: "Pin #2: Trigonum Femorale",
-        latin: "Trigonum femorale (Scarpa üçgeni & A. femoralis)",
+        latin: "Trigonum femorale (A. femoralis)",
         ta2: "TA2: 2610",
         color: "#2563eb",
         emissive: "#3b82f6",

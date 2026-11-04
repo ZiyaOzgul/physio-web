@@ -294,6 +294,11 @@ export default function ZilliSinavPage() {
                       setUserAnswer(e.target.value);
                       setIsAnswerCorrect(null);
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleCheckAnswer();
+                      }
+                    }}
                     placeholder={
                       language === "tr"
                         ? `Pin #${activePin} için Latince terim yazın (örn: ${currentPin.latin.split(/[\s(]/)[0]})...`
@@ -558,7 +563,13 @@ export default function ZilliSinavPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Table 1: Bone & Locomotor */}
-              <div className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300">
+              <div
+                onClick={() => {
+                  handleStationChange(2);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300"
+              >
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[10px] font-bold font-archivo">
@@ -580,7 +591,13 @@ export default function ZilliSinavPage() {
               </div>
 
               {/* Table 2: Thorax & Heart */}
-              <div className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300">
+              <div
+                onClick={() => {
+                  handleStationChange(1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300"
+              >
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#c9e6ff] text-[#006591] text-[10px] font-bold font-archivo">
@@ -602,7 +619,13 @@ export default function ZilliSinavPage() {
               </div>
 
               {/* Table 3: Neuro & Skull */}
-              <div className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300">
+              <div
+                onClick={() => {
+                  handleStationChange(3);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300"
+              >
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#c9e6ff] text-[#003752] text-[10px] font-bold font-archivo">
@@ -624,7 +647,13 @@ export default function ZilliSinavPage() {
               </div>
 
               {/* Table 4: Visceral & Abdomen */}
-              <div className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300">
+              <div
+                onClick={() => {
+                  handleStationChange(1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="bg-[#ffffff] p-5 rounded-2xl border border-[#e5eeff] shadow-sm flex flex-col justify-between gap-4 cursor-pointer hover:scale-[1.03] hover:shadow-md transition-all duration-300"
+              >
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#ffdada] text-[#6d001c] text-[10px] font-bold font-archivo">

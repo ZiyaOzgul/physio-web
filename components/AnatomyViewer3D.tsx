@@ -135,6 +135,7 @@ interface AnatomyViewer3DProps {
   onModelChange?: (modelId: string) => void;
   activeLayers?: DissectionLayersState;
   onLayersChange?: (layers: DissectionLayersState) => void;
+  onSelectLayer?: (layerKey: keyof DissectionLayersState) => void;
   muscleOpacity?: number;
   onMuscleOpacityChange?: (opacity: number) => void;
   showCard?: boolean;
@@ -152,6 +153,7 @@ export default function AnatomyViewer3D({
   onModelChange,
   activeLayers,
   onLayersChange,
+  onSelectLayer,
   muscleOpacity = 0.85,
   onMuscleOpacityChange,
   showCard = true,
@@ -235,6 +237,8 @@ export default function AnatomyViewer3D({
   const layerCacheRef = useRef<Map<keyof DissectionLayersState, THREE.Group>>(new Map());
   const activeLayersRef = useRef<DissectionLayersState | undefined>(currentLayers);
   activeLayersRef.current = currentLayers;
+  const onSelectLayerRef = useRef(onSelectLayer);
+  onSelectLayerRef.current = onSelectLayer;
   const pendingLoadsRef = useRef(0);
 
   const handleSelectModel = (id: string) => {
@@ -349,8 +353,71 @@ export default function AnatomyViewer3D({
     const observer = new ResizeObserver(handleResize);
     observer.observe(container);
 
+    // Raycasting for 3D structure selection on click
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    let downX = 0;
+    let downY = 0;
+
+    const handlePointerDown = (e: PointerEvent) => {
+      downX = e.clientX;
+      downY = e.clientY;
+    };
+
+    const handlePointerUp = (e: PointerEvent) => {
+      if (Math.hypot(e.clientX - downX, e.clientY - downY) > 6) return;
+      if (!modelGroupRef.current || !cameraRef.current) return;
+
+      const rect = renderer.domElement.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(pointer, cameraRef.current);
+
+      const visibleMeshes: THREE.Mesh[] = [];
+      layerCacheRef.current.forEach((group) => {
+        if (group.visible) {
+          group.traverse((obj) => {
+            if (obj instanceof THREE.Mesh && obj.visible) {
+              visibleMeshes.push(obj);
+            }
+          });
+        }
+      });
+
+      if (visibleMeshes.length === 0) return;
+      const intersects = raycaster.intersectObjects(visibleMeshes, false);
+      if (intersects.length > 0) {
+        const hitMesh = intersects[0].object as THREE.Mesh;
+        const clickedLayer = hitMesh.userData?.layerKey as keyof DissectionLayersState | undefined;
+        if (clickedLayer) {
+          if (hitMesh.material instanceof THREE.MeshStandardMaterial) {
+            const mat = hitMesh.material;
+            const prevEmissive = mat.emissive.getHex();
+            const prevIntensity = mat.emissiveIntensity;
+            mat.emissive.setHex(0x38bdf8);
+            mat.emissiveIntensity = 0.5;
+            setTimeout(() => {
+              mat.emissive.setHex(prevEmissive);
+              mat.emissiveIntensity = prevIntensity;
+            }, 350);
+          }
+          if (onSelectLayerRef.current) {
+            onSelectLayerRef.current(clickedLayer);
+          }
+        }
+      }
+    };
+
+    renderer.domElement.addEventListener("pointerdown", handlePointerDown);
+    renderer.domElement.addEventListener("pointerup", handlePointerUp);
+
     return () => {
       observer.disconnect();
+      renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
+      renderer.domElement.removeEventListener("pointerup", handlePointerUp);
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       controls.dispose();
       renderer.dispose();
@@ -428,6 +495,7 @@ export default function AnatomyViewer3D({
                     mat.opacity = currentOpacity;
                   }
                   child.material = mat;
+                  child.userData.layerKey = key;
                 }
               });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -10,7 +10,34 @@ interface NavbarProps {
 
 export default function Navbar({ activePath = "/" }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const titlesTr: Record<string, string> = {
+      "/": "Anatomi 3D | Tıp Fakültesi 3D Diseksiyon Atlası & Zilli Sınav",
+      "/atlas": "3D Diseksiyon Atlası | Anatomi 3D",
+      "/ogrenme-yolu": "Komite Öğrenme Yolu & Müfredat | Anatomi 3D",
+      "/zilli-sinav": "Zilli Kadavra Sınavı Simülatörü (OSCE) | Anatomi 3D",
+      "/cihaz-deneyimi": "Çoklu Cihaz & Tablet/Mobil Deneyimi | Anatomi 3D",
+      "/topluluk-ve-indir": "Fakülte Topluluğu & Uygulamayı İndir | Anatomi 3D",
+      "/kvkk": "Kullanım Koşulları & KVKK Aydınlatma Metni | Anatomi 3D",
+    };
+    const titlesEn: Record<string, string> = {
+      "/": "Anatomy 3D | Medical School 3D Dissection Atlas & Bell Exam",
+      "/atlas": "3D Dissection Atlas | Anatomy 3D",
+      "/ogrenme-yolu": "Committee Learning Path & Curriculum | Anatomy 3D",
+      "/zilli-sinav": "Cadaver Bell Exam Simulator (OSCE) | Anatomy 3D",
+      "/cihaz-deneyimi": "Cross-Device Tablet & Mobile Studio | Anatomy 3D",
+      "/topluluk-ve-indir": "Faculty Study Pods & Download App | Anatomy 3D",
+      "/kvkk": "Terms of Use, Privacy & GDPR Compliance | Anatomy 3D",
+    };
+    const pathKey = activePath || window.location.pathname || "/";
+    document.title =
+      (language === "tr" ? titlesTr[pathKey] : titlesEn[pathKey]) ||
+      (language === "tr" ? titlesTr["/"] : titlesEn["/"]);
+  }, [activePath, language]);
 
   const navLinks = [
     { href: "/", label: t.nav.home },
@@ -109,8 +136,72 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
             <span className="hidden sm:inline">{t.nav.downloadApp}</span>
             <span className="sm:hidden">{t.nav.downloadShort}</span>
           </Link>
-          <div className="hidden sm:flex w-8 h-8 rounded-full bg-[#003752] items-center justify-center text-white shrink-0 ml-0.5 shadow-sm">
-            <span className="material-symbols-outlined text-[18px]">person</span>
+          {/* Interactive Student Profile Button & Popover */}
+          <div className="relative hidden sm:block">
+            <button
+              type="button"
+              onClick={() => setProfileOpen((prev) => !prev)}
+              className="w-8 h-8 rounded-full bg-[#003752] hover:bg-[#1f4e6b] flex items-center justify-center text-white shrink-0 ml-0.5 shadow-sm transition-transform hover:scale-105 cursor-pointer"
+              title={language === "tr" ? "Öğrenci Profili" : "Student Profile"}
+            >
+              <span className="material-symbols-outlined text-[18px]">person</span>
+            </button>
+
+            {profileOpen && (
+              <div className="absolute right-0 mt-2.5 w-64 rounded-2xl bg-[#ffffff] border border-[#dce9ff] shadow-xl p-4 z-50 flex flex-col gap-3">
+                <div className="flex items-center justify-between border-b border-[#e5eeff] pb-2.5">
+                  <div className="flex flex-col">
+                    <span className="text-[13px] font-bold text-[#003752] font-archivo">
+                      Ziya Özgül
+                    </span>
+                    <span className="text-[11px] text-[#41474d]">
+                      {language === "tr" ? "Tıp Fakültesi • Dönem 2" : "Medical School • Year 2"}
+                    </span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full bg-[#dce9ff] text-[#006591] font-mono text-[10px] font-bold">
+                    PRO
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
+                    <span className="text-[10px] text-[#41474d]">
+                      {language === "tr" ? "Aktif Seri" : "Active Streak"}
+                    </span>
+                    <span className="text-[13px] font-bold text-[#6d001c] font-mono">
+                      🔥 14 {language === "tr" ? "Gün" : "Days"}
+                    </span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
+                    <span className="text-[10px] text-[#41474d]">
+                      {language === "tr" ? "Komite Puanı" : "Committee XP"}
+                    </span>
+                    <span className="text-[13px] font-bold text-[#006591] font-mono">
+                      ⚡ 980 XP
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1 pt-1">
+                  <Link
+                    href="/ogrenme-yolu"
+                    onClick={() => setProfileOpen(false)}
+                    className="px-3 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] text-[12px] font-semibold flex items-center justify-between transition-colors"
+                  >
+                    <span>{language === "tr" ? "İlerleme & Rozetlerim" : "My Progress & Badges"}</span>
+                    <span className="material-symbols-outlined text-[15px]">chevron_right</span>
+                  </Link>
+                  <Link
+                    href="/kvkk"
+                    onClick={() => setProfileOpen(false)}
+                    className="px-3 py-1.5 rounded-lg hover:bg-[#eff4ff] text-[#41474d] text-[12px] font-medium flex items-center justify-between transition-colors"
+                  >
+                    <span>{language === "tr" ? "Veri & İzin Tercihleri" : "Privacy & Consent"}</span>
+                    <span className="material-symbols-outlined text-[15px]">tune</span>
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Mobile hamburger button */}

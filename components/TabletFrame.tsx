@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface TabletFrameProps {
   className?: string;
@@ -13,6 +14,7 @@ export default function TabletFrame({
   children,
   title = "Physio 3D iPadOS Studio",
 }: TabletFrameProps) {
+  const { language } = useLanguage();
   return (
     <div className={`relative flex flex-col items-center ${className}`}>
       {/* Outer Glow & Ambient Shadow */}
@@ -26,7 +28,9 @@ export default function TabletFrame({
             <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
             <span> PENCIL PRO</span>
           </div>
-          <span className="text-emerald-600 font-bold">%100 ŞARJ</span>
+          <span className="text-emerald-600 font-bold">
+            {language === "tr" ? "%100 ŞARJ" : "100% CHARGED"}
+          </span>
         </div>
 
         {/* Front Camera Dot in top bezel */}
@@ -38,7 +42,9 @@ export default function TabletFrame({
           <div className="relative z-30 pt-1.5 px-5 pb-1 flex items-center justify-between text-[11px] font-semibold text-white tracking-tight select-none bg-black/40 backdrop-blur-md">
             <div className="flex items-center gap-2">
               <span className="font-mono text-[10px] text-sky-400 font-bold">09:41</span>
-              <span className="text-[10px] text-slate-400 hidden sm:inline">• Salı 4 Kasım</span>
+              <span className="text-[10px] text-slate-400 hidden sm:inline">
+                {language === "tr" ? "• Salı 4 Kasım" : "• Tue Nov 4"}
+              </span>
             </div>
 
             <div className="flex items-center gap-2">

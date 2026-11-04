@@ -26,75 +26,116 @@ const STRUCTURE_DETAILS: Record<
   string,
   {
     name: string;
+    nameEn: string;
     latin: string;
     ta2: string;
     category: string;
+    categoryEn: string;
     importance: string;
+    importanceEn: string;
     examRate: string;
+    examRateEn: string;
     innervation: string;
+    innervationEn: string;
     icon: string;
     clinicalNote: string;
+    clinicalNoteEn: string;
   }
 > = {
   heart: {
     name: "Cor (Kalp) & Dolaşım",
+    nameEn: "Cor (Heart) & Circulation",
     latin: "Myocardium, Endocardium & Pericardium",
     ta2: "TA2: 3951",
     category: "Dolaşım & Angiologia",
+    categoryEn: "Circulation & Angiology",
     importance: "★★★★★ (Kritik)",
+    importanceEn: "★★★★★ (Critical)",
     examRate: "%92 Sorulma Oranı",
+    examRateEn: "92% Exam Yield",
     innervation: "Plexus Cardiacus",
+    innervationEn: "Cardiac Plexus",
     icon: "cardiology",
     clinicalNote:
       "Apex cordis sol 5. interkostal aralıkta, linea medioclavicularis'in 8-9 cm lateralinde palpe edilir. Sulcus coronarius ve sulcus interventricularis anterior referans alınmalıdır.",
+    clinicalNoteEn:
+      "Apex cordis is palpated at the left 5th intercostal space, 8-9 cm lateral to the midclavicular line. Sulcus coronarius and anterior interventricular sulcus serve as primary landmarks.",
   },
   muscular: {
     name: "Systema Musculare (Kas Sistemi)",
+    nameEn: "Systema Musculare (Muscular System)",
     latin: "Musculi trunci, capitis et extremitatum",
     ta2: "TA2: 2100",
     category: "Miyoloji",
+    categoryEn: "Myology",
     importance: "★★★★★ (Temel)",
+    importanceEn: "★★★★★ (Essential)",
     examRate: "%95 Sorulma Oranı",
+    examRateEn: "95% Exam Yield",
     innervation: "Spinal & Kranial Sinirler",
+    innervationEn: "Spinal & Cranial Nerves",
     icon: "accessibility",
     clinicalNote:
       "Fascia lata, karpal tünel ve trigonum femorale (Scarpa üçgeni) sınırları pratik kadavra sınavlarında en çok sorulan diseksiyon bölgeleridir.",
+    clinicalNoteEn:
+      "Fascia lata, the carpal tunnel, and boundaries of the femoral triangle (Scarpa's triangle) are the most frequently pinned dissection sites in practical board exams.",
   },
   skeletal: {
     name: "Systema Skeletale (İskelet)",
+    nameEn: "Systema Skeletale (Skeleton)",
     latin: "Skeleton axiale et appendiculare",
     ta2: "TA2: 1001",
     category: "Osteoloji",
+    categoryEn: "Osteology",
     importance: "★★★★☆ (Temel)",
+    importanceEn: "★★★★☆ (Foundation)",
     examRate: "%88 Sorulma Oranı",
+    examRateEn: "88% Exam Yield",
     innervation: "Periosteal Sinirler",
+    innervationEn: "Periosteal Nerves",
     icon: "skeleton",
     clinicalNote:
       "Foramen magnum, canalis caroticus, os sphenoidale sella turcica ve foramen obturatum kemik masası sınavlarının vazgeçilmez sorularıdır.",
+    clinicalNoteEn:
+      "Foramen magnum, carotid canal, sella turcica of the sphenoid bone, and obturator foramen are indispensable high-yield stations on osteology exam tables.",
   },
   brain: {
     name: "Systema Nervosum (Nöroanatomi)",
+    nameEn: "Systema Nervosum (Neuroanatomy)",
     latin: "Encephalon, Medulla Spinalis et Nervi",
     ta2: "TA2: 5400",
     category: "Nöroanatomi",
+    categoryEn: "Neuroanatomy",
     importance: "★★★★★ (Klinik)",
+    importanceEn: "★★★★★ (Clinical)",
     examRate: "%96 Sorulma Oranı",
+    examRateEn: "96% Exam Yield",
     innervation: "Kranial Çiftler (I - XII)",
+    innervationEn: "Cranial Pairs (CN I - XII)",
     icon: "neurology",
     clinicalNote:
       "Willis poligonu, capsula interna traktusları ve 12 kranial sinirin kafatası tabanındaki çıkış delikleri OSCE sınavlarının çekirdeğidir.",
+    clinicalNoteEn:
+      "Circle of Willis, internal capsule tracts, and cranial base exit foramina of all 12 cranial nerves form the core of neuroanatomy OSCE stations.",
   },
   abdomen: {
     name: "Organa Abdominalia (Visseral Organlar)",
+    nameEn: "Organa Abdominalia (Visceral Organs)",
     latin: "Gaster, Hepar, Pancreas et Intestinum",
     ta2: "TA2: 4200",
     category: "Splanknoloji",
+    categoryEn: "Splanchnology",
     importance: "★★★★☆ (Uygulamalı)",
+    importanceEn: "★★★★☆ (Practical)",
     examRate: "%90 Sorulma Oranı",
+    examRateEn: "90% Exam Yield",
     innervation: "N. Vagus & Splanchnic Sinirler",
+    innervationEn: "Vagus & Splanchnic Nerves",
     icon: "medical_services",
     clinicalNote:
       "Foramen omentale (Winslow), bursa omentalis sınırları ve trunkus çölyakus dallanmaları kadavra pratik sınavlarının en popüler istasyonlarıdır.",
+    clinicalNoteEn:
+      "Omental foramen (Winslow), lesser sac boundaries, and celiac trunk trifurcation branches are among the highest-yield visceral cadaver practical stations.",
   },
 };
 
@@ -198,6 +239,20 @@ export default function AtlasPage() {
     setSelectedStructure(structureId);
     if (!layers[layerKey]) {
       setLayers((prev) => ({ ...prev, [layerKey]: true }));
+    }
+  };
+
+  const handle3DLayerClick = (layerKey: keyof DissectionLayersState) => {
+    const map: Record<keyof DissectionLayersState, string> = {
+      skeleton: "skeletal",
+      muscle: "muscular",
+      vascular: "heart",
+      nervous: "brain",
+      organs: "abdomen",
+    };
+    const nextStructure = map[layerKey];
+    if (nextStructure) {
+      setSelectedStructure(nextStructure);
     }
   };
 
@@ -525,7 +580,7 @@ export default function AtlasPage() {
                       {t.atlasPage.activeStructure}
                     </span>
                     <h3 className="text-[18px] text-[#003752] font-bold font-archivo">
-                      {currentDetail.name}
+                      {language === "tr" ? currentDetail.name : currentDetail.nameEn}
                     </h3>
                     <span className="text-[11px] text-[#41474d]">
                       {currentDetail.latin}
@@ -547,19 +602,19 @@ export default function AtlasPage() {
                   <div className="flex flex-col">
                     <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "KOMİTE ÖNEMİ" : "IMPORTANCE"}</span>
                     <span className="text-[12px] font-bold text-[#6d001c]">
-                      {currentDetail.importance}
+                      {language === "tr" ? currentDetail.importance : currentDetail.importanceEn}
                     </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "SINAV SIKLIĞI" : "EXAM FREQUENCY"}</span>
                     <span className="font-mono text-[12px] font-bold text-[#006591]">
-                      {currentDetail.examRate}
+                      {language === "tr" ? currentDetail.examRate : currentDetail.examRateEn}
                     </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "İNERVASYON" : "INNERVATION"}</span>
                     <span className="text-[12px] font-medium text-[#0b1c30]">
-                      {currentDetail.innervation}
+                      {language === "tr" ? currentDetail.innervation : currentDetail.innervationEn}
                     </span>
                   </div>
                 </div>
@@ -573,7 +628,7 @@ export default function AtlasPage() {
                     {t.atlasPage.clinicalNoteTitle}
                   </span>
                   <p className="text-[11px] text-[#41474d] leading-relaxed">
-                    {currentDetail.clinicalNote}
+                    {language === "tr" ? currentDetail.clinicalNote : currentDetail.clinicalNoteEn}
                   </p>
                 </div>
 
@@ -599,7 +654,7 @@ export default function AtlasPage() {
                   <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
                     <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
                     <span className="font-['Archivo_Narrow'] text-[11px] sm:text-[12px] font-bold uppercase text-[#003752] tracking-wider truncate max-w-[200px] sm:max-w-none">
-                      {currentDetail.name} ({activeCount} {t.atlasPage.activeLayers})
+                      {language === "tr" ? currentDetail.name : currentDetail.nameEn} ({activeCount} {t.atlasPage.activeLayers})
                     </span>
                   </div>
 
@@ -617,6 +672,7 @@ export default function AtlasPage() {
                   <AnatomyViewer3D
                     activeLayers={layers}
                     onLayersChange={setLayers}
+                    onSelectLayer={handle3DLayerClick}
                     muscleOpacity={muscleOpacity}
                     onMuscleOpacityChange={setMuscleOpacity}
                     showCard={false}

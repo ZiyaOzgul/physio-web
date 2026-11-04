@@ -25,7 +25,11 @@ const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
 export default function OgrenmeYoluPage() {
   const { t, language } = useLanguage();
   const [difficulty, setDifficulty] = useState<"kolay" | "orta" | "zor">("zor");
+  const [committeeScope, setCommitteeScope] = useState<"term12" | "term3">("term12");
   const [dailyGoal, setDailyGoal] = useState<number>(100);
+
+  const xpReward = difficulty === "kolay" ? 15 : difficulty === "orta" ? 20 : 25;
+  const targetMastery = difficulty === "kolay" ? 75 : difficulty === "orta" ? 85 : 90;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9ff] text-[#0b1c30]">
@@ -103,14 +107,24 @@ export default function OgrenmeYoluPage() {
               <div className="flex flex-wrap items-center gap-1.5">
                 <button
                   type="button"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#003752] text-white text-[13px] font-medium shadow-xs flex items-center gap-1.5"
+                  onClick={() => setCommitteeScope("term12")}
+                  className={`px-3.5 py-1.5 rounded-lg text-[13px] font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+                    committeeScope === "term12"
+                      ? "bg-[#003752] text-white shadow-xs"
+                      : "bg-[#eff4ff] hover:bg-[#e5eeff] text-[#41474d]"
+                  }`}
                 >
                   <span className="material-symbols-outlined text-[16px]">menu_book</span>
                   {t.learnPage.term12Committees}
                 </button>
                 <button
                   type="button"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#e5eeff] text-[#41474d] text-[13px] transition-colors flex items-center gap-1.5"
+                  onClick={() => setCommitteeScope("term3")}
+                  className={`px-3.5 py-1.5 rounded-lg text-[13px] font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
+                    committeeScope === "term3"
+                      ? "bg-[#003752] text-white shadow-xs"
+                      : "bg-[#eff4ff] hover:bg-[#e5eeff] text-[#41474d]"
+                  }`}
                 >
                   <span className="material-symbols-outlined text-[16px]">stethoscope</span>
                   {t.learnPage.term3Clinical}
@@ -180,20 +194,30 @@ export default function OgrenmeYoluPage() {
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#006591]" />
                     <h2 className="text-[16px] text-[#003752] font-bold uppercase tracking-tight font-archivo">
-                      Komite Müfredat Modülleri
+                      {language === "tr" ? "Komite Müfredat Modülleri" : "Committee Curriculum Modules"}
                     </h2>
                   </div>
-                  <span className="font-mono text-[11px] text-[#41474d]">4 Modül</span>
+                  <span className="font-mono text-[11px] text-[#41474d]">
+                    {language === "tr" ? "4 Modül" : "4 Modules"}
+                  </span>
                 </div>
                 <p className="text-[13px] text-[#41474d] leading-relaxed">
-                  Ulusal ÇEP standartlarına uyumlu teorik ve pratik kadavra öğrenme akışı.
+                  {committeeScope === "term12"
+                    ? language === "tr"
+                      ? "Ulusal ÇEP standartlarına uyumlu Dönem 1-2 teorik ve pratik kadavra öğrenme akışı."
+                      : "National core curriculum-aligned Year 1-2 theoretical and practical cadaver workflow."
+                    : language === "tr"
+                    ? "Dönem 3 klinik korelasyon, cerrahi topografi ve patolojik vaka diseksiyon akışı."
+                    : "Year 3 clinical correlation, surgical topography, and pathological case dissection workflow."}
                 </p>
                 <Link
                   href="/atlas"
                   className="w-full mt-1 px-3 py-2 rounded-xl bg-[#eff4ff] hover:bg-[#e5eeff] text-[#003752] text-[13px] font-semibold flex items-center justify-center gap-2 transition-all"
                 >
                   <span className="material-symbols-outlined text-[18px]">tune</span>
-                  <span>Bölüm ve Derinliği Düzenle</span>
+                  <span>
+                    {language === "tr" ? "Bölüm ve Derinliği Düzenle" : "Configure Section & Depth"}
+                  </span>
                 </Link>
               </div>
 
@@ -202,13 +226,15 @@ export default function OgrenmeYoluPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
                     <span className="px-2 py-0.5 rounded bg-[#e5eeff] text-[10px] font-bold uppercase text-[#006591] font-archivo">
-                      Bölüm 01
+                      {language === "tr" ? "Bölüm 01" : "Module 01"}
                     </span>
                     <h3 className="text-[17px] text-[#003752] font-bold font-archivo">
-                      Lokomotor Sistem Temelleri
+                      {language === "tr" ? "Lokomotor Sistem Temelleri" : "Locomotor System Foundations"}
                     </h3>
                     <p className="text-[12px] text-[#41474d]">
-                      Osteoloji & Artroloji • Aksiyel ve Apendiküler İskelet
+                      {language === "tr"
+                        ? "Osteoloji & Artroloji • Aksiyel ve Apendiküler İskelet"
+                        : "Osteology & Arthrology • Axial and Appendicular Skeleton"}
                     </p>
                   </div>
                   <span className="w-8 h-8 rounded-full bg-[#006591]/10 text-[#006591] flex items-center justify-center shrink-0">
@@ -217,7 +243,7 @@ export default function OgrenmeYoluPage() {
                 </div>
                 <div className="space-y-1.5">
                   <div className="flex justify-between font-mono text-[11px] text-[#41474d]">
-                    <span>İlerleme Seviyesi</span>
+                    <span>{language === "tr" ? "İlerleme Seviyesi" : "Progress Level"}</span>
                     <span className="text-[#003752] font-bold">%60</span>
                   </div>
                   <div className="w-full h-2 rounded-full bg-[#eff4ff] overflow-hidden">
@@ -230,14 +256,14 @@ export default function OgrenmeYoluPage() {
                     className="px-3 py-2 rounded-xl bg-[#003752] hover:bg-[#1f4e6b] text-white text-[12px] font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all"
                   >
                     <span className="material-symbols-outlined text-[16px]">play_circle</span>
-                    <span>Derse Devam Et</span>
+                    <span>{language === "tr" ? "Derse Devam Et" : "Resume Lesson"}</span>
                   </Link>
                   <Link
                     href="/atlas?region=locomotor"
                     className="px-3 py-2 rounded-xl bg-[#eff4ff] hover:bg-[#e5eeff] text-[#006591] text-[12px] font-semibold flex items-center justify-center gap-1.5 transition-all"
                   >
                     <span className="material-symbols-outlined text-[16px]">view_in_ar</span>
-                    <span>3D Bölgeyi Aç</span>
+                    <span>{language === "tr" ? "3D Bölgeyi Aç" : "Open 3D Region"}</span>
                   </Link>
                 </div>
               </div>
@@ -247,22 +273,24 @@ export default function OgrenmeYoluPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
                     <span className="px-2 py-0.5 rounded bg-[#eff4ff] text-[10px] font-bold uppercase text-[#41474d] font-archivo">
-                      Bölüm 02
+                      {language === "tr" ? "Bölüm 02" : "Module 02"}
                     </span>
                     <h3 className="text-[17px] text-[#003752] font-semibold font-archivo">
-                      Topografik Miyoloji ve Gövde
+                      {language === "tr" ? "Topografik Miyoloji ve Gövde" : "Topographic Myology & Trunk"}
                     </h3>
                     <p className="text-[12px] text-[#41474d]">
-                      Gövde duvarı kasları, diyafram, ekstremite kompartmanları.
+                      {language === "tr"
+                        ? "Gövde duvarı kasları, diyafram, ekstremite kompartmanları."
+                        : "Trunk wall muscles, diaphragm, and limb compartments."}
                     </p>
                   </div>
                   <span className="px-2.5 py-1 rounded-full bg-[#ffdada] text-[#6d001c] font-mono text-[10px] font-bold shrink-0">
-                    Hedef %90
+                    {language === "tr" ? `Hedef %${targetMastery}` : `Target ${targetMastery}%`}
                   </span>
                 </div>
                 <div className="space-y-1">
                   <div className="flex justify-between font-mono text-[11px] text-[#41474d]">
-                    <span>Mevcut Hakimiyet</span>
+                    <span>{language === "tr" ? "Mevcut Hakimiyet" : "Current Mastery"}</span>
                     <span className="font-bold text-[#0b1c30]">%35</span>
                   </div>
                   <div className="w-full h-1.5 rounded-full bg-[#eff4ff] overflow-hidden">
@@ -276,13 +304,15 @@ export default function OgrenmeYoluPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
                     <span className="px-2 py-0.5 rounded bg-[#eff4ff] text-[10px] font-bold uppercase text-[#41474d] font-archivo">
-                      Bölüm 03
+                      {language === "tr" ? "Bölüm 03" : "Module 03"}
                     </span>
                     <h3 className="text-[17px] text-[#003752] font-semibold font-archivo">
-                      Kardiyovasküler & Visseral Ağ
+                      {language === "tr" ? "Kardiyovasküler & Visseral Ağ" : "Cardiovascular & Visceral Network"}
                     </h3>
                     <p className="text-[12px] text-[#41474d]">
-                      Kalp odacıkları, koroner dolaşım, trunkus çölyakus dalları.
+                      {language === "tr"
+                        ? "Kalp odacıkları, koroner dolaşım, trunkus çölyakus dalları."
+                        : "Heart chambers, coronary circulation, and celiac trunk branches."}
                     </p>
                   </div>
                   <span className="w-7 h-7 rounded-full bg-[#eff4ff] text-[#41474d] flex items-center justify-center shrink-0">
@@ -291,7 +321,11 @@ export default function OgrenmeYoluPage() {
                 </div>
                 <div className="flex items-center gap-1.5 text-[#41474d] text-[11px]">
                   <span className="material-symbols-outlined text-[14px]">timer</span>
-                  <span>Bölüm 02 tamamlandıktan sonra açılır</span>
+                  <span>
+                    {language === "tr"
+                      ? "Bölüm 02 tamamlandıktan sonra açılır"
+                      : "Unlocks upon completing Module 02"}
+                  </span>
                 </div>
               </div>
 
@@ -301,17 +335,19 @@ export default function OgrenmeYoluPage() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="px-2 py-0.5 rounded bg-[#eff4ff] text-[10px] font-bold uppercase text-[#41474d] font-archivo">
-                        Bölüm 04
+                        {language === "tr" ? "Bölüm 04" : "Module 04"}
                       </span>
                       <span className="px-2 py-0.5 rounded bg-[#ffdada] text-[#6d001c] font-mono text-[10px] font-bold">
-                        KOMİTE FİNALİ
+                        {language === "tr" ? "KOMİTE FİNALİ" : "BLOCK FINAL"}
                       </span>
                     </div>
                     <h3 className="text-[17px] text-[#003752] font-semibold font-archivo">
-                      Nöroanatomi & Zilli Spot Sınav
+                      {language === "tr" ? "Nöroanatomi & Zilli Spot Sınav" : "Neuroanatomy & Timed Bell Spot"}
                     </h3>
                     <p className="text-[12px] text-[#41474d]">
-                      Merkezi sinir sistemi traktusları, kranial sinir foraminaları.
+                      {language === "tr"
+                        ? "Merkezi sinir sistemi traktusları, kranial sinir foraminaları."
+                        : "Central nervous system tracts and cranial nerve exit foramina."}
                     </p>
                   </div>
                   <span className="w-7 h-7 rounded-full bg-[#eff4ff] text-[#41474d] flex items-center justify-center shrink-0">
@@ -324,14 +360,16 @@ export default function OgrenmeYoluPage() {
               <div className="p-5 rounded-2xl bg-[#eff4ff] border border-[#dce9ff] flex flex-col gap-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[12px] text-[#003752] font-bold uppercase font-archivo">
-                    Mobil Atlas Eşzamanlaması
+                    {language === "tr" ? "Mobil Atlas Eşzamanlaması" : "Mobile Atlas Synchronization"}
                   </span>
                   <span className="font-mono text-[11px] text-[#006591] font-semibold">
-                    Canlı Senkron
+                    {language === "tr" ? "Canlı Senkron" : "Live Sync"}
                   </span>
                 </div>
                 <p className="text-[12px] text-[#41474d]">
-                  Kadavra laboratuvarında iPad ve mobil cihazınızdan diseksiyon notlarınıza anında erişin.
+                  {language === "tr"
+                    ? "Kadavra laboratuvarında iPad ve mobil cihazınızdan diseksiyon notlarınıza anında erişin."
+                    : "Access your dissection notes instantly on iPad and mobile inside the cadaver lab."}
                 </p>
                 <div className="grid grid-cols-2 gap-3 pt-1">
                   <div className="rounded-xl overflow-hidden shadow-xs bg-[#ffffff] p-1.5 flex flex-col items-center border border-[#e5eeff]">
@@ -344,7 +382,7 @@ export default function OgrenmeYoluPage() {
                       />
                     </div>
                     <span className="mt-2 text-[11px] text-[#0b1c30] font-semibold">
-                      Müfredat Ağacı
+                      {language === "tr" ? "Müfredat Ağacı" : "Curriculum Tree"}
                     </span>
                   </div>
                   <div className="rounded-xl overflow-hidden shadow-xs bg-[#ffffff] p-1.5 flex flex-col items-center border border-[#e5eeff]">
@@ -357,7 +395,7 @@ export default function OgrenmeYoluPage() {
                       />
                     </div>
                     <span className="mt-2 text-[11px] text-[#0b1c30] font-semibold">
-                      Zilli Spot Kartı
+                      {language === "tr" ? "Zilli Spot Kartı" : "Bell Spot Card"}
                     </span>
                   </div>
                 </div>
@@ -442,7 +480,7 @@ export default function OgrenmeYoluPage() {
                           </span>
                         </div>
                         <span className="px-2 py-0.5 rounded bg-[#ffffff] text-[#003752] font-mono text-[11px] font-bold shadow-xs">
-                          +25 XP
+                          +{xpReward} XP
                         </span>
                       </div>
                       <h4 className="text-[14px] text-[#003752] font-bold leading-tight font-archivo">
@@ -480,10 +518,14 @@ export default function OgrenmeYoluPage() {
                       </span>
                     </div>
                     <span className="mt-2 text-[14px] text-[#003752] font-semibold font-archivo">
-                      Node 1.2: Columna Vertebralis & Omurga
+                      {language === "tr"
+                        ? "Node 1.2: Columna Vertebralis & Omurga"
+                        : "Node 1.2: Columna Vertebralis & Spine"}
                     </span>
                     <span className="text-[11px] text-[#41474d]">
-                      C1-C7, T1-T12, L1-L5 Eğrilikleri ve Diskuslar
+                      {language === "tr"
+                        ? "C1-C7, T1-T12, L1-L5 Eğrilikleri ve Diskuslar"
+                        : "C1-C7, T1-T12, L1-L5 Curvatures & Intervertebral Discs"}
                     </span>
                     <div className="w-1 h-8 bg-[#c1c7ce]/40 my-1" />
                   </div>
@@ -494,9 +536,15 @@ export default function OgrenmeYoluPage() {
                       <span className="material-symbols-outlined text-[24px]">lock</span>
                     </div>
                     <span className="mt-2 text-[13px] text-[#41474d] font-semibold font-archivo">
-                      Node 1.3: Thorax & Sternokostal Eklemler
+                      {language === "tr"
+                        ? "Node 1.3: Thorax & Sternokostal Eklemler"
+                        : "Node 1.3: Thorax & Sternocostal Joints"}
                     </span>
-                    <span className="text-[10px] text-[#72787e]">Açmak için Node 1.2&apos;yi tamamlayın</span>
+                    <span className="text-[10px] text-[#72787e]">
+                      {language === "tr"
+                        ? "Açmak için Node 1.2'yi tamamlayın"
+                        : "Complete Node 1.2 to unlock"}
+                    </span>
                     <div className="w-1 h-8 bg-[#c1c7ce]/30 my-1" />
                   </div>
 
@@ -506,9 +554,13 @@ export default function OgrenmeYoluPage() {
                       <span className="material-symbols-outlined text-[24px]">lock</span>
                     </div>
                     <span className="mt-2 text-[13px] text-[#41474d] font-semibold font-archivo">
-                      Node 1.4: Pelvis Kemikleri & Foramenler
+                      {language === "tr"
+                        ? "Node 1.4: Pelvis Kemikleri & Foramenler"
+                        : "Node 1.4: Pelvic Bones & Foramina"}
                     </span>
-                    <span className="text-[10px] text-[#72787e]">Kilitli Bölüm</span>
+                    <span className="text-[10px] text-[#72787e]">
+                      {language === "tr" ? "Kilitli Bölüm" : "Locked Section"}
+                    </span>
                     <div className="w-1 h-8 bg-[#c1c7ce]/30 my-1" />
                   </div>
 
@@ -526,11 +578,15 @@ export default function OgrenmeYoluPage() {
                     </Link>
                     <div className="mt-2 flex items-center gap-1.5">
                       <span className="text-[15px] text-[#6d001c] font-bold font-archivo">
-                        Node 1.5: Zilli Sınav Masası Komite Spot Testi
+                        {language === "tr"
+                          ? "Node 1.5: Zilli Sınav Masası Komite Spot Testi"
+                          : "Node 1.5: Bell Exam Table Committee Spot Test"}
                       </span>
                     </div>
                     <span className="text-[11px] text-[#41474d]">
-                      45 Saniye Geri Sayım • 20 Kadavra İstasyonu • Gerçekçi Zil
+                      {language === "tr"
+                        ? "45 Saniye Geri Sayım • 20 Kadavra İstasyonu • Gerçekçi Zil"
+                        : "45s Countdown • 20 Cadaver Stations • Realistic Bell"}
                     </span>
                   </div>
                 </div>
@@ -543,9 +599,11 @@ export default function OgrenmeYoluPage() {
               <div className="p-5 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[15px] text-[#003752] font-bold font-archivo">
-                    Çalışma Isı Haritası
+                    {language === "tr" ? "Çalışma Isı Haritası" : "Study Heatmap"}
                   </span>
-                  <span className="text-[11px] text-[#006591] font-semibold">Son 28 Gün</span>
+                  <span className="text-[11px] text-[#006591] font-semibold">
+                    {language === "tr" ? "Son 28 Gün" : "Last 28 Days"}
+                  </span>
                 </div>
 
                 {/* Heatmap Mini Grid (7 cols x 4 rows) */}
@@ -573,20 +631,20 @@ export default function OgrenmeYoluPage() {
                 </div>
 
                 <div className="flex items-center justify-between text-[#41474d] text-[10px] pt-1">
-                  <span>Daha az</span>
+                  <span>{language === "tr" ? "Daha az" : "Less"}</span>
                   <div className="flex items-center gap-1">
                     <span className="w-2.5 h-2.5 rounded bg-[#eff4ff]" />
                     <span className="w-2.5 h-2.5 rounded bg-[#006591]/30" />
                     <span className="w-2.5 h-2.5 rounded bg-[#006591]/70" />
                     <span className="w-2.5 h-2.5 rounded bg-[#006591]" />
                   </div>
-                  <span>Daha çok</span>
+                  <span>{language === "tr" ? "Daha çok" : "More"}</span>
                 </div>
 
                 {/* XP Target Toggle Buttons */}
                 <div className="pt-2 border-t border-[#e5eeff] space-y-2">
                   <span className="text-[11px] text-[#41474d] font-semibold">
-                    Günlük Hedef Seviyesi
+                    {language === "tr" ? "Günlük Hedef Seviyesi" : "Daily XP Target"}
                   </span>
                   <div className="grid grid-cols-3 gap-1.5">
                     {[20, 50, 100].map((val) => (
@@ -594,7 +652,7 @@ export default function OgrenmeYoluPage() {
                         key={val}
                         type="button"
                         onClick={() => setDailyGoal(val)}
-                        className={`py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all ${
+                        className={`py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all cursor-pointer ${
                           dailyGoal === val
                             ? "bg-[#003752] text-white shadow-xs"
                             : "bg-[#eff4ff] text-[#41474d] hover:bg-[#e5eeff]"
@@ -610,12 +668,14 @@ export default function OgrenmeYoluPage() {
               {/* Badges preview */}
               <div className="p-5 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm space-y-3">
                 <span className="text-[15px] text-[#003752] font-bold font-archivo block">
-                  Kazanılan Rozetler
+                  {language === "tr" ? "Kazanılan Rozetler" : "Earned Badges"}
                 </span>
                 <div className="grid grid-cols-3 gap-2 text-center">
                   <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col items-center gap-1">
                     <Image src="/badges/streak-14.png" alt="14 Günlük Seri" width={36} height={36} />
-                    <span className="text-[10px] font-bold text-[#003752]">14 Gün</span>
+                    <span className="text-[10px] font-bold text-[#003752]">
+                      {language === "tr" ? "14 Gün" : "14 Days"}
+                    </span>
                   </div>
                   <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col items-center gap-1">
                     <Image src="/badges/master-skeleton.png" alt="Osteo Ustası" width={36} height={36} />

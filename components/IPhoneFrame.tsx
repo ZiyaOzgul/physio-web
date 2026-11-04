@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ScreenItem {
   id: string;
@@ -70,6 +71,7 @@ export default function IPhoneFrame({
   caption,
   children,
 }: IPhoneFrameProps) {
+  const { language } = useLanguage();
   const [activeId, setActiveId] = useState(initialScreen);
   const activeScreen = SCREENS.find((s) => s.id === activeId) || SCREENS[0];
 
@@ -85,7 +87,7 @@ export default function IPhoneFrame({
   return (
     <div className={`flex flex-col items-center ${className}`}>
       {/* Screen Selector Pills */}
-      {showSelector && !screenSrc && (
+      {showSelector && !screenSrc && !children && (
         <div className="flex flex-wrap justify-center gap-1.5 p-1.5 mb-6 bg-[#ffffff] rounded-2xl border border-[#e5eeff] shadow-sm max-w-full">
           {SCREENS.map((screen) => {
             const isSelected = screen.id === activeId;
@@ -128,10 +130,10 @@ export default function IPhoneFrame({
           <div className="relative w-full h-full bg-black rounded-[42px] sm:rounded-[45px] overflow-hidden border-[4px] border-[#0a0d14] shadow-inner">
             
             {/* Screen Content Container */}
-            <div className="relative w-full h-full bg-[#030d17] flex flex-col">
+            <div className="relative w-full h-full bg-[#0a1926] flex flex-col">
               
               {/* Dynamic Island & iOS Status Bar */}
-              <div className="relative z-30 pt-2.5 px-6 pb-1 flex items-center justify-between text-[11px] font-semibold text-white tracking-tight select-none">
+              <div className="relative z-30 pt-2.5 px-6 pb-1 flex items-center justify-between text-[11px] font-semibold text-white tracking-tight select-none bg-black/40 backdrop-blur-md">
                 <span className="w-10">09:41</span>
 
                 {/* Dynamic Island Capsule */}
@@ -158,7 +160,7 @@ export default function IPhoneFrame({
               </div>
 
               {/* Main App Display Area */}
-              <div className="relative flex-1 w-full overflow-hidden bg-[#020b14]">
+              <div className="relative flex-1 w-full h-full overflow-hidden bg-[#0a1926]">
                 {children ? (
                   children
                 ) : (
@@ -183,7 +185,7 @@ export default function IPhoneFrame({
                           {screenSrc ? currentAlt : activeScreen.name}
                         </span>
                         <span className="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#eff4ff] text-[#006591] border border-[#dce9ff] font-bold">
-                          {screenSrc ? "CANLI GÖRÜNÜM" : activeScreen.badge}
+                          {screenSrc ? (language === "tr" ? "CANLI GÖRÜNÜM" : "LIVE VIEW") : activeScreen.badge}
                         </span>
                       </div>
                       <p className="text-[10px] text-[#41474d] leading-tight">
@@ -195,7 +197,7 @@ export default function IPhoneFrame({
               </div>
 
               {/* Home Indicator Bar */}
-              <div className="relative z-30 pb-2 pt-1 flex justify-center bg-black">
+              <div className="relative z-30 pb-2 pt-1 flex justify-center bg-black/40 backdrop-blur-md">
                 <div className="w-28 h-1 bg-white/70 rounded-full" />
               </div>
             </div>

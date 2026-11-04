@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
@@ -15,7 +15,7 @@ const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
       <div className="flex flex-col items-center gap-3">
         <div className="w-10 h-10 rounded-full border-2 border-[#006591]/20 border-t-[#006591] animate-spin" />
         <span className="font-mono text-xs text-[#006591] tracking-wider font-semibold">
-          3D TOPLULUK MERKEZİ YÜKLENİYOR...
+          3D COMMUNITY HUB LOADING...
         </span>
       </div>
     </div>
@@ -24,6 +24,12 @@ const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
 
 export default function ToplulukVeIndirPage() {
   const { t, language } = useLanguage();
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3500);
+  };
   const faculties = [
     {
       code: "HT",
@@ -95,10 +101,17 @@ export default function ToplulukVeIndirPage() {
               </p>
 
               {/* Download Buttons Strip */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <a
-                  href="#indir"
-                  className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-[#003752] text-white hover:bg-[#1f4e6b] transition-all shadow-md group"
+              <div id="indir" className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    showToast(
+                      language === "tr"
+                        ? "iOS App Store (TestFlight v4.2 Medikal Paket) sayfasına yönlendiriliyor..."
+                        : "Redirecting to iOS App Store (TestFlight v4.2 Medical Build)..."
+                    )
+                  }
+                  className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-[#003752] text-white hover:bg-[#1f4e6b] transition-all shadow-md group cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[28px]">phone_iphone</span>
                   <div className="flex flex-col text-left">
@@ -107,11 +120,18 @@ export default function ToplulukVeIndirPage() {
                     </span>
                     <span className="text-[14px] font-bold font-archivo leading-tight">App Store</span>
                   </div>
-                </a>
+                </button>
 
-                <a
-                  href="#indir"
-                  className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-[#ffffff] text-[#003752] border border-[#dce9ff] hover:bg-[#eff4ff] transition-all shadow-sm group"
+                <button
+                  type="button"
+                  onClick={() =>
+                    showToast(
+                      language === "tr"
+                        ? "Google Play Store (Android Vulkan v4.2) sayfasına yönlendiriliyor..."
+                        : "Redirecting to Google Play Store (Android Vulkan v4.2)..."
+                    )
+                  }
+                  className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-[#ffffff] text-[#003752] border border-[#dce9ff] hover:bg-[#eff4ff] transition-all shadow-sm group cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[28px] text-[#006591]">play_arrow</span>
                   <div className="flex flex-col text-left">
@@ -120,15 +140,22 @@ export default function ToplulukVeIndirPage() {
                     </span>
                     <span className="text-[14px] font-bold font-archivo leading-tight">Google Play</span>
                   </div>
-                </a>
+                </button>
 
-                <a
-                  href="#indir"
-                  className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#eff4ff] text-[#006591] text-[13px] font-bold font-archivo hover:bg-[#dce9ff] transition-all"
+                <button
+                  type="button"
+                  onClick={() =>
+                    showToast(
+                      language === "tr"
+                        ? "Anatomi 3D v4.2 Çevrimdışı Kurulum Paketi (APK/IPA - 480 MB) indiriliyor..."
+                        : "Downloading Anatomy 3D v4.2 Offline Installer Package (APK/IPA - 480 MB)..."
+                    )
+                  }
+                  className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#eff4ff] text-[#006591] text-[13px] font-bold font-archivo hover:bg-[#dce9ff] transition-all cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[20px]">system_update</span>
                   <span>{t.communityPage.btnDirectDownload}</span>
-                </a>
+                </button>
               </div>
 
               {/* QR Code Scanner Box */}
@@ -182,7 +209,7 @@ export default function ToplulukVeIndirPage() {
                 <span>•</span>
                 <span className="flex items-center gap-1">
                   <span className="material-symbols-outlined text-[15px] text-[#003752]">cloud_download</span>
-                  480 MB Çevrimdışı Kütüphane
+                  {language === "tr" ? "480 MB Çevrimdışı Kütüphane" : "480 MB Offline Library"}
                 </span>
               </div>
             </div>
@@ -207,14 +234,16 @@ export default function ToplulukVeIndirPage() {
                 <div className="absolute top-4 left-4 p-3 rounded-xl bg-[#ffffff]/90 backdrop-blur-md shadow-md max-w-xs flex flex-col gap-1 border border-[#e5eeff]">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] text-[#003752] uppercase font-bold font-archivo">
-                      Aktif Model
+                      {language === "tr" ? "Aktif Model" : "Active Model"}
                     </span>
                     <span className="font-mono text-[11px] text-[#006591] font-bold">
                       CRANIUM & NEURO
                     </span>
                   </div>
                   <p className="text-[11px] text-[#41474d]">
-                    Fossa cranii media foramenleri ve nervus trigeminus dalları diseksiyonu.
+                    {language === "tr"
+                      ? "Fossa cranii media foramenleri ve nervus trigeminus dalları diseksiyonu."
+                      : "Middle cranial fossa foramina and trigeminal nerve branches dissection."}
                   </p>
                   <div className="w-full bg-[#d3e4fe] h-1.5 rounded-full overflow-hidden mt-1">
                     <div className="bg-[#006591] h-full w-[84%] rounded-full" />
@@ -231,15 +260,17 @@ export default function ToplulukVeIndirPage() {
                       <span className="font-mono text-[11px] font-bold text-[#0b1c30]">
                         ogrenci@tip.edu.tr
                       </span>
-                      <span className="text-[10px] text-[#006591]">Bulut İlerlemesi Senkronize</span>
+                      <span className="text-[10px] text-[#006591]">
+                        {language === "tr" ? "Bulut İlerlemesi Senkronize" : "Cloud Progress Synced"}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <span className="px-2.5 py-1 rounded bg-[#eff4ff] font-mono text-[11px] text-[#003752] font-bold">
-                      DÖNEM 2
+                      {language === "tr" ? "DÖNEM 2" : "YEAR 2"}
                     </span>
                     <span className="px-2.5 py-1 rounded bg-[#003752] text-white text-[10px] font-bold font-archivo uppercase">
-                      DÖNDÜR & İNCELE
+                      {language === "tr" ? "DÖNDÜR & İNCELE" : "ROTATE & INSPECT"}
                     </span>
                   </div>
                 </div>
@@ -254,17 +285,21 @@ export default function ToplulukVeIndirPage() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <span className="text-[11px] text-[#006591] font-bold uppercase tracking-widest font-archivo">
-                  Arayüz & İlerleme Takibi
+                  {language === "tr" ? "Arayüz & İlerleme Takibi" : "Interface & Progress Tracking"}
                 </span>
                 <h2 className="text-[32px] text-[#003752] font-bold tracking-tight font-archivo">
-                  Kişisel Öğrenci Profili ve 28 Günlük Seri Takvimi
+                  {language === "tr"
+                    ? "Kişisel Öğrenci Profili ve 28 Günlük Seri Takvimi"
+                    : "Personal Student Profile & 28-Day Streak Calendar"}
                 </h2>
                 <p className="text-[14px] text-[#41474d] max-w-2xl leading-relaxed">
-                  Tıp fakültesi komite temposu düzenlilik ister. Mobil arayüzümüz günlük XP hedeflerinizi, organ sistemi hakimiyetinizi ve fakülte arkadaşlarınız arasındaki sıralamanızı anlık olarak raporlar.
+                  {language === "tr"
+                    ? "Tıp fakültesi komite temposu düzenlilik ister. Mobil arayüzümüz günlük XP hedeflerinizi, organ sistemi hakimiyetinizi ve fakülte arkadaşlarınız arasındaki sıralamanızı anlık olarak raporlar."
+                    : "Medical school committee pace requires consistency. Our mobile interface reports your daily XP targets, organ system mastery, and peer rankings in real time."}
                 </p>
               </div>
               <span className="px-3 py-1 rounded-full bg-[#dce9ff] text-[#003752] font-mono text-[11px] font-bold shrink-0">
-                AKTİF SENKRONİZASYON: AÇIK
+                {language === "tr" ? "AKTİF SENKRONİZASYON: AÇIK" : "ACTIVE SYNC: ON"}
               </span>
             </div>
 
@@ -274,20 +309,24 @@ export default function ToplulukVeIndirPage() {
                 <div className="w-full sm:w-56 shrink-0 flex justify-center">
                   <IPhoneFrame
                     screenSrc="/screens/profile.png"
-                    altText="Mobil Öğrenci Profili Ekranı"
-                    caption="Ziya Özgül • Seviye 01"
+                    altText={language === "tr" ? "Mobil Öğrenci Profili Ekranı" : "Mobile Student Profile Screen"}
+                    caption={language === "tr" ? "Ziya Özgül • Seviye 01" : "Ziya Özgül • Level 01"}
                   />
                 </div>
                 <div className="flex flex-col gap-3">
                   <div className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded bg-[#c9e6ff] text-[#003752] text-[10px] font-bold uppercase font-archivo">
                     <span className="material-symbols-outlined text-[15px]">military_tech</span>
-                    <span>Rozetler & Gamifikasyon</span>
+                    <span>{language === "tr" ? "Rozetler & Gamifikasyon" : "Badges & Gamification"}</span>
                   </div>
                   <h3 className="text-[20px] text-[#003752] font-bold font-archivo">
-                    Komiteye Birlikte Hazırlanma & Sıralama
+                    {language === "tr"
+                      ? "Komiteye Birlikte Hazırlanma & Sıralama"
+                      : "Collaborative Committee Prep & Rankings"}
                   </h3>
                   <p className="text-[13px] text-[#41474d] leading-relaxed">
-                    Fakültenizdeki arkadaşlarınızı takip edin, kimin hangi gün kaç XP topladığını canlı görün. Kütüphane mesaisini motive edici bir lig yarışına dönüştürün.
+                    {language === "tr"
+                      ? "Fakültenizdeki arkadaşlarınızı takip edin, kimin hangi gün kaç XP topladığını canlı görün. Kütüphane mesaisini motive edici bir lig yarışına dönüştürün."
+                      : "Follow classmates in your faculty and see daily XP activity live. Turn late-night library study sessions into a motivating league challenge."}
                   </p>
                 </div>
               </div>
@@ -297,20 +336,22 @@ export default function ToplulukVeIndirPage() {
                 <div className="w-full sm:w-56 shrink-0 flex justify-center">
                   <IPhoneFrame
                     screenSrc="/screens/streak2.png"
-                    altText="Çalışma Serisi ve Sistem Hakimiyeti"
-                    caption="28 Günlük Isı Haritası"
+                    altText={language === "tr" ? "Çalışma Serisi ve Sistem Hakimiyeti" : "Study Streak & System Mastery"}
+                    caption={language === "tr" ? "28 Günlük Isı Haritası" : "28-Day Study Heatmap"}
                   />
                 </div>
                 <div className="flex flex-col gap-3">
                   <div className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded bg-[#dce9ff] text-[#003752] text-[10px] font-bold uppercase font-archivo">
                     <span className="material-symbols-outlined text-[15px]">calendar_month</span>
-                    <span>Sistem Hakimiyeti Matrisi</span>
+                    <span>{language === "tr" ? "Sistem Hakimiyeti Matrisi" : "System Mastery Matrix"}</span>
                   </div>
                   <h3 className="text-[20px] text-[#003752] font-bold font-archivo">
-                    28 Günlük Çalışma Isı Haritası
+                    {language === "tr" ? "28 Günlük Çalışma Isı Haritası" : "28-Day Study Heatmap"}
                   </h3>
                   <p className="text-[13px] text-[#41474d] leading-relaxed">
-                    İskelet, kas, damar ve periferik sinir sistemlerindeki kavrama seviyenizi ayrı ayrı ölçün. Sınav öncesi zayıf kaldığınız sistemleri tespit edin.
+                    {language === "tr"
+                      ? "İskelet, kas, damar ve periferik sinir sistemlerindeki kavrama seviyenizi ayrı ayrı ölçün. Sınav öncesi zayıf kaldığınız sistemleri tespit edin."
+                      : "Measure your mastery across skeletal, muscular, vascular, and peripheral nervous systems separately to spot weak areas before exams."}
                   </p>
                 </div>
               </div>
@@ -326,22 +367,35 @@ export default function ToplulukVeIndirPage() {
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#006591] text-[24px]">school</span>
                   <span className="text-[11px] text-[#006591] uppercase font-bold tracking-widest font-archivo">
-                    Tıp Fakülteleri Ağı
+                    {language === "tr" ? "Tıp Fakülteleri Ağı" : "Medical Faculties Network"}
                   </span>
                 </div>
                 <h2 className="text-[32px] text-[#003752] font-bold tracking-tight font-archivo">
-                  Türkiye&apos;deki 40+ Tıp Fakültesi Anatomi Kürsüsüyle Uyumlu
+                  {language === "tr"
+                    ? "Türkiye'deki 40+ Tıp Fakültesi Anatomi Kürsüsüyle Uyumlu"
+                    : "Aligned with 40+ Medical School Anatomy Departments"}
                 </h2>
                 <p className="text-[14px] text-[#41474d] max-w-2xl leading-relaxed">
-                  Her fakültenin komite takvimi, kurul sınavı ağırlıkları ve kadavra maketleri farklıdır. Kendi fakültenizin dönem grubuna katılarak üst dönemlerin paylaştığı diseksiyon etiketlerini inceleyin.
+                  {language === "tr"
+                    ? "Her fakültenin komite takvimi, kurul sınavı ağırlıkları ve kadavra maketleri farklıdır. Kendi fakültenizin dönem grubuna katılarak üst dönemlerin paylaştığı diseksiyon etiketlerini inceleyin."
+                    : "Every medical faculty has a unique committee schedule, board weighting, and cadaver collection. Join your faculty study pod to explore peer-shared dissection pins."}
                 </p>
               </div>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#003752] text-white hover:bg-[#1f4e6b] text-[12px] font-bold uppercase font-archivo transition-all shadow-xs shrink-0"
+                onClick={() =>
+                  showToast(
+                    language === "tr"
+                      ? "Yeni fakülte çalışma odası oluşturma talebiniz alındı (.edu.tr doğrulaması)."
+                      : "Faculty study pod creation request initiated (.edu verification)."
+                  )
+                }
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#003752] text-white hover:bg-[#1f4e6b] text-[12px] font-bold uppercase font-archivo transition-all shadow-xs shrink-0 cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[18px]">group_add</span>
-                <span>Kendi Fakülte Odanı Başlat</span>
+                <span>
+                  {language === "tr" ? "Kendi Fakülte Odanı Başlat" : "Start Your Faculty Pod"}
+                </span>
               </button>
             </div>
 
@@ -384,9 +438,16 @@ export default function ToplulukVeIndirPage() {
                     </div>
                     <button
                       type="button"
-                      className="w-full mt-1 py-1.5 px-3 rounded-lg bg-[#ffffff] hover:bg-[#003752] hover:text-white text-[#003752] border border-[#dce9ff] transition-colors text-[11px] font-bold uppercase tracking-wider text-center font-archivo"
+                      onClick={() =>
+                        showToast(
+                          language === "tr"
+                            ? `${f.name} çalışma odasına katılma isteği gönderildi!`
+                            : `Joined ${f.name} study pod!`
+                        )
+                      }
+                      className="w-full mt-1 py-1.5 px-3 rounded-lg bg-[#ffffff] hover:bg-[#003752] hover:text-white text-[#003752] border border-[#dce9ff] transition-colors text-[11px] font-bold uppercase tracking-wider text-center font-archivo cursor-pointer"
                     >
-                      Odaya Katıl
+                      {language === "tr" ? "Odaya Katıl" : "Join Pod"}
                     </button>
                   </div>
                 </div>
@@ -395,6 +456,13 @@ export default function ToplulukVeIndirPage() {
           </div>
         </section>
       </main>
+
+      {toastMsg && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#003752] text-white px-5 py-3 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2.5 border border-[#39b8fd]/40">
+          <span className="material-symbols-outlined text-[18px] text-[#39b8fd]">check_circle</span>
+          <span>{toastMsg}</span>
+        </div>
+      )}
 
       <Footer />
     </div>
