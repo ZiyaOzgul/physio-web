@@ -5,7 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import type { DissectionLayersState } from "@/components/AnatomyViewer3D";
+import type { DissectionLayersState, AnatomyGender, SelectedNodeInfo } from "@/components/AnatomyViewer3D";
 import { useLanguage } from "@/context/LanguageContext";
 
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
@@ -191,6 +191,8 @@ const LAYER_DEFINITIONS: Array<{
 
 export default function AtlasPage() {
   const { t, language } = useLanguage();
+  const [gender, setGender] = useState<AnatomyGender>("male");
+  const [selectedNode, setSelectedNode] = useState<SelectedNodeInfo | null>(null);
   const [selectedStructure, setSelectedStructure] = useState<string>("muscular");
   const [muscleOpacity, setMuscleOpacity] = useState<number>(0.85);
   const [layers, setLayers] = useState<DissectionLayersState>({
@@ -200,6 +202,15 @@ export default function AtlasPage() {
     nervous: false,
     organs: true,
   });
+
+  const handleGenderChange = (nextGender: AnatomyGender) => {
+    setGender(nextGender);
+    setSelectedNode(null);
+    // Ensure organs layer is visible when switching to female so mammary/pelvic organs are shown
+    if (nextGender === "female" && !layers.organs) {
+      setLayers((prev) => ({ ...prev, organs: true }));
+    }
+  };
 
   // Read URL params if opened with ?region=...
   useEffect(() => {
@@ -236,6 +247,7 @@ export default function AtlasPage() {
   };
 
   const handleSelectStructure = (structureId: string, layerKey: keyof DissectionLayersState) => {
+    setSelectedNode(null);
     setSelectedStructure(structureId);
     if (!layers[layerKey]) {
       setLayers((prev) => ({ ...prev, [layerKey]: true }));
@@ -390,8 +402,36 @@ export default function AtlasPage() {
               </div>
             </div>
 
-            {/* Right: Active Layers Indicator & Quick Toggle */}
+            {/* Right: Gender Switcher, Active Layers Indicator & Quick Toggle */}
             <div className="flex items-center gap-2 shrink-0 whitespace-nowrap">
+              {/* Male / Female Model Toggle */}
+              <div className="flex items-center gap-1 bg-[#eff4ff] p-1 rounded-lg border border-[#dce9ff]">
+                <button
+                  type="button"
+                  onClick={() => handleGenderChange("male")}
+                  className={`px-2.5 py-1 text-[11px] font-bold font-archivo rounded-md transition-all cursor-pointer flex items-center gap-1 ${
+                    gender === "male"
+                      ? "bg-[#003752] text-white shadow-xs"
+                      : "text-[#41474d] hover:text-[#0b1c30]"
+                  }`}
+                >
+                  <span>♂</span>
+                  <span>{language === "tr" ? "ERKEK" : "MALE"}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleGenderChange("female")}
+                  className={`px-2.5 py-1 text-[11px] font-bold font-archivo rounded-md transition-all cursor-pointer flex items-center gap-1 ${
+                    gender === "female"
+                      ? "bg-[#9e1c4e] text-white shadow-xs"
+                      : "text-[#41474d] hover:text-[#0b1c30]"
+                  }`}
+                >
+                  <span>♀</span>
+                  <span>{language === "tr" ? "KADIN" : "FEMALE"}</span>
+                </button>
+              </div>
+
               <div className="flex items-center gap-2 bg-[#eff4ff] px-3 py-1 rounded-lg">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="font-mono text-[11px] font-bold text-[#003752]">
@@ -439,6 +479,34 @@ export default function AtlasPage() {
                 <p className="text-[12px] text-[#41474d]">
                   {t.atlasPage.dissectionLayersSubtitle}
                 </p>
+
+                {/* Male / Female Anatomical Model Selector inside Panel */}
+                <div className="grid grid-cols-2 gap-1.5 bg-[#eff4ff] p-1 rounded-xl border border-[#dce9ff]">
+                  <button
+                    type="button"
+                    onClick={() => handleGenderChange("male")}
+                    className={`py-2 px-3 rounded-lg text-[11px] font-bold font-archivo transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                      gender === "male"
+                        ? "bg-[#003752] text-white shadow-sm"
+                        : "text-[#003752] hover:bg-[#dce9ff]"
+                    }`}
+                  >
+                    <span className="text-[13px]">♂</span>
+                    <span>{language === "tr" ? "Erkek Modeli" : "Male Model"}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleGenderChange("female")}
+                    className={`py-2 px-3 rounded-lg text-[11px] font-bold font-archivo transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                      gender === "female"
+                        ? "bg-[#9e1c4e] text-white shadow-sm"
+                        : "text-[#003752] hover:bg-[#dce9ff]"
+                    }`}
+                  >
+                    <span className="text-[13px]">♀</span>
+                    <span>{language === "tr" ? "Kadın Modeli" : "Female Model"}</span>
+                  </button>
+                </div>
 
                 {/* Quick Presets within Panel */}
                 <div className="grid grid-cols-3 gap-1.5 pt-1">
@@ -574,29 +642,60 @@ export default function AtlasPage() {
 
               {/* Dynamic Structure Inspector Card */}
               <div className="bg-[#ffffff] rounded-2xl p-4 border border-[#e5eeff] shadow-sm flex flex-col gap-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex flex-col text-left">
-                    <span className="text-[10px] text-[#006591] uppercase font-bold tracking-wider font-archivo">
-                      {t.atlasPage.activeStructure}
-                    </span>
-                    <h3 className="text-[18px] text-[#003752] font-bold font-archivo">
-                      {language === "tr" ? currentDetail.name : currentDetail.nameEn}
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex flex-col text-left min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
+                      <span className="text-[10px] text-[#006591] uppercase font-bold tracking-wider font-archivo">
+                        {t.atlasPage.activeStructure}
+                      </span>
+                    </div>
+                    <h3 className="text-[18px] text-[#003752] font-bold font-archivo leading-snug mt-0.5">
+                      {selectedNode
+                        ? language === "tr"
+                          ? selectedNode.tr
+                          : selectedNode.en
+                        : language === "tr"
+                        ? currentDetail.name
+                        : currentDetail.nameEn}
                     </h3>
-                    <span className="text-[11px] text-[#41474d]">
-                      {currentDetail.latin}
+                    <span className="text-[11px] text-[#41474d] italic">
+                      {selectedNode
+                        ? selectedNode.la || selectedNode.en
+                        : currentDetail.latin}
                     </span>
                   </div>
-                  <div className="w-9 h-9 rounded-xl bg-[#eff4ff] flex items-center justify-center text-[#003752]">
-                    <span className="material-symbols-outlined text-[20px]">{currentDetail.icon}</span>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {selectedNode && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedNode(null)}
+                        className="px-2 py-1 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] font-mono text-[10px] font-bold cursor-pointer"
+                        title={language === "tr" ? "Katman görünümüne dön" : "Back to layer view"}
+                      >
+                        ✕
+                      </button>
+                    )}
+                    <div className="w-9 h-9 rounded-xl bg-[#eff4ff] flex items-center justify-center text-[#003752]">
+                      <span className="material-symbols-outlined text-[20px]">{currentDetail.icon}</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* Metadata & Metric Badges */}
                 <div className="grid grid-cols-2 gap-2 bg-[#eff4ff] p-2.5 rounded-xl">
                   <div className="flex flex-col">
-                    <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "TA2 KODU" : "TA2 CODE"}</span>
-                    <span className="font-mono text-[12px] font-bold text-[#003752]">
-                      {currentDetail.ta2}
+                    <span className="text-[9px] text-[#41474d] font-mono">
+                      {selectedNode
+                        ? language === "tr"
+                          ? "YAPI KODU"
+                          : "NODE ID"
+                        : language === "tr"
+                        ? "TA2 KODU"
+                        : "TA2 CODE"}
+                    </span>
+                    <span className="font-mono text-[12px] font-bold text-[#003752] truncate">
+                      {selectedNode ? selectedNode.id : currentDetail.ta2}
                     </span>
                   </div>
                   <div className="flex flex-col">
@@ -606,15 +705,51 @@ export default function AtlasPage() {
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "SINAV SIKLIĞI" : "EXAM FREQUENCY"}</span>
+                    <span className="text-[9px] text-[#41474d] font-mono">
+                      {selectedNode
+                        ? language === "tr"
+                          ? "TARAF / YÖN"
+                          : "LATERALITY"
+                        : language === "tr"
+                        ? "SINAV SIKLIĞI"
+                        : "EXAM FREQUENCY"}
+                    </span>
                     <span className="font-mono text-[12px] font-bold text-[#006591]">
-                      {language === "tr" ? currentDetail.examRate : currentDetail.examRateEn}
+                      {selectedNode
+                        ? selectedNode.side === "left"
+                          ? language === "tr"
+                            ? "Sol (Sinister)"
+                            : "Left (Sinister)"
+                          : selectedNode.side === "right"
+                          ? language === "tr"
+                            ? "Sağ (Dexter)"
+                            : "Right (Dexter)"
+                          : language === "tr"
+                          ? "Orta Hat (Mediana)"
+                          : "Midline (Median)"
+                        : language === "tr"
+                        ? currentDetail.examRate
+                        : currentDetail.examRateEn}
                     </span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] text-[#41474d] font-mono">{language === "tr" ? "İNERVASYON" : "INNERVATION"}</span>
-                    <span className="text-[12px] font-medium text-[#0b1c30]">
-                      {language === "tr" ? currentDetail.innervation : currentDetail.innervationEn}
+                    <span className="text-[9px] text-[#41474d] font-mono">
+                      {selectedNode
+                        ? language === "tr"
+                          ? "SİSTEM / KATMAN"
+                          : "SYSTEM / LAYER"
+                        : language === "tr"
+                        ? "İNERVASYON"
+                        : "INNERVATION"}
+                    </span>
+                    <span className="text-[12px] font-medium text-[#0b1c30] truncate">
+                      {selectedNode
+                        ? language === "tr"
+                          ? currentDetail.category
+                          : currentDetail.categoryEn
+                        : language === "tr"
+                        ? currentDetail.innervation
+                        : currentDetail.innervationEn}
                     </span>
                   </div>
                 </div>
@@ -628,7 +763,13 @@ export default function AtlasPage() {
                     {t.atlasPage.clinicalNoteTitle}
                   </span>
                   <p className="text-[11px] text-[#41474d] leading-relaxed">
-                    {language === "tr" ? currentDetail.clinicalNote : currentDetail.clinicalNoteEn}
+                    {selectedNode && (selectedNode.descTr || selectedNode.descEn)
+                      ? language === "tr"
+                        ? selectedNode.descTr || selectedNode.descEn
+                        : selectedNode.descEn || selectedNode.descTr
+                      : language === "tr"
+                      ? currentDetail.clinicalNote
+                      : currentDetail.clinicalNoteEn}
                   </p>
                 </div>
 
@@ -654,14 +795,29 @@ export default function AtlasPage() {
                   <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
                     <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
                     <span className="font-['Archivo_Narrow'] text-[11px] sm:text-[12px] font-bold uppercase text-[#003752] tracking-wider truncate max-w-[200px] sm:max-w-none">
-                      {language === "tr" ? currentDetail.name : currentDetail.nameEn} ({activeCount} {t.atlasPage.activeLayers})
+                      {selectedNode
+                        ? language === "tr"
+                          ? selectedNode.tr
+                          : selectedNode.en
+                        : language === "tr"
+                        ? currentDetail.name
+                        : currentDetail.nameEn}{" "}
+                      ({activeCount} {t.atlasPage.activeLayers})
                     </span>
                   </div>
 
                   {/* Telemetry */}
                   <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 bg-[#ffffff]/95 backdrop-blur-md px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl shadow-sm border border-[#e5eeff] font-mono text-[10px] sm:text-[11px] text-[#41474d] shrink-0">
                     <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="font-bold text-[#003752]">60 FPS</span>
+                    <span className="font-bold text-[#003752]">
+                      {gender === "male"
+                        ? language === "tr"
+                          ? "♂ Erkek"
+                          : "♂ Male"
+                        : language === "tr"
+                        ? "♀ Kadın"
+                        : "♀ Female"}
+                    </span>
                     <span className="text-[#c1c7ce] hidden sm:inline">•</span>
                     <span className="text-[#006591] font-semibold hidden sm:inline">BodyParts3D</span>
                   </div>
@@ -673,6 +829,10 @@ export default function AtlasPage() {
                     activeLayers={layers}
                     onLayersChange={setLayers}
                     onSelectLayer={handle3DLayerClick}
+                    onSelectNode={setSelectedNode}
+                    gender={gender}
+                    onGenderChange={handleGenderChange}
+                    showGenderSwitcher={true}
                     muscleOpacity={muscleOpacity}
                     onMuscleOpacityChange={setMuscleOpacity}
                     showCard={false}

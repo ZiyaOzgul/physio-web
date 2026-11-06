@@ -18,6 +18,20 @@ export interface AnatomyModelOption {
   fallbackColor?: number;
 }
 
+export type AnatomyGender = "male" | "female";
+
+export interface SelectedNodeInfo {
+  id: string;
+  tr: string;
+  en: string;
+  la: string;
+  descTr: string;
+  descEn: string;
+  layer: keyof DissectionLayersState;
+  rawLayer?: string;
+  side?: string | null;
+}
+
 export interface DissectionLayersState {
   skeleton: boolean;
   muscle: boolean;
@@ -136,6 +150,10 @@ interface AnatomyViewer3DProps {
   activeLayers?: DissectionLayersState;
   onLayersChange?: (layers: DissectionLayersState) => void;
   onSelectLayer?: (layerKey: keyof DissectionLayersState) => void;
+  onSelectNode?: (node: SelectedNodeInfo) => void;
+  gender?: AnatomyGender;
+  onGenderChange?: (gender: AnatomyGender) => void;
+  showGenderSwitcher?: boolean;
   muscleOpacity?: number;
   onMuscleOpacityChange?: (opacity: number) => void;
   showCard?: boolean;
@@ -147,6 +165,16 @@ interface AnatomyViewer3DProps {
   height?: string;
 }
 
+interface CatalogNodeEntry {
+  tr: string;
+  en: string;
+  la: string;
+  descTr: string;
+  descEn: string;
+  layer: string;
+  side?: string | null;
+}
+
 export default function AnatomyViewer3D({
   className = "",
   modelId,
@@ -154,6 +182,10 @@ export default function AnatomyViewer3D({
   activeLayers,
   onLayersChange,
   onSelectLayer,
+  onSelectNode,
+  gender,
+  onGenderChange,
+  showGenderSwitcher = false,
   muscleOpacity = 0.85,
   onMuscleOpacityChange,
   showCard = true,
@@ -167,6 +199,8 @@ export default function AnatomyViewer3D({
   const { t, language } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [internalModelId, setInternalModelId] = useState(modelId || "muscular");
+  const [internalGender, setInternalGender] = useState<AnatomyGender>(gender || "male");
+  const [clickedNode, setClickedNode] = useState<SelectedNodeInfo | null>(null);
   const [internalLayers, setInternalLayers] = useState<DissectionLayersState>({
     skeleton: true,
     muscle: true,
@@ -175,6 +209,14 @@ export default function AnatomyViewer3D({
     organs: true,
   });
   const [internalMuscleOpacity, setInternalMuscleOpacity] = useState(muscleOpacity);
+  const currentGender: AnatomyGender = gender || internalGender;
+
+  const handleGenderSwitch = (nextGender: AnatomyGender) => {
+    setInternalGender(nextGender);
+    if (onGenderChange) {
+      onGenderChange(nextGender);
+    }
+  };
 
   const getLayerShortName = (id: keyof DissectionLayersState) => {
     switch (id) {
@@ -233,13 +275,31 @@ export default function AnatomyViewer3D({
   const modelGroupRef = useRef<THREE.Group | null>(null);
   const animFrameRef = useRef<number | null>(null);
 
-  // Multi-layer caching for full-body dissection
-  const layerCacheRef = useRef<Map<keyof DissectionLayersState, THREE.Group>>(new Map());
+  // Multi-layer caching for full-body dissection keyed by `${gender}:${layerKey}`
+  const layerCacheRef = useRef<Map<string, THREE.Group>>(new Map());
   const activeLayersRef = useRef<DissectionLayersState | undefined>(currentLayers);
   activeLayersRef.current = currentLayers;
+  const activeGenderRef = useRef<AnatomyGender>(currentGender);
+  activeGenderRef.current = currentGender;
+  const currentOpacityRef = useRef<number>(currentOpacity);
+  currentOpacityRef.current = currentOpacity;
   const onSelectLayerRef = useRef(onSelectLayer);
   onSelectLayerRef.current = onSelectLayer;
+  const onSelectNodeRef = useRef(onSelectNode);
+  onSelectNodeRef.current = onSelectNode;
+  const nodeCatalogRef = useRef<Record<string, CatalogNodeEntry> | null>(null);
+  const highlightedMeshesRef = useRef<Array<{ mesh: THREE.Mesh; emissive: number; intensity: number }>>([]);
   const pendingLoadsRef = useRef(0);
+
+  // Load 3D node catalog once
+  useEffect(() => {
+    fetch("/models/node-catalog.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data) nodeCatalogRef.current = data;
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSelectModel = (id: string) => {
     setInternalModelId(id);
@@ -364,6 +424,32 @@ export default function AnatomyViewer3D({
       downY = e.clientY;
     };
 
+    const resolveNodeId = (obj: THREE.Object3D | null): string => {
+      if (!obj) return "";
+      if (obj.userData?.nodeId) return obj.userData.nodeId as string;
+      const catalog = nodeCatalogRef.current;
+      let cur: THREE.Object3D | null = obj;
+      while (cur) {
+        if (cur.name) {
+          const raw = cur.name.trim();
+          const stripped = raw.replace(/\.\d+(_\d+)?$/, "").replace(/_\d+$/, "");
+          if (catalog && (catalog[raw] || catalog[stripped])) {
+            return catalog[raw] ? raw : stripped;
+          }
+          if (
+            stripped.startsWith("FJ") ||
+            stripped.startsWith("ZA_") ||
+            stripped.startsWith("MOD_") ||
+            stripped.startsWith("HRA_")
+          ) {
+            return stripped;
+          }
+        }
+        cur = cur.parent;
+      }
+      return obj.name ? obj.name.replace(/\.\d+(_\d+)?$/, "").replace(/_\d+$/, "") : "";
+    };
+
     const handlePointerUp = (e: PointerEvent) => {
       if (Math.hypot(e.clientX - downX, e.clientY - downY) > 6) return;
       if (!modelGroupRef.current || !cameraRef.current) return;
@@ -377,8 +463,8 @@ export default function AnatomyViewer3D({
       raycaster.setFromCamera(pointer, cameraRef.current);
 
       const visibleMeshes: THREE.Mesh[] = [];
-      layerCacheRef.current.forEach((group) => {
-        if (group.visible) {
+      layerCacheRef.current.forEach((group, cacheKey) => {
+        if (group.visible && cacheKey.startsWith(`${activeGenderRef.current}:`)) {
           group.traverse((obj) => {
             if (obj instanceof THREE.Mesh && obj.visible) {
               visibleMeshes.push(obj);
@@ -390,22 +476,70 @@ export default function AnatomyViewer3D({
       if (visibleMeshes.length === 0) return;
       const intersects = raycaster.intersectObjects(visibleMeshes, false);
       if (intersects.length > 0) {
-        const hitMesh = intersects[0].object as THREE.Mesh;
+        // When muscles are peeled thin (<= 0.35), prefer deeper structures beneath the muscle
+        let chosenHit = intersects[0];
+        if (currentOpacityRef.current <= 0.35 && intersects.length > 1) {
+          const deeperHit = intersects.find(
+            (h) => (h.object as THREE.Mesh).userData?.layerKey !== "muscle"
+          );
+          if (deeperHit) chosenHit = deeperHit;
+        }
+
+        const hitMesh = chosenHit.object as THREE.Mesh;
         const clickedLayer = hitMesh.userData?.layerKey as keyof DissectionLayersState | undefined;
-        if (clickedLayer) {
-          if (hitMesh.material instanceof THREE.MeshStandardMaterial) {
-            const mat = hitMesh.material;
-            const prevEmissive = mat.emissive.getHex();
-            const prevIntensity = mat.emissiveIntensity;
-            mat.emissive.setHex(0x38bdf8);
-            mat.emissiveIntensity = 0.5;
-            setTimeout(() => {
-              mat.emissive.setHex(prevEmissive);
-              mat.emissiveIntensity = prevIntensity;
-            }, 350);
+        const nodeId = resolveNodeId(hitMesh);
+
+        // Restore previously highlighted meshes
+        highlightedMeshesRef.current.forEach(({ mesh, emissive, intensity }) => {
+          if (mesh.material instanceof THREE.MeshStandardMaterial) {
+            mesh.material.emissive.setHex(emissive);
+            mesh.material.emissiveIntensity = intensity;
           }
+        });
+        highlightedMeshesRef.current = [];
+
+        // Highlight all primitives belonging to the clicked anatomical node
+        const targetMeshes: THREE.Mesh[] = [];
+        if (nodeId) {
+          visibleMeshes.forEach((m) => {
+            if (resolveNodeId(m) === nodeId) targetMeshes.push(m);
+          });
+        }
+        if (targetMeshes.length === 0) targetMeshes.push(hitMesh);
+
+        targetMeshes.forEach((m) => {
+          if (m.material instanceof THREE.MeshStandardMaterial) {
+            highlightedMeshesRef.current.push({
+              mesh: m,
+              emissive: m.material.emissive.getHex(),
+              intensity: m.material.emissiveIntensity,
+            });
+            m.material.emissive.setHex(0x38bdf8);
+            m.material.emissiveIntensity = 0.45;
+          }
+        });
+
+        if (clickedLayer) {
           if (onSelectLayerRef.current) {
             onSelectLayerRef.current(clickedLayer);
+          }
+
+          const entry = nodeId ? nodeCatalogRef.current?.[nodeId] : undefined;
+          const fallbackLabel = nodeId ? nodeId.replace(/^(ZA_|MOD_|HRA_)/, "").replace(/_/g, " ") : clickedLayer;
+          const info: SelectedNodeInfo = {
+            id: nodeId || clickedLayer.toUpperCase(),
+            tr: entry?.tr || fallbackLabel,
+            en: entry?.en || fallbackLabel,
+            la: entry?.la || "",
+            descTr: entry?.descTr || "",
+            descEn: entry?.descEn || "",
+            layer: clickedLayer,
+            rawLayer: entry?.layer || clickedLayer,
+            side: entry?.side ?? null,
+          };
+          setClickedNode(info);
+          if (onSelectNodeRef.current) {
+            onSelectNodeRef.current(info);
           }
         }
       }
@@ -433,13 +567,22 @@ export default function AnatomyViewer3D({
     if (!modelGroup) return;
 
     const loader = new GLTFLoader();
+    const genderForLoad: AnatomyGender = currentGender;
+
+    // Immediately hide all cached groups belonging to the other gender
+    layerCacheRef.current.forEach((grp, cacheKey) => {
+      if (!cacheKey.startsWith(`${genderForLoad}:`)) {
+        grp.visible = false;
+      }
+    });
 
     // Check each layer in currentLayers
     const layerKeys = Object.keys(LAYER_CONFIGS) as (keyof DissectionLayersState)[];
 
     layerKeys.forEach((key) => {
       const isLayerActive = Boolean(currentLayers[key]);
-      const cached = layerCacheRef.current.get(key);
+      const cacheKey = `${genderForLoad}:${key}`;
+      const cached = layerCacheRef.current.get(cacheKey);
 
       if (cached) {
         if (!modelGroup.children.includes(cached)) {
@@ -449,13 +592,17 @@ export default function AnatomyViewer3D({
       } else if (isLayerActive) {
         // Create parent group for this layer (which may contain multiple co-registered files)
         const layerWrapper = new THREE.Group();
-        layerCacheRef.current.set(key, layerWrapper);
+        layerCacheRef.current.set(cacheKey, layerWrapper);
         layerWrapper.visible = true;
         modelGroup.add(layerWrapper);
 
-        // Load all files for this layer
+        // Load all files for this layer (resolve /models/female/<file> when female is selected)
         const config = LAYER_CONFIGS[key];
-        config.files.forEach((file) => {
+        config.files.forEach((baseFile) => {
+          const file =
+            genderForLoad === "female"
+              ? baseFile.replace("/models/", "/models/female/")
+              : baseFile;
           pendingLoadsRef.current++;
           setLoading(true);
 
@@ -491,16 +638,27 @@ export default function AnatomyViewer3D({
                   });
 
                   if (key === "muscle") {
-                    mat.transparent = currentOpacity < 1;
-                    mat.opacity = currentOpacity;
+                    const op = currentOpacityRef.current;
+                    mat.transparent = op < 1;
+                    mat.opacity = op;
+                    mat.depthWrite = op >= 0.99;
                   }
                   child.material = mat;
                   child.userData.layerKey = key;
+
+                  // Store resolved node ID on mesh for instant raycast lookup
+                  const rawName = child.name || child.parent?.name || "";
+                  const cleanId = rawName.replace(/\.\d+(_\d+)?$/, "").replace(/_\d+$/, "");
+                  if (cleanId) {
+                    child.userData.nodeId = cleanId;
+                  }
                 }
               });
 
               layerWrapper.add(subWrapper);
-              layerWrapper.visible = Boolean(activeLayersRef.current?.[key]);
+              layerWrapper.visible =
+                activeGenderRef.current === genderForLoad &&
+                Boolean(activeLayersRef.current?.[key]);
 
               pendingLoadsRef.current = Math.max(0, pendingLoadsRef.current - 1);
               if (pendingLoadsRef.current === 0) {
@@ -549,23 +707,26 @@ export default function AnatomyViewer3D({
       }
     });
     if (currentTris > 0) setTrisCount(`${(currentTris / 1000).toFixed(1)}k tris`);
-  }, [isMultiLayerMode, currentLayers]);
+  }, [isMultiLayerMode, currentLayers, currentGender]);
 
   // 3. Update Muscle Opacity when changed
   useEffect(() => {
     if (!isMultiLayerMode) return;
-    const muscleGroup = layerCacheRef.current.get("muscle");
-    if (muscleGroup) {
-      muscleGroup.traverse((child) => {
-        if (child instanceof THREE.Mesh && child.material) {
-          const mat = child.material as THREE.MeshStandardMaterial;
-          mat.transparent = currentOpacity < 1;
-          mat.opacity = currentOpacity;
-          mat.needsUpdate = true;
-        }
-      });
-    }
-  }, [currentOpacity, isMultiLayerMode]);
+    (["male", "female"] as AnatomyGender[]).forEach((g) => {
+      const muscleGroup = layerCacheRef.current.get(`${g}:muscle`);
+      if (muscleGroup) {
+        muscleGroup.traverse((child) => {
+          if (child instanceof THREE.Mesh && child.material) {
+            const mat = child.material as THREE.MeshStandardMaterial;
+            mat.transparent = currentOpacity < 1;
+            mat.opacity = currentOpacity;
+            mat.depthWrite = currentOpacity >= 0.99;
+            mat.needsUpdate = true;
+          }
+        });
+      }
+    });
+  }, [currentOpacity, isMultiLayerMode, currentGender]);
 
   // 4. Single-model Mode (when activeLayers is not provided and not multi-layer)
   useEffect(() => {
@@ -788,6 +949,30 @@ export default function AnatomyViewer3D({
         </div>
       )}
 
+      {/* Floating Clicked 3D Node Badge */}
+      {clickedNode && (
+        <div className="absolute left-3 sm:left-4 top-14 sm:top-16 z-20 pointer-events-auto max-w-[280px] sm:max-w-[340px]">
+          <div className="px-3 py-1.5 rounded-xl bg-[#003752]/95 backdrop-blur-md text-white shadow-lg border border-[#39b8fd]/40 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#39b8fd] animate-pulse shrink-0" />
+            <div className="flex flex-col min-w-0">
+              <span className="font-mono text-[9px] text-[#39b8fd] tracking-wider uppercase font-bold truncate">
+                {clickedNode.id} {clickedNode.la ? `• ${clickedNode.la}` : ""}
+              </span>
+              <span className="text-[11px] sm:text-[12px] font-semibold text-white truncate">
+                {language === "tr" ? clickedNode.tr : clickedNode.en}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setClickedNode(null)}
+              className="ml-auto text-sky-200/70 hover:text-white text-xs px-1 cursor-pointer"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 3. BOTTOM LAYER SWITCHER & CAMERA CONTROLS HUD */}
       {(showLayerSwitcher || showCameraControls) && (
         <div className="absolute bottom-2.5 sm:bottom-3 inset-x-2.5 sm:inset-x-3 flex items-center justify-between pointer-events-none z-20 gap-1.5">
@@ -795,6 +980,35 @@ export default function AnatomyViewer3D({
             <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff] overflow-x-auto max-w-full scrollbar-none">
               {isMultiLayerMode ? (
                 <>
+                  {(showGenderSwitcher || onGenderChange) && (
+                    <div className="flex items-center gap-0.5 pr-1 mr-0.5 border-r border-[#dce9ff] shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => handleGenderSwitch("male")}
+                        className={`px-2 py-1 rounded-lg font-['Archivo_Narrow'] text-[10px] font-bold uppercase transition-all cursor-pointer flex items-center gap-1 ${
+                          currentGender === "male"
+                            ? "bg-[#003752] text-white shadow-xs"
+                            : "bg-[#eff4ff]/80 text-[#41474d] hover:bg-[#dce9ff]"
+                        }`}
+                      >
+                        <span>♂</span>
+                        <span>{language === "tr" ? "ERKEK" : "MALE"}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleGenderSwitch("female")}
+                        className={`px-2 py-1 rounded-lg font-['Archivo_Narrow'] text-[10px] font-bold uppercase transition-all cursor-pointer flex items-center gap-1 ${
+                          currentGender === "female"
+                            ? "bg-[#9e1c4e] text-white shadow-xs"
+                            : "bg-[#eff4ff]/80 text-[#41474d] hover:bg-[#dce9ff]"
+                        }`}
+                      >
+                        <span>♀</span>
+                        <span>{language === "tr" ? "KADIN" : "FEMALE"}</span>
+                      </button>
+                    </div>
+                  )}
+
                   {LAYER_ITEMS.map((item) => {
                     const isActive = Boolean(currentLayers[item.id]);
                     const shortName = getLayerShortName(item.id);

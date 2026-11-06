@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useAuth } from "@/context/AuthContext";
 
 interface NavbarProps {
   activePath?: string;
@@ -12,6 +13,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { session, profile, signOut } = useAuth();
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -22,6 +24,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
       "/zilli-sinav": "Zilli Kadavra Sınavı Simülatörü (OSCE) | Anatomi 3D",
       "/cihaz-deneyimi": "Çoklu Cihaz & Tablet/Mobil Deneyimi | Anatomi 3D",
       "/topluluk-ve-indir": "Fakülte Topluluğu & Uygulamayı İndir | Anatomi 3D",
+      "/profil": "Öğrenci Profili | Anatomi 3D",
       "/kvkk": "Kullanım Koşulları & KVKK Aydınlatma Metni | Anatomi 3D",
     };
     const titlesEn: Record<string, string> = {
@@ -31,6 +34,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
       "/zilli-sinav": "Cadaver Bell Exam Simulator (OSCE) | Anatomy 3D",
       "/cihaz-deneyimi": "Cross-Device Tablet & Mobile Studio | Anatomy 3D",
       "/topluluk-ve-indir": "Faculty Study Pods & Download App | Anatomy 3D",
+      "/profil": "Student Profile | Anatomy 3D",
       "/kvkk": "Terms of Use, Privacy & GDPR Compliance | Anatomy 3D",
     };
     const pathKey = activePath || window.location.pathname || "/";
@@ -136,7 +140,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
             <span className="hidden sm:inline">{t.nav.downloadApp}</span>
             <span className="sm:hidden">{t.nav.downloadShort}</span>
           </Link>
-          {/* Interactive Student Profile Button & Popover */}
+          {/* Student Profile Button & Popover (real data from the shared Supabase project) */}
           <div className="relative hidden sm:block">
             <button
               type="button"
@@ -149,57 +153,95 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
 
             {profileOpen && (
               <div className="absolute right-0 mt-2.5 w-64 rounded-2xl bg-[#ffffff] border border-[#dce9ff] shadow-xl p-4 z-50 flex flex-col gap-3">
-                <div className="flex items-center justify-between border-b border-[#e5eeff] pb-2.5">
-                  <div className="flex flex-col">
-                    <span className="text-[13px] font-bold text-[#003752] font-archivo">
-                      Ziya Özgül
-                    </span>
-                    <span className="text-[11px] text-[#41474d]">
-                      {language === "tr" ? "Tıp Fakültesi • Dönem 2" : "Medical School • Year 2"}
-                    </span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-full bg-[#dce9ff] text-[#006591] font-mono text-[10px] font-bold">
-                    PRO
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
-                    <span className="text-[10px] text-[#41474d]">
-                      {language === "tr" ? "Aktif Seri" : "Active Streak"}
-                    </span>
-                    <span className="text-[13px] font-bold text-[#6d001c] font-mono">
-                      🔥 14 {language === "tr" ? "Gün" : "Days"}
-                    </span>
-                  </div>
-                  <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
-                    <span className="text-[10px] text-[#41474d]">
-                      {language === "tr" ? "Komite Puanı" : "Committee XP"}
-                    </span>
-                    <span className="text-[13px] font-bold text-[#006591] font-mono">
-                      ⚡ 980 XP
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1 pt-1">
-                  <Link
-                    href="/ogrenme-yolu"
-                    onClick={() => setProfileOpen(false)}
-                    className="px-3 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] text-[12px] font-semibold flex items-center justify-between transition-colors"
-                  >
-                    <span>{language === "tr" ? "İlerleme & Rozetlerim" : "My Progress & Badges"}</span>
-                    <span className="material-symbols-outlined text-[15px]">chevron_right</span>
-                  </Link>
-                  <Link
-                    href="/kvkk"
-                    onClick={() => setProfileOpen(false)}
-                    className="px-3 py-1.5 rounded-lg hover:bg-[#eff4ff] text-[#41474d] text-[12px] font-medium flex items-center justify-between transition-colors"
-                  >
-                    <span>{language === "tr" ? "Veri & İzin Tercihleri" : "Privacy & Consent"}</span>
-                    <span className="material-symbols-outlined text-[15px]">tune</span>
-                  </Link>
-                </div>
+                {session ? (
+                  <>
+                    <div className="flex flex-col border-b border-[#e5eeff] pb-2.5">
+                      <span className="text-[13px] font-bold text-[#003752] font-archivo truncate">
+                        {typeof profile?.display_name === "object" && profile?.display_name !== null
+                          ? ((profile.display_name as Record<string, string>)[language] ?? (profile.display_name as Record<string, string>).tr ?? session.user.email)
+                          : (profile?.display_name ?? session.user.email)}
+                      </span>
+                      <span className="text-[11px] text-[#41474d] truncate">
+                        {profile
+                          ? `@${
+                              typeof profile.handle === "object" && profile.handle !== null
+                                ? ((profile.handle as Record<string, string>)[language] ?? (profile.handle as Record<string, string>).tr)
+                                : profile.handle
+                            }`
+                          : session.user.email}
+                      </span>
+                    </div>
+                    {profile && (
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
+                          <span className="text-[10px] text-[#41474d]">
+                            {language === "tr" ? "Aktif Seri" : "Active Streak"}
+                          </span>
+                          <span className="text-[13px] font-bold text-[#6d001c] font-mono">
+                            🔥 {profile.streak} {language === "tr" ? "Gün" : "Days"}
+                          </span>
+                        </div>
+                        <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
+                          <span className="text-[10px] text-[#41474d]">
+                            {language === "tr" ? "Toplam XP" : "Total XP"}
+                          </span>
+                          <span className="text-[13px] font-bold text-[#006591] font-mono">
+                            ⚡ {profile.total_xp} XP
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-1 pt-1">
+                      <Link
+                        href="/profil"
+                        onClick={() => setProfileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] text-[12px] font-semibold flex items-center justify-between transition-colors"
+                      >
+                        <span>{language === "tr" ? "Profilim & Hesap Ayarları" : "My Profile & Account"}</span>
+                        <span className="material-symbols-outlined text-[15px]">chevron_right</span>
+                      </Link>
+                      <Link
+                        href="/kvkk"
+                        onClick={() => setProfileOpen(false)}
+                        className="px-3 py-1.5 rounded-lg hover:bg-[#eff4ff] text-[#41474d] text-[12px] font-medium flex items-center justify-between transition-colors"
+                      >
+                        <span>{language === "tr" ? "Veri & İzin Tercihleri" : "Privacy & Consent"}</span>
+                        <span className="material-symbols-outlined text-[15px]">tune</span>
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setProfileOpen(false);
+                          void signOut();
+                        }}
+                        className="px-3 py-1.5 rounded-lg hover:bg-[#ffdad6] text-[#ba1a1a] text-[12px] font-medium flex items-center justify-between transition-colors cursor-pointer"
+                      >
+                        <span>{language === "tr" ? "Çıkış Yap" : "Sign Out"}</span>
+                        <span className="material-symbols-outlined text-[15px]">logout</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[13px] font-bold text-[#003752] font-archivo">
+                        {language === "tr" ? "Henüz giriş yapmadınız" : "You are not signed in"}
+                      </span>
+                      <span className="text-[11px] text-[#41474d]">
+                        {language === "tr"
+                          ? "Mobil uygulamadaki hesabınızla giriş yapın."
+                          : "Sign in with your mobile app account."}
+                      </span>
+                    </div>
+                    <Link
+                      href="/profil"
+                      onClick={() => setProfileOpen(false)}
+                      className="px-3 py-2 rounded-lg bg-[#003752] hover:bg-[#1f4e6b] text-white text-[12px] font-semibold text-center transition-colors"
+                    >
+                      {language === "tr" ? "Giriş Yap" : "Sign In"}
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -264,6 +306,19 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
             </Link>
           ))}
           <div className="pt-2 border-t border-[#e5eeff] flex flex-col gap-2">
+            <Link
+              href="/profil"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full text-center py-2.5 rounded-lg border border-[#dce9ff] text-[#003752] font-semibold text-sm"
+            >
+              {session
+                ? language === "tr"
+                  ? "Profilim"
+                  : "My Profile"
+                : language === "tr"
+                ? "Giriş Yap"
+                : "Sign In"}
+            </Link>
             <Link
               href="/atlas"
               onClick={() => setMobileMenuOpen(false)}
