@@ -333,6 +333,50 @@ export default function HomePage() {
                 </div>
               </Link>
             </div>
+
+            {/* New Feature Banner: 3D Osteoloji & Kemik Anatomisi */}
+            <div className="rounded-3xl bg-gradient-to-br from-[#003752] via-[#004e75] to-[#006591] text-white p-8 sm:p-10 shadow-lg relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+              <div className="flex flex-col gap-3 max-w-2xl relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm self-start text-[11px] font-mono font-bold tracking-wider uppercase text-sky-200">
+                  <span className="material-symbols-outlined text-[15px]">sparkles</span>
+                  <span>{language === "tr" ? "YENİ ÖZELLİK • 43 İZOLE KEMİK MODELİ" : "NEW FEATURE • 43 ISOLATED BONES"}</span>
+                </div>
+                <h3 className="text-[26px] sm:text-[32px] font-bold font-archivo tracking-tight">
+                  {language === "tr" ? "3D Osteoloji & Kemik Anatomisi Atlası" : "3D Osteology & Bone Anatomy Atlas"}
+                </h3>
+                <p className="text-[14px] text-sky-100 leading-relaxed">
+                  {language === "tr"
+                    ? "İskelet sistemindeki her bir kemiği tek tek izole 3D ortamda inceleyin. 200'den fazla numaralandırılmış anatomik çıkıntı, kas origo-insersiyo tutunma alanları ve klinik kırık incileri artık webde."
+                    : "Inspect every bone in isolated high-detail 3D. Over 200 numbered osteological landmarks, muscle origin and insertion footprints, and clinical board pearls are now live on the web."}
+                </p>
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white text-[12px] font-semibold">
+                    🦴 {language === "tr" ? "43 Bireysel Kemik" : "43 Individual Bones"}
+                  </span>
+                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white text-[12px] font-semibold">
+                    📍 {language === "tr" ? "Numaralı 3D İğneler" : "Numbered 3D Pins"}
+                  </span>
+                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white text-[12px] font-semibold">
+                    🔴 {language === "tr" ? "Origo & İnsersiyo Kas Haritası" : "Origin & Insertion Map"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10">
+                <Link
+                  href="/kemik-anatomisi"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white text-[#003752] hover:bg-sky-50 font-bold text-[14px] flex items-center justify-center gap-2 shadow-md transition-all group"
+                >
+                  <span className="material-symbols-outlined text-[20px] text-[#006591]">view_in_ar</span>
+                  <span>{language === "tr" ? "Kemik Atlasını Başlat" : "Explore Bone Atlas"}</span>
+                  <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">
+                    arrow_forward
+                  </span>
+                </Link>
+              </div>
+
+              <div className="absolute right-0 bottom-0 w-96 h-96 bg-sky-400/10 rounded-full blur-3xl pointer-events-none" />
+            </div>
           </div>
         </section>
 

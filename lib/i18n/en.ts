@@ -15,6 +15,7 @@ export const en: TranslationDictionary = {
     downloadShort: "Download",
     menuOpen: "Open Menu",
     menuClose: "Close Menu",
+    osteology: "Bone Anatomy",
   },
   footer: {
     description:

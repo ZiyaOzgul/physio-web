@@ -1,0 +1,3352 @@
+{
+ "version": 1,
+ "frame": {
+  "name": "BodyParts3D raw frame = frame of assets/models/body/skeletal.glb (identity node transforms, no conversion)",
+  "units": "mm",
+  "up": "-Y (superior = -Y, inferior = +Y)",
+  "anterior": "-Z (posterior = +Z)",
+  "lateral": "anatomical left = +X, anatomical right = -X",
+  "note": "NOT 'Z-Anatomy based': the whole body is BodyParts3D (Blender glTF export with export_yup=False, i.e. Blender world = glTF axes); the Z-Anatomy layers are warped INTO this frame.",
+  "verified": {
+   "parts_compared": 289,
+   "max_translation_mm": 0.0245,
+   "max_bbox_diff_mm": 1.759,
+   "median_p95_mm": 0.196,
+   "max_p95_mm": 0.641
+  }
+ },
+ "source": {
+  "specs": {
+   "app": "D:/code/apps/physio",
+   "commit": "cd9b58a38df5f32f47d220f5f88813a711fcdba9",
+   "files": {
+    "src/content/boneSubanatomy/axial.ts": "7fd39f3982aafd9608ab07bea661505d990d4ab0",
+    "src/content/boneSubanatomy/cranium.ts": "d1c6ff6467e67db6c14647d20e27b6324464a3d5",
+    "src/content/boneSubanatomy/index.ts": "a9b232d4df5e98eca6188695b1b7345604a23e07",
+    "src/content/boneSubanatomy/lowerLimb.ts": "624e20045136d228c8ea09caa6e0ff9062a3b289",
+    "src/content/boneSubanatomy/upperLimb.ts": "224e2ac85dc8ab877aa4efe4a542ce57dd4bc21c",
+    "src/domain/boneSubanatomy.ts": "e973c4fe1d682bcd309ef83d5089174ac910fddb"
+   }
+  },
+  "specs_json_sha1": "362765c21dd470f2728c4f90d1747f3741a043ef",
+  "male_full_npz_mtime": "2026-11-01T11:43:05",
+  "body": "male (female bones = warped male except pelvis/sacrum: not built)"
+ },
+ "attributes": {
+  "POSITION": "f32",
+  "NORMAL": "f32",
+  "COLOR_0": "u8 normalized RGBA, LINEAR colour (white-ish base material expected)",
+  "_CURV": "f32 scalar in -1..1 (+ convex, - concave); three.js GLTFLoader exposes it as geometry.attributes._curv"
+ },
+ "total_bytes": 42366892,
+ "bones": {
+  "humerus": {
+   "file": "humerus.glb",
+   "nodes": {
+    "fj": [
+     "FJ3368",
+     "FJ3262"
+    ],
+    "landmarks": {
+     "humerus-caput": "humerus__caput",
+     "humerus-tuberculum-majus": "humerus__tuberculum-majus",
+     "humerus-tuberculum-minus": "humerus__tuberculum-minus",
+     "humerus-sulcus-intertubercularis": "humerus__sulcus-intertubercularis",
+     "humerus-collum-chirurgicum": "humerus__collum-chirurgicum",
+     "humerus-tuberositas-deltoidea": "humerus__tuberositas-deltoidea",
+     "humerus-sulcus-nervi-radialis": "humerus__sulcus-nervi-radialis",
+     "humerus-epicondylus-medialis": "humerus__epicondylus-medialis",
+     "humerus-epicondylus-lateralis": "humerus__epicondylus-lateralis",
+     "humerus-capitulum-trochlea": "humerus__capitulum-trochlea",
+     "humerus-fossa-olecrani": "humerus__fossa-olecrani"
+    },
+    "landmarkParts": {
+     "humerus-caput": "FJ3368",
+     "humerus-tuberculum-majus": "FJ3368",
+     "humerus-tuberculum-minus": "FJ3368",
+     "humerus-sulcus-intertubercularis": "FJ3368",
+     "humerus-collum-chirurgicum": "FJ3368",
+     "humerus-tuberositas-deltoidea": "FJ3368",
+     "humerus-sulcus-nervi-radialis": "FJ3368",
+     "humerus-epicondylus-medialis": "FJ3368",
+     "humerus-epicondylus-lateralis": "FJ3368",
+     "humerus-capitulum-trochlea": "FJ3368",
+     "humerus-fossa-olecrani": "FJ3368"
+    },
+    "regionParts": [
+     "FJ3368"
+    ],
+    "attachments": {
+     "att-supraspinatus-ins": "insertio__tuberculum-majus__FJ1506",
+     "att-infraspinatus-ins": "insertio__tuberculum-majus__FJ1500",
+     "att-teres-minor-ins": "insertio__tuberculum-majus__FJ1508",
+     "att-subscapularis-ins": "insertio__tuberculum-minus__FJ1504",
+     "att-pec-major-ins": "insertio__sulcus-intertubercularis__FJ1464",
+     "att-latissimus-ins": "insertio__sulcus-intertubercularis__m-latissimus-dorsi",
+     "att-teres-major-ins": "insertio__sulcus-intertubercularis__FJ1507",
+     "att-deltoid-ins": "insertio__tuberositas-deltoidea__FJ1467",
+     "att-triceps-lat-origo": "origo__sulcus-nervi-radialis__FJ1477",
+     "att-triceps-med-origo": "origo__sulcus-nervi-radialis__FJ1480",
+     "att-brachialis-origo": "origo__sulcus-nervi-radialis__FJ1486",
+     "att-pronator-teres-origo": "origo__epicondylus-medialis__FJ1474",
+     "att-fds-origo": "origo__epicondylus-medialis__FJ1475",
+     "att-fcu-origo": "origo__epicondylus-medialis__FJ1473",
+     "att-ecrb-ed-origo": "origo__epicondylus-lateralis__FJ1489",
+     "att-ecu-supinator-origo": "origo__epicondylus-lateralis__FJ1505"
+    }
+   },
+   "tris": 49346,
+   "footprint_tris": 12892,
+   "bytes": 1534860,
+   "bounds": {
+    "min": [
+     -240.991,
+     -1336.54,
+     -100.962
+    ],
+    "max": [
+     240.803,
+     -1029.2,
+     -51.076
+    ]
+   },
+   "primary": "FJ3368",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3368": 1
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3368": 14740,
+    "FJ3262": 9994,
+    "humerus__caput": 2145,
+    "humerus__tuberculum-majus": 1497,
+    "humerus__tuberculum-minus": 2311,
+    "humerus__sulcus-intertubercularis": 1625,
+    "humerus__collum-chirurgicum": 643,
+    "humerus__tuberositas-deltoidea": 5205,
+    "humerus__sulcus-nervi-radialis": 327,
+    "humerus__epicondylus-medialis": 646,
+    "humerus__epicondylus-lateralis": 1508,
+    "humerus__capitulum-trochlea": 2132,
+    "humerus__fossa-olecrani": 6573,
+    "insertio__tuberculum-majus__FJ1506": 1144,
+    "insertio__tuberculum-majus__FJ1500": 590,
+    "insertio__tuberculum-majus__FJ1508": 400,
+    "insertio__tuberculum-minus__FJ1504": 1958,
+    "insertio__sulcus-intertubercularis__FJ1464": 404,
+    "insertio__sulcus-intertubercularis__m-latissimus-dorsi": 1625,
+    "insertio__sulcus-intertubercularis__FJ1507": 348,
+    "insertio__tuberositas-deltoidea__FJ1467": 2080,
+    "origo__sulcus-nervi-radialis__FJ1477": 1874,
+    "origo__sulcus-nervi-radialis__FJ1480": 200,
+    "origo__sulcus-nervi-radialis__FJ1486": 308,
+    "origo__epicondylus-medialis__FJ1474": 115,
+    "origo__epicondylus-medialis__FJ1475": 480,
+    "origo__epicondylus-medialis__FJ1473": 206,
+    "origo__epicondylus-lateralis__FJ1489": 914,
+    "origo__epicondylus-lateralis__FJ1505": 246
+   }
+  },
+  "scapula": {
+   "file": "scapula.glb",
+   "nodes": {
+    "fj": [
+     "FJ3384",
+     "FJ3279"
+    ],
+    "landmarks": {
+     "scapula-cavitas-glenoidalis": "scapula__cavitas-glenoidalis",
+     "scapula-processus-coracoideus": "scapula__processus-coracoideus",
+     "scapula-acromion-spina": "scapula__acromion-spina",
+     "scapula-fossa-supraspinata": "scapula__fossa-supraspinata",
+     "scapula-fossa-infraspinata": "scapula__fossa-infraspinata",
+     "scapula-fossa-subscapularis": "scapula__fossa-subscapularis",
+     "scapula-margo-medialis": "scapula__margo-medialis",
+     "scapula-margo-lateralis": "scapula__margo-lateralis"
+    },
+    "landmarkParts": {
+     "scapula-cavitas-glenoidalis": "FJ3384",
+     "scapula-processus-coracoideus": "FJ3384",
+     "scapula-acromion-spina": "FJ3384",
+     "scapula-fossa-supraspinata": "FJ3384",
+     "scapula-fossa-infraspinata": "FJ3384",
+     "scapula-fossa-subscapularis": "FJ3384",
+     "scapula-margo-medialis": "FJ3384",
+     "scapula-margo-lateralis": "FJ3384"
+    },
+    "regionParts": [
+     "FJ3384"
+    ],
+    "attachments": {
+     "att-biceps-long-origo": "origo__cavitas-glenoidalis__FJ1478",
+     "att-triceps-long-origo": "origo__cavitas-glenoidalis__FJ1479",
+     "att-pec-minor-ins": "insertio__processus-coracoideus__FJ1456",
+     "att-coracobrachialis-origo": "origo__processus-coracoideus__FJ1488",
+     "att-biceps-short-origo": "origo__processus-coracoideus__FJ1512",
+     "att-trapezius-ins": "insertio__acromion-spina__FJ1521",
+     "att-deltoid-origo": "origo__acromion-spina__FJ1513",
+     "att-supraspinatus-origo": "origo__fossa-supraspinata__FJ1506",
+     "att-infraspinatus-origo": "origo__fossa-infraspinata__FJ1500",
+     "att-subscapularis-origo": "origo__fossa-subscapularis__FJ1504",
+     "att-serratus-ant-ins": "insertio__margo-medialis__FJ1459",
+     "att-rhomboidei-ins": "insertio__margo-medialis__FJ1536",
+     "att-teres-minor-origo": "origo__margo-lateralis__FJ1508",
+     "att-teres-major-origo": "origo__margo-lateralis__FJ1507"
+    }
+   },
+   "tris": 67576,
+   "footprint_tris": 14488,
+   "bytes": 1917632,
+   "bounds": {
+    "min": [
+     -166.464,
+     -1349.86,
+     -103.006
+    ],
+    "max": [
+     166.464,
+     -1183.81,
+     5.233
+    ]
+   },
+   "primary": "FJ3384",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3384": 0
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3384": 8409,
+    "FJ3279": 34840,
+    "scapula__cavitas-glenoidalis": 7461,
+    "scapula__processus-coracoideus": 2580,
+    "scapula__acromion-spina": 5332,
+    "scapula__fossa-supraspinata": 2571,
+    "scapula__fossa-infraspinata": 1263,
+    "scapula__fossa-subscapularis": 2737,
+    "scapula__margo-medialis": 1228,
+    "scapula__margo-lateralis": 1155,
+    "origo__cavitas-glenoidalis__FJ1478": 157,
+    "origo__cavitas-glenoidalis__FJ1479": 3571,
+    "insertio__processus-coracoideus__FJ1456": 310,
+    "origo__processus-coracoideus__FJ1488": 404,
+    "origo__processus-coracoideus__FJ1512": 294,
+    "insertio__acromion-spina__FJ1521": 65,
+    "origo__acromion-spina__FJ1513": 1882,
+    "origo__fossa-supraspinata__FJ1506": 1729,
+    "origo__fossa-infraspinata__FJ1500": 1586,
+    "origo__fossa-subscapularis__FJ1504": 722,
+    "insertio__margo-medialis__FJ1459": 1338,
+    "insertio__margo-medialis__FJ1536": 835,
+    "origo__margo-lateralis__FJ1508": 617,
+    "origo__margo-lateralis__FJ1507": 978
+   }
+  },
+  "clavicula": {
+   "file": "clavicula.glb",
+   "nodes": {
+    "fj": [
+     "FJ3362",
+     "FJ3237"
+    ],
+    "landmarks": {
+     "clavicula-extremitas-sternalis": "clavicula__extremitas-sternalis",
+     "clavicula-corpus-sulcus-subclavii": "clavicula__corpus-sulcus-subclavii",
+     "clavicula-extremitas-acromialis": "clavicula__extremitas-acromialis"
+    },
+    "landmarkParts": {
+     "clavicula-extremitas-sternalis": "FJ3362",
+     "clavicula-corpus-sulcus-subclavii": "FJ3362",
+     "clavicula-extremitas-acromialis": "FJ3362"
+    },
+    "regionParts": [
+     "FJ3362"
+    ],
+    "attachments": {
+     "att-scm-origo": "origo__extremitas-sternalis__FJ1595",
+     "att-pec-major-clav-origo": "origo__extremitas-sternalis__FJ1447",
+     "att-subclavius-ins": "insertio__corpus-sulcus-subclavii__FJ1460",
+     "att-deltoid-clav-origo": "origo__extremitas-acromialis__FJ1468",
+     "att-trapezius-clav-ins": "insertio__extremitas-acromialis__FJ1521"
+    }
+   },
+   "tris": 17280,
+   "footprint_tris": 8510,
+   "bytes": 599164,
+   "bounds": {
+    "min": [
+     -145.277,
+     -1355.505,
+     -147.097
+    ],
+    "max": [
+     143.942,
+     -1308.53,
+     -54.322
+    ]
+   },
+   "primary": "FJ3362",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3362": 1
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3362": 11053,
+    "FJ3237": 3528,
+    "clavicula__extremitas-sternalis": 1284,
+    "clavicula__corpus-sulcus-subclavii": 599,
+    "clavicula__extremitas-acromialis": 816,
+    "origo__extremitas-sternalis__FJ1595": 383,
+    "origo__extremitas-sternalis__FJ1447": 1794,
+    "insertio__corpus-sulcus-subclavii__FJ1460": 4734,
+    "origo__extremitas-acromialis__FJ1468": 564,
+    "insertio__extremitas-acromialis__FJ1521": 1035
+   }
+  },
+  "radius": {
+   "file": "radius.glb",
+   "nodes": {
+    "fj": [
+     "FJ3349",
+     "FJ3277"
+    ],
+    "landmarks": {
+     "radius-caput-collum": "radius__caput-collum",
+     "radius-tuberositas-radii": "radius__tuberositas-radii",
+     "radius-corpus-pronator": "radius__corpus-pronator",
+     "radius-processus-styloideus": "radius__processus-styloideus"
+    },
+    "landmarkParts": {
+     "radius-caput-collum": "FJ3349",
+     "radius-tuberositas-radii": "FJ3349",
+     "radius-corpus-pronator": "FJ3349",
+     "radius-processus-styloideus": "FJ3349"
+    },
+    "regionParts": [
+     "FJ3349"
+    ],
+    "attachments": {
+     "att-biceps-ins": "insertio__tuberositas-radii__FJ1478",
+     "att-pronator-teres-ins": "insertio__corpus-pronator__FJ1474",
+     "att-supinator-ins": "insertio__corpus-pronator__FJ1505",
+     "att-fpl-origo": "origo__corpus-pronator__FJ1498",
+     "att-brachioradialis-ins": "insertio__processus-styloideus__FJ1487",
+     "att-pronator-quadratus-ins": "insertio__processus-styloideus__FJ1503"
+    }
+   },
+   "tris": 9960,
+   "footprint_tris": 1530,
+   "bytes": 297912,
+   "bounds": {
+    "min": [
+     -279.699,
+     -1035.076,
+     -127.252
+    ],
+    "max": [
+     279.143,
+     -805.858,
+     -61.103
+    ]
+   },
+   "primary": "FJ3349",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3349": 1
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3349": 5471,
+    "FJ3277": 1896,
+    "radius__caput-collum": 509,
+    "radius__tuberositas-radii": 971,
+    "radius__corpus-pronator": 235,
+    "radius__processus-styloideus": 878,
+    "insertio__tuberositas-radii__FJ1478": 397,
+    "insertio__corpus-pronator__FJ1474": 13,
+    "insertio__corpus-pronator__FJ1505": 23,
+    "origo__corpus-pronator__FJ1498": 879,
+    "insertio__processus-styloideus__FJ1487": 175,
+    "insertio__processus-styloideus__FJ1503": 43
+   }
+  },
+  "ulna": {
+   "file": "ulna.glb",
+   "nodes": {
+    "fj": [
+     "FJ3391",
+     "FJ3286"
+    ],
+    "landmarks": {
+     "ulna-olecranon": "ulna__olecranon",
+     "ulna-processus-coronoideus-tuberositas": "ulna__processus-coronoideus-tuberositas",
+     "ulna-corpus": "ulna__corpus",
+     "ulna-caput-styloideus": "ulna__caput-styloideus"
+    },
+    "landmarkParts": {
+     "ulna-olecranon": "FJ3391",
+     "ulna-processus-coronoideus-tuberositas": "FJ3391",
+     "ulna-corpus": "FJ3391",
+     "ulna-caput-styloideus": "FJ3391"
+    },
+    "regionParts": [
+     "FJ3391"
+    ],
+    "attachments": {
+     "att-triceps-ins": "insertio__olecranon__FJ1479",
+     "att-anconeus-ins": "insertio__olecranon__FJ1485",
+     "att-brachialis-ins": "insertio__processus-coronoideus-tuberositas__FJ1486",
+     "att-pronator-teres-ulnar-origo": "origo__processus-coronoideus-tuberositas__FJ1516",
+     "att-fdp-origo": "origo__corpus__FJ1497",
+     "att-fcu-ulnar-origo": "origo__corpus__FJ1518",
+     "att-pronator-quadratus-origo": "origo__caput-styloideus__FJ1503"
+    }
+   },
+   "tris": 12480,
+   "footprint_tris": 4214,
+   "bytes": 420900,
+   "bounds": {
+    "min": [
+     -247.179,
+     -1052.47,
+     -123.494
+    ],
+    "max": [
+     247.12,
+     -805.016,
+     -44.552
+    ]
+   },
+   "primary": "FJ3391",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3391": 1
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3391": 6041,
+    "FJ3286": 2472,
+    "ulna__olecranon": 342,
+    "ulna__processus-coronoideus-tuberositas": 1480,
+    "ulna__corpus": 1900,
+    "ulna__caput-styloideus": 245,
+    "insertio__olecranon__FJ1479": 130,
+    "insertio__olecranon__FJ1485": 94,
+    "insertio__processus-coronoideus-tuberositas__FJ1486": 1468,
+    "origo__processus-coronoideus-tuberositas__FJ1516": 28,
+    "origo__corpus__FJ1497": 2233,
+    "origo__corpus__FJ1518": 23,
+    "origo__caput-styloideus__FJ1503": 238
+   }
+  },
+  "ossa-carpi-proximalia": {
+   "file": "ossa-carpi-proximalia.glb",
+   "nodes": {
+    "fj": [
+     "FJ3383",
+     "FJ3278",
+     "FJ3374",
+     "FJ3268",
+     "FJ3390",
+     "FJ3285",
+     "FJ3382",
+     "FJ3276"
+    ],
+    "landmarks": {
+     "carpi-scaphoideum-tuberculum": "ossa-carpi-proximalia__scaphoideum-tuberculum",
+     "carpi-lunatum": "ossa-carpi-proximalia__lunatum",
+     "carpi-pisiforme-triquetrum": "ossa-carpi-proximalia__pisiforme-triquetrum"
+    },
+    "landmarkParts": {
+     "carpi-scaphoideum-tuberculum": "FJ3383",
+     "carpi-lunatum": "FJ3374",
+     "carpi-pisiforme-triquetrum": "FJ3382"
+    },
+    "regionParts": [
+     "FJ3383",
+     "FJ3374",
+     "FJ3382"
+    ],
+    "attachments": {
+     "att-apb-scaphoid-origo": "origo__scaphoideum-tuberculum__m-abductor-pollicis-brevis",
+     "att-fcu-pisiform-ins": "insertio__pisiforme-triquetrum__FJ1518",
+     "att-adm-pisiform-origo": "origo__pisiforme-triquetrum__m-abductor-digiti-minimi"
+    }
+   },
+   "tris": 14814,
+   "footprint_tris": 4263,
+   "bytes": 468180,
+   "bounds": {
+    "min": [
+     -273.209,
+     -811.79,
+     -137.888
+    ],
+    "max": [
+     272.977,
+     -788.769,
+     -110.628
+    ]
+   },
+   "primary": "FJ3383",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3383": 2,
+    "FJ3374": 2,
+    "FJ3382": 2
+   },
+   "slug_map": {
+    "carpi-scaphoideum-tuberculum": "scaphoideum-tuberculum",
+    "carpi-lunatum": "lunatum",
+    "carpi-pisiforme-triquetrum": "pisiforme-triquetrum"
+   },
+   "node_tris": {
+    "FJ3383": 3498,
+    "FJ3278": 312,
+    "FJ3374": 2684,
+    "FJ3268": 314,
+    "FJ3390": 170,
+    "FJ3285": 304,
+    "FJ3382": 963,
+    "FJ3276": 210,
+    "ossa-carpi-proximalia__scaphoideum-tuberculum": 1654,
+    "ossa-carpi-proximalia__lunatum": 2628,
+    "ossa-carpi-proximalia__pisiforme-triquetrum": 2077,
+    "origo__scaphoideum-tuberculum__m-abductor-pollicis-brevis": 1654,
+    "insertio__pisiforme-triquetrum__FJ1518": 532,
+    "origo__pisiforme-triquetrum__m-abductor-digiti-minimi": 2077
+   }
+  },
+  "ossa-carpi-distalia": {
+   "file": "ossa-carpi-distalia.glb",
+   "nodes": {
+    "fj": [
+     "FJ3388",
+     "FJ3283",
+     "FJ3389",
+     "FJ3284",
+     "FJ3361",
+     "FJ3257",
+     "FJ3367",
+     "FJ3261"
+    ],
+    "landmarks": {
+     "carpi-trapezium-tuberculum": "ossa-carpi-distalia__trapezium-tuberculum",
+     "carpi-capitatum-trapezoideum": "ossa-carpi-distalia__capitatum-trapezoideum",
+     "carpi-hamatum-hamulus": "ossa-carpi-distalia__hamatum-hamulus"
+    },
+    "landmarkParts": {
+     "carpi-trapezium-tuberculum": "FJ3388",
+     "carpi-capitatum-trapezoideum": "FJ3361",
+     "carpi-hamatum-hamulus": "FJ3367"
+    },
+    "regionParts": [
+     "FJ3361",
+     "FJ3388",
+     "FJ3367"
+    ],
+    "attachments": {
+     "att-thenar-trapezium-origo": "origo__trapezium-tuberculum__m-opponens-pollicis",
+     "att-adductor-pollicis-oblique-origo": "origo__capitatum-trapezoideum__m-adductor-pollicis",
+     "att-hypothenar-hamate-origo": "origo__hamatum-hamulus__m-opponens-digiti-minimi"
+    }
+   },
+   "tris": 24112,
+   "footprint_tris": 4894,
+   "bytes": 705408,
+   "bounds": {
+    "min": [
+     -281.865,
+     -805.793,
+     -134.576
+    ],
+    "max": [
+     281.795,
+     -781.256,
+     -110.534
+    ]
+   },
+   "primary": "FJ3361",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3361": 2,
+    "FJ3388": 2,
+    "FJ3367": 2
+   },
+   "slug_map": {
+    "carpi-trapezium-tuberculum": "trapezium-tuberculum",
+    "carpi-capitatum-trapezoideum": "capitatum-trapezoideum",
+    "carpi-hamatum-hamulus": "hamatum-hamulus"
+   },
+   "node_tris": {
+    "FJ3388": 5870,
+    "FJ3283": 356,
+    "FJ3389": 360,
+    "FJ3284": 398,
+    "FJ3361": 5624,
+    "FJ3257": 402,
+    "FJ3367": 5756,
+    "FJ3261": 452,
+    "ossa-carpi-distalia__trapezium-tuberculum": 1074,
+    "ossa-carpi-distalia__capitatum-trapezoideum": 1224,
+    "ossa-carpi-distalia__hamatum-hamulus": 2596,
+    "origo__trapezium-tuberculum__m-opponens-pollicis": 1074,
+    "origo__capitatum-trapezoideum__m-adductor-pollicis": 1224,
+    "origo__hamatum-hamulus__m-opponens-digiti-minimi": 2596
+   }
+  },
+  "ossa-metacarpi": {
+   "file": "ossa-metacarpi.glb",
+   "nodes": {
+    "fj": [
+     "FJ3350",
+     "FJ3240",
+     "FJ3352",
+     "FJ3243",
+     "FJ3354",
+     "FJ3246",
+     "FJ3356",
+     "FJ3249",
+     "FJ3358",
+     "FJ3252"
+    ],
+    "landmarks": {
+     "metacarpi-basis": "ossa-metacarpi__basis",
+     "metacarpi-corpus": "ossa-metacarpi__corpus",
+     "metacarpi-caput-collum": "ossa-metacarpi__caput-collum"
+    },
+    "landmarkParts": {
+     "metacarpi-basis": "FJ3350",
+     "metacarpi-corpus": "FJ3350",
+     "metacarpi-caput-collum": "FJ3350"
+    },
+    "regionParts": [
+     "FJ3350"
+    ],
+    "attachments": {
+     "att-apl-mc1-ins": "insertio__basis__FJ1484",
+     "att-ecrl-ecrb-ecu-ins": "insertio__basis__FJ1490",
+     "att-interossei-origo": "origo__corpus__mm-interossei-dorsales",
+     "att-adductor-pollicis-transverse-ins": "origo__corpus__m-adductor-pollicis"
+    }
+   },
+   "tris": 14636,
+   "footprint_tris": 1752,
+   "bytes": 426204,
+   "bounds": {
+    "min": [
+     -309.577,
+     -797.407,
+     -153.861
+    ],
+    "max": [
+     309.625,
+     -718.871,
+     -112.326
+    ]
+   },
+   "primary": "FJ3350",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3350": 2
+   },
+   "slug_map": {
+    "metacarpi-basis": "basis",
+    "metacarpi-corpus": "corpus",
+    "metacarpi-caput-collum": "caput-collum"
+   },
+   "node_tris": {
+    "FJ3350": 6543,
+    "FJ3240": 578,
+    "FJ3352": 748,
+    "FJ3243": 774,
+    "FJ3354": 702,
+    "FJ3246": 708,
+    "FJ3356": 536,
+    "FJ3249": 528,
+    "FJ3358": 506,
+    "FJ3252": 500,
+    "ossa-metacarpi__basis": 264,
+    "ossa-metacarpi__corpus": 655,
+    "ossa-metacarpi__caput-collum": 1594,
+    "insertio__basis__FJ1484": 298,
+    "insertio__basis__FJ1490": 144,
+    "origo__corpus__mm-interossei-dorsales": 655,
+    "origo__corpus__m-adductor-pollicis": 655
+   }
+  },
+  "phalanges-manus": {
+   "file": "phalanges-manus.glb",
+   "nodes": {
+    "fj": [
+     "FJ3327",
+     "FJ3318",
+     "FJ3322",
+     "FJ3313",
+     "FJ3325",
+     "FJ3316",
+     "FJ3326",
+     "FJ3317",
+     "FJ3323",
+     "FJ3314",
+     "FJ3303",
+     "FJ3296",
+     "FJ3306",
+     "FJ3299",
+     "FJ3292",
+     "FJ3291",
+     "FJ3304",
+     "FJ3297",
+     "FJ3198",
+     "FJ3188",
+     "FJ3193",
+     "FJ3183",
+     "FJ3196",
+     "FJ3186",
+     "FJ3197",
+     "FJ3187",
+     "FJ3194",
+     "FJ3184"
+    ],
+    "landmarks": {
+     "phalanges-manus-proximalis": "phalanges-manus__proximalis",
+     "phalanges-manus-media": "phalanges-manus__media",
+     "phalanges-manus-distalis": "phalanges-manus__distalis"
+    },
+    "landmarkParts": {
+     "phalanges-manus-proximalis": "FJ3325",
+     "phalanges-manus-media": "FJ3306",
+     "phalanges-manus-distalis": "FJ3196"
+    },
+    "regionParts": [
+     "FJ3325",
+     "FJ3306",
+     "FJ3196"
+    ],
+    "attachments": {
+     "att-intrinsic-prox-phalanx-ins": "insertio__proximalis__mm-interossei",
+     "att-fds-middle-phalanx-ins": "insertio__media__FJ1475",
+     "att-fdp-fpl-epl-distal-ins": "insertio__distalis__FJ1497"
+    }
+   },
+   "tris": 22900,
+   "footprint_tris": 3619,
+   "bytes": 721368,
+   "bounds": {
+    "min": [
+     -323.914,
+     -767.198,
+     -195.428
+    ],
+    "max": [
+     323.935,
+     -653.067,
+     -134.089
+    ]
+   },
+   "primary": "FJ3325",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3325": 2,
+    "FJ3306": 2,
+    "FJ3196": 2
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3327": 316,
+    "FJ3318": 346,
+    "FJ3322": 386,
+    "FJ3313": 392,
+    "FJ3325": 5713,
+    "FJ3316": 460,
+    "FJ3326": 376,
+    "FJ3317": 376,
+    "FJ3323": 314,
+    "FJ3314": 274,
+    "FJ3303": 264,
+    "FJ3296": 306,
+    "FJ3306": 5051,
+    "FJ3299": 384,
+    "FJ3292": 316,
+    "FJ3291": 340,
+    "FJ3304": 208,
+    "FJ3297": 254,
+    "FJ3198": 240,
+    "FJ3188": 268,
+    "FJ3193": 210,
+    "FJ3183": 328,
+    "FJ3196": 1904,
+    "FJ3186": 266,
+    "FJ3197": 112,
+    "FJ3187": 196,
+    "FJ3194": 186,
+    "FJ3184": 198,
+    "phalanges-manus__proximalis": 1615,
+    "phalanges-manus__media": 421,
+    "phalanges-manus__distalis": 880,
+    "insertio__proximalis__mm-interossei": 1615,
+    "insertio__media__FJ1475": 1951,
+    "insertio__distalis__FJ1497": 53
+   }
+  },
+  "os-coxae": {
+   "file": "os-coxae.glb",
+   "nodes": {
+    "fj": [
+     "FJ3152",
+     "FJ3288"
+    ],
+    "landmarks": {
+     "coxae-crista-iliaca": "os-coxae__crista-iliaca",
+     "coxae-sias": "os-coxae__sias",
+     "coxae-siai": "os-coxae__siai",
+     "coxae-fossa-iliaca-facies-glutea": "os-coxae__fossa-iliaca-facies-glutea",
+     "coxae-acetabulum": "os-coxae__acetabulum",
+     "coxae-tuber-ischiadicum": "os-coxae__tuber-ischiadicum",
+     "coxae-pubis-foramen-obturatum": "os-coxae__pubis-foramen-obturatum"
+    },
+    "landmarkParts": {
+     "coxae-crista-iliaca": "FJ3152",
+     "coxae-sias": "FJ3152",
+     "coxae-siai": "FJ3152",
+     "coxae-fossa-iliaca-facies-glutea": "FJ3152",
+     "coxae-acetabulum": "FJ3152",
+     "coxae-tuber-ischiadicum": "FJ3152",
+     "coxae-pubis-foramen-obturatum": "FJ3152"
+    },
+    "regionParts": [
+     "FJ3152"
+    ],
+    "attachments": {
+     "att-abd-obliques-ins": "insertio__crista-iliaca__FJ1452",
+     "att-quadratus-lumb-origo": "origo__crista-iliaca__m-quadratus-lumborum",
+     "att-sartorius-origo": "origo__sias__FJ1434",
+     "att-tfl-origo": "origo__sias__FJ1438",
+     "att-rectus-femoris-origo": "origo__siai__FJ1433",
+     "att-iliacus-origo": "origo__fossa-iliaca-facies-glutea__FJ1422",
+     "att-glutei-origo": "origo__fossa-iliaca-facies-glutea__FJ1419",
+     "att-hamstrings-origo": "origo__tuber-ischiadicum__FJ1395",
+     "att-adductor-magnus-isch-origo": "origo__tuber-ischiadicum__FJ1403",
+     "att-adductors-origo": "origo__pubis-foramen-obturatum__FJ1402",
+     "att-rectus-abdominis-ins": "insertio__pubis-foramen-obturatum__m-rectus-abdominis"
+    }
+   },
+   "tris": 30750,
+   "footprint_tris": 6851,
+   "bytes": 927736,
+   "bounds": {
+    "min": [
+     -144.872,
+     -958.09,
+     -141.643
+    ],
+    "max": [
+     144.754,
+     -751.951,
+     1.021
+    ]
+   },
+   "primary": "FJ3152",
+   "side": "right",
+   "missing_parts": [
+    "HRA_ilium_compact_bone_r",
+    "HRA_ilium_compact_bone_l",
+    "HRA_ischium_compact_bone_r",
+    "HRA_ischium_compact_bone_l",
+    "HRA_pubis_compact_bone_r",
+    "HRA_pubis_compact_bone_l"
+   ],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3152": 1
+   },
+   "slug_map": {
+    "coxae-crista-iliaca": "crista-iliaca",
+    "coxae-sias": "sias",
+    "coxae-siai": "siai",
+    "coxae-fossa-iliaca-facies-glutea": "fossa-iliaca-facies-glutea",
+    "coxae-acetabulum": "acetabulum",
+    "coxae-tuber-ischiadicum": "tuber-ischiadicum",
+    "coxae-pubis-foramen-obturatum": "pubis-foramen-obturatum"
+   },
+   "node_tris": {
+    "FJ3152": 14587,
+    "FJ3288": 6062,
+    "os-coxae__crista-iliaca": 786,
+    "os-coxae__sias": 1762,
+    "os-coxae__siai": 572,
+    "os-coxae__fossa-iliaca-facies-glutea": 498,
+    "os-coxae__acetabulum": 1638,
+    "os-coxae__tuber-ischiadicum": 3418,
+    "os-coxae__pubis-foramen-obturatum": 1427,
+    "insertio__crista-iliaca__FJ1452": 1251,
+    "origo__crista-iliaca__m-quadratus-lumborum": 786,
+    "origo__sias__FJ1434": 381,
+    "origo__sias__FJ1438": 208,
+    "origo__siai__FJ1433": 783,
+    "origo__fossa-iliaca-facies-glutea__FJ1422": 100,
+    "origo__fossa-iliaca-facies-glutea__FJ1419": 197,
+    "origo__tuber-ischiadicum__FJ1395": 1475,
+    "origo__tuber-ischiadicum__FJ1403": 178,
+    "origo__pubis-foramen-obturatum__FJ1402": 65,
+    "insertio__pubis-foramen-obturatum__m-rectus-abdominis": 1427
+   }
+  },
+  "femur": {
+   "file": "femur.glb",
+   "nodes": {
+    "fj": [
+     "FJ3365",
+     "FJ3259"
+    ],
+    "landmarks": {
+     "femur-caput-collum": "femur__caput-collum",
+     "femur-trochanter-major": "femur__trochanter-major",
+     "femur-trochanter-minor": "femur__trochanter-minor",
+     "femur-tuberositas-glutea-pectinea": "femur__tuberositas-glutea-pectinea",
+     "femur-linea-aspera": "femur__linea-aspera",
+     "femur-condylus-medialis-adductorium": "femur__condylus-medialis-adductorium",
+     "femur-condylus-lateralis-patellaris": "femur__condylus-lateralis-patellaris"
+    },
+    "landmarkParts": {
+     "femur-caput-collum": "FJ3365",
+     "femur-trochanter-major": "FJ3365",
+     "femur-trochanter-minor": "FJ3365",
+     "femur-tuberositas-glutea-pectinea": "FJ3365",
+     "femur-linea-aspera": "FJ3365",
+     "femur-condylus-medialis-adductorium": "FJ3365",
+     "femur-condylus-lateralis-patellaris": "FJ3365"
+    },
+    "regionParts": [
+     "FJ3365"
+    ],
+    "attachments": {
+     "att-gluteus-medius-minimus-ins": "insertio__trochanter-major__FJ1419",
+     "att-piriformis-rotators-ins": "insertio__trochanter-major__FJ1428",
+     "att-iliopsoas-ins": "insertio__trochanter-minor__FJ1431",
+     "att-gluteus-max-ins": "insertio__tuberositas-glutea-pectinea__FJ1418",
+     "att-pectineus-ins": "insertio__tuberositas-glutea-pectinea__FJ1427",
+     "att-vasti-origo": "origo__linea-aspera__FJ1442",
+     "att-adductors-ins": "insertio__linea-aspera__FJ1402",
+     "att-biceps-short-fem-origo": "origo__linea-aspera__FJ1444",
+     "att-adductor-magnus-tub-ins": "insertio__condylus-medialis-adductorium__FJ1403",
+     "att-gastroc-med-origo": "origo__condylus-medialis-adductorium__FJ1397",
+     "att-gastroc-lat-popliteus-origo": "origo__condylus-lateralis-patellaris__FJ1394"
+    }
+   },
+   "tris": 36000,
+   "footprint_tris": 5497,
+   "bytes": 1029880,
+   "bounds": {
+    "min": [
+     -150.135,
+     -834.252,
+     -112.276
+    ],
+    "max": [
+     150.268,
+     -368.056,
+     -44.719
+    ]
+   },
+   "primary": "FJ3365",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3365": 0
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3365": 9452,
+    "FJ3259": 18000,
+    "femur__caput-collum": 1623,
+    "femur__trochanter-major": 592,
+    "femur__trochanter-minor": 46,
+    "femur__tuberositas-glutea-pectinea": 1047,
+    "femur__linea-aspera": 3785,
+    "femur__condylus-medialis-adductorium": 740,
+    "femur__condylus-lateralis-patellaris": 715,
+    "insertio__trochanter-major__FJ1419": 100,
+    "insertio__trochanter-major__FJ1428": 33,
+    "insertio__trochanter-minor__FJ1431": 66,
+    "insertio__tuberositas-glutea-pectinea__FJ1418": 550,
+    "insertio__tuberositas-glutea-pectinea__FJ1427": 88,
+    "origo__linea-aspera__FJ1442": 2412,
+    "insertio__linea-aspera__FJ1402": 10,
+    "origo__linea-aspera__FJ1444": 1909,
+    "insertio__condylus-medialis-adductorium__FJ1403": 111,
+    "origo__condylus-medialis-adductorium__FJ1397": 99,
+    "origo__condylus-lateralis-patellaris__FJ1394": 119
+   }
+  },
+  "patella": {
+   "file": "patella.glb",
+   "nodes": {
+    "fj": [
+     "FJ3381",
+     "FJ3275"
+    ],
+    "landmarks": {
+     "patella-basis": "patella__basis",
+     "patella-facies-articularis": "patella__facies-articularis",
+     "patella-apex": "patella__apex"
+    },
+    "landmarkParts": {
+     "patella-basis": "FJ3381",
+     "patella-facies-articularis": "FJ3381",
+     "patella-apex": "FJ3381"
+    },
+    "regionParts": [
+     "FJ3381"
+    ],
+    "attachments": {
+     "att-quadriceps-patella-ins": "insertio__basis__FJ1433"
+    }
+   },
+   "tris": 5206,
+   "footprint_tris": 1193,
+   "bytes": 159332,
+   "bounds": {
+    "min": [
+     -102.288,
+     -423.131,
+     -131.626
+    ],
+    "max": [
+     102.224,
+     -383.154,
+     -109.151
+    ]
+   },
+   "primary": "FJ3381",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3381": 2
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3381": 2128,
+    "FJ3275": 310,
+    "patella__basis": 1273,
+    "patella__facies-articularis": 559,
+    "patella__apex": 936,
+    "insertio__basis__FJ1433": 1193
+   }
+  },
+  "tibia": {
+   "file": "tibia.glb",
+   "nodes": {
+    "fj": [
+     "FJ3387",
+     "FJ3282"
+    ],
+    "landmarks": {
+     "tibia-condyli-eminentia": "tibia__condyli-eminentia",
+     "tibia-tuberositas-tibiae": "tibia__tuberositas-tibiae",
+     "tibia-pes-anserinus": "tibia__pes-anserinus",
+     "tibia-corpus-linea-solei": "tibia__corpus-linea-solei",
+     "tibia-malleolus-medialis": "tibia__malleolus-medialis"
+    },
+    "landmarkParts": {
+     "tibia-condyli-eminentia": "FJ3387",
+     "tibia-tuberositas-tibiae": "FJ3387",
+     "tibia-pes-anserinus": "FJ3387",
+     "tibia-corpus-linea-solei": "FJ3387",
+     "tibia-malleolus-medialis": "FJ3387"
+    },
+    "regionParts": [
+     "FJ3387"
+    ],
+    "attachments": {
+     "att-itb-gerdy-ins": "insertio__condyli-eminentia__FJ1438",
+     "att-semimembranosus-ins": "insertio__condyli-eminentia__FJ1435",
+     "att-quadriceps-patellar-ins": "insertio__tuberositas-tibiae__FJ1433",
+     "att-pes-sartorius-ins": "insertio__pes-anserinus__FJ1434",
+     "att-pes-gracilis-ins": "insertio__pes-anserinus__FJ1421",
+     "att-pes-semitendinosus-ins": "insertio__pes-anserinus__FJ1436",
+     "att-tibialis-ant-origo": "origo__corpus-linea-solei__FJ1439",
+     "att-soleus-popliteus-origo": "origo__corpus-linea-solei__FJ1437"
+    }
+   },
+   "tris": 21702,
+   "footprint_tris": 3913,
+   "bytes": 626616,
+   "bounds": {
+    "min": [
+     -109.335,
+     -374.06,
+     -115.127
+    ],
+    "max": [
+     109.455,
+     6.095,
+     -51.982
+    ]
+   },
+   "primary": "FJ3387",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3387": 1
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3387": 10120,
+    "FJ3282": 4398,
+    "tibia__condyli-eminentia": 1805,
+    "tibia__tuberositas-tibiae": 628,
+    "tibia__pes-anserinus": 720,
+    "tibia__corpus-linea-solei": 3355,
+    "tibia__malleolus-medialis": 676,
+    "insertio__condyli-eminentia__FJ1438": 287,
+    "insertio__condyli-eminentia__FJ1435": 9,
+    "insertio__tuberositas-tibiae__FJ1433": 383,
+    "insertio__pes-anserinus__FJ1434": 299,
+    "insertio__pes-anserinus__FJ1421": 179,
+    "insertio__pes-anserinus__FJ1436": 50,
+    "origo__corpus-linea-solei__FJ1439": 2070,
+    "origo__corpus-linea-solei__FJ1437": 636
+   }
+  },
+  "fibula": {
+   "file": "fibula.glb",
+   "nodes": {
+    "fj": [
+     "FJ3366",
+     "FJ3260"
+    ],
+    "landmarks": {
+     "fibula-caput-collum": "fibula__caput-collum",
+     "fibula-corpus": "fibula__corpus",
+     "fibula-malleolus-lateralis": "fibula__malleolus-lateralis"
+    },
+    "landmarkParts": {
+     "fibula-caput-collum": "FJ3366",
+     "fibula-corpus": "FJ3366",
+     "fibula-malleolus-lateralis": "FJ3366"
+    },
+    "regionParts": [
+     "FJ3366"
+    ],
+    "attachments": {
+     "att-biceps-femoris-ins": "insertio__caput-collum__FJ1395",
+     "att-fibulares-origo": "origo__corpus__FJ1410",
+     "att-fhl-edl-origo": "origo__corpus__FJ1415"
+    }
+   },
+   "tris": 14794,
+   "footprint_tris": 2278,
+   "bytes": 408040,
+   "bounds": {
+    "min": [
+     -120.315,
+     -359.099,
+     -78.26
+    ],
+    "max": [
+     120.108,
+     25.298,
+     -48.487
+    ]
+   },
+   "primary": "FJ3366",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3366": 1
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3366": 9436,
+    "FJ3260": 2922,
+    "fibula__caput-collum": 1283,
+    "fibula__corpus": 428,
+    "fibula__malleolus-lateralis": 725,
+    "insertio__caput-collum__FJ1395": 554,
+    "origo__corpus__FJ1410": 74,
+    "origo__corpus__FJ1415": 1650
+   }
+  },
+  "talus": {
+   "file": "talus.glb",
+   "nodes": {
+    "fj": [
+     "FJ3385",
+     "FJ3280"
+    ],
+    "landmarks": {
+     "talus-trochlea": "talus__trochlea",
+     "talus-collum-sulcus": "talus__collum-sulcus",
+     "talus-caput-proc-posterior": "talus__caput-proc-posterior"
+    },
+    "landmarkParts": {
+     "talus-trochlea": "FJ3385",
+     "talus-collum-sulcus": "FJ3385",
+     "talus-caput-proc-posterior": "FJ3385"
+    },
+    "regionParts": [
+     "FJ3385"
+    ],
+    "attachments": {}
+   },
+   "tris": 23436,
+   "footprint_tris": 0,
+   "bytes": 559744,
+   "bounds": {
+    "min": [
+     -90.114,
+     -3.111,
+     -105.677
+    ],
+    "max": [
+     90.178,
+     31.306,
+     -48.754
+    ]
+   },
+   "primary": "FJ3385",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3385": 2
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3385": 14431,
+    "FJ3280": 1356,
+    "talus__trochlea": 935,
+    "talus__collum-sulcus": 4898,
+    "talus__caput-proc-posterior": 1816
+   }
+  },
+  "calcaneus": {
+   "file": "calcaneus.glb",
+   "nodes": {
+    "fj": [
+     "FJ3360",
+     "FJ3256"
+    ],
+    "landmarks": {
+     "calcaneus-tuber": "calcaneus__tuber",
+     "calcaneus-sustentaculum-tali": "calcaneus__sustentaculum-tali",
+     "calcaneus-dorsalis-trochlea-fibularis": "calcaneus__dorsalis-trochlea-fibularis"
+    },
+    "landmarkParts": {
+     "calcaneus-tuber": "FJ3360",
+     "calcaneus-sustentaculum-tali": "FJ3360",
+     "calcaneus-dorsalis-trochlea-fibularis": "FJ3360"
+    },
+    "regionParts": [
+     "FJ3360"
+    ],
+    "attachments": {
+     "att-triceps-surae-achilles-ins": "insertio__tuber__FJ1394",
+     "att-plantar-layer1-origo": "origo__tuber__m-abductor-hallucis",
+     "att-edb-ehb-origo": "origo__dorsalis-trochlea-fibularis__m-extensor-digitorum-brevis"
+    }
+   },
+   "tris": 21480,
+   "footprint_tris": 8148,
+   "bytes": 705304,
+   "bounds": {
+    "min": [
+     -101.011,
+     19.071,
+     -94.378
+    ],
+    "max": [
+     100.768,
+     68.491,
+     -23.815
+    ]
+   },
+   "primary": "FJ3360",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3360": 2
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3360": 10404,
+    "FJ3256": 1288,
+    "calcaneus__tuber": 1747,
+    "calcaneus__sustentaculum-tali": 1916,
+    "calcaneus__dorsalis-trochlea-fibularis": 6125,
+    "insertio__tuber__FJ1394": 276,
+    "origo__tuber__m-abductor-hallucis": 1747,
+    "origo__dorsalis-trochlea-fibularis__m-extensor-digitorum-brevis": 6125
+   }
+  },
+  "ossa-tarsi-anteriora": {
+   "file": "ossa-tarsi-anteriora.glb",
+   "nodes": {
+    "fj": [
+     "FJ3308",
+     "FJ3307",
+     "FJ3364",
+     "FJ3258",
+     "FJ3377",
+     "FJ3271",
+     "FJ3370",
+     "FJ3264",
+     "FJ3373",
+     "FJ3267"
+    ],
+    "landmarks": {
+     "tarsi-naviculare-tuberositas": "ossa-tarsi-anteriora__naviculare-tuberositas",
+     "tarsi-cuboideum-sulcus": "ossa-tarsi-anteriora__cuboideum-sulcus",
+     "tarsi-cuneiformia": "ossa-tarsi-anteriora__cuneiformia"
+    },
+    "landmarkParts": {
+     "tarsi-naviculare-tuberositas": "FJ3308",
+     "tarsi-cuboideum-sulcus": "FJ3364",
+     "tarsi-cuneiformia": "FJ3377"
+    },
+    "regionParts": [
+     "FJ3308",
+     "FJ3364",
+     "FJ3377"
+    ],
+    "attachments": {
+     "att-tibialis-posterior-ins": "insertio__naviculare-tuberositas__FJ1440",
+     "att-fhb-cuboid-origo": "origo__cuboideum-sulcus__m-flexor-hallucis-brevis",
+     "att-ta-fl-stirrup-ins": "insertio__cuneiformia__FJ1439"
+    }
+   },
+   "tris": 46448,
+   "footprint_tris": 5642,
+   "bytes": 1251500,
+   "bounds": {
+    "min": [
+     -115.227,
+     6.156,
+     -140.535
+    ],
+    "max": [
+     115.134,
+     51.522,
+     -83.163
+    ]
+   },
+   "primary": "FJ3308",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3308": 2,
+    "FJ3364": 2,
+    "FJ3377": 2
+   },
+   "slug_map": {
+    "tarsi-naviculare-tuberositas": "naviculare-tuberositas",
+    "tarsi-cuboideum-sulcus": "cuboideum-sulcus",
+    "tarsi-cuneiformia": "cuneiformia"
+   },
+   "node_tris": {
+    "FJ3308": 9404,
+    "FJ3307": 744,
+    "FJ3364": 13227,
+    "FJ3258": 886,
+    "FJ3377": 6685,
+    "FJ3271": 996,
+    "FJ3370": 450,
+    "FJ3264": 466,
+    "FJ3373": 626,
+    "FJ3267": 680,
+    "ossa-tarsi-anteriora__naviculare-tuberositas": 2052,
+    "ossa-tarsi-anteriora__cuboideum-sulcus": 1685,
+    "ossa-tarsi-anteriora__cuneiformia": 8547,
+    "insertio__naviculare-tuberositas__FJ1440": 925,
+    "origo__cuboideum-sulcus__m-flexor-hallucis-brevis": 1685,
+    "insertio__cuneiformia__FJ1439": 3032
+   }
+  },
+  "ossa-metatarsi": {
+   "file": "ossa-metatarsi.glb",
+   "nodes": {
+    "fj": [
+     "FJ3351",
+     "FJ3241",
+     "FJ3353",
+     "FJ3244",
+     "FJ3355",
+     "FJ3247",
+     "FJ3357",
+     "FJ3250",
+     "FJ3359",
+     "FJ3253",
+     "FJ3372",
+     "FJ3376",
+     "FJ3266",
+     "FJ3270"
+    ],
+    "landmarks": {
+     "metatarsi-basis-tuberositas-v": "ossa-metatarsi__basis-tuberositas-v",
+     "metatarsi-corpus": "ossa-metatarsi__corpus",
+     "metatarsi-caput-sesamoidea": "ossa-metatarsi__caput-sesamoidea"
+    },
+    "landmarkParts": {
+     "metatarsi-basis-tuberositas-v": "FJ3351",
+     "metatarsi-corpus": "FJ3351",
+     "metatarsi-caput-sesamoidea": "FJ3351"
+    },
+    "regionParts": [
+     "FJ3351"
+    ],
+    "attachments": {
+     "att-fibularis-brevis-tertius-ins": "insertio__basis-tuberositas-v__FJ1410",
+     "att-foot-interossei-origo": "origo__corpus__mm-interossei-dorsales-pedis",
+     "att-fhb-abductor-adductor-sesamoid-ins": "insertio__caput-sesamoidea__m-flexor-hallucis-brevis"
+    }
+   },
+   "tris": 25678,
+   "footprint_tris": 7292,
+   "bytes": 818688,
+   "bounds": {
+    "min": [
+     -152.331,
+     18.307,
+     -192.371
+    ],
+    "max": [
+     152.375,
+     69.82,
+     -89.292
+    ]
+   },
+   "primary": "FJ3351",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3351": 2
+   },
+   "slug_map": {
+    "metatarsi-basis-tuberositas-v": "basis-tuberositas-v",
+    "metatarsi-corpus": "corpus",
+    "metatarsi-caput-sesamoidea": "caput-sesamoidea"
+   },
+   "node_tris": {
+    "FJ3351": 8550,
+    "FJ3241": 1172,
+    "FJ3353": 752,
+    "FJ3244": 774,
+    "FJ3355": 700,
+    "FJ3247": 742,
+    "FJ3357": 674,
+    "FJ3250": 772,
+    "FJ3359": 794,
+    "FJ3253": 864,
+    "FJ3372": 80,
+    "FJ3376": 158,
+    "FJ3266": 100,
+    "FJ3270": 144,
+    "ossa-metatarsi__basis-tuberositas-v": 3077,
+    "ossa-metatarsi__corpus": 1916,
+    "ossa-metatarsi__caput-sesamoidea": 4409,
+    "insertio__basis-tuberositas-v__FJ1410": 967,
+    "origo__corpus__mm-interossei-dorsales-pedis": 1916,
+    "insertio__caput-sesamoidea__m-flexor-hallucis-brevis": 4409
+   }
+  },
+  "phalanges-pedis": {
+   "file": "phalanges-pedis.glb",
+   "nodes": {
+    "fj": [
+     "FJ3310",
+     "FJ3329",
+     "FJ3319",
+     "FJ3328",
+     "FJ3320",
+     "FJ3311",
+     "FJ3321",
+     "FJ3312",
+     "FJ3324",
+     "FJ3315",
+     "FJ3300",
+     "FJ3293",
+     "FJ3301",
+     "FJ3294",
+     "FJ3302",
+     "FJ3295",
+     "FJ3305",
+     "FJ3298",
+     "FJ3192",
+     "FJ3182",
+     "FJ3189",
+     "FJ3179",
+     "FJ3190",
+     "FJ3180",
+     "FJ3191",
+     "FJ3181",
+     "FJ3195",
+     "FJ3185"
+    ],
+    "landmarks": {
+     "phalanges-pedis-proximalis": "phalanges-pedis__proximalis",
+     "phalanges-pedis-media": "phalanges-pedis__media",
+     "phalanges-pedis-distalis": "phalanges-pedis__distalis"
+    },
+    "landmarkParts": {
+     "phalanges-pedis-proximalis": "FJ3310",
+     "phalanges-pedis-media": "FJ3300",
+     "phalanges-pedis-distalis": "FJ3192"
+    },
+    "regionParts": [
+     "FJ3310",
+     "FJ3300",
+     "FJ3192"
+    ],
+    "attachments": {
+     "att-hallux-prox-phalanx-ins": "insertio__proximalis__m-abductor-hallucis",
+     "att-fdb-edb-middle-phalanx-ins": "insertio__media__m-flexor-digitorum-brevis",
+     "att-fhl-fdl-ehl-edl-distal-ins": "insertio__distalis__FJ1415"
+    }
+   },
+   "tris": 27072,
+   "footprint_tris": 5257,
+   "bytes": 856736,
+   "bounds": {
+    "min": [
+     -169.327,
+     51.259,
+     -236.044
+    ],
+    "max": [
+     169.358,
+     70.48,
+     -148.711
+    ]
+   },
+   "primary": "FJ3310",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3310": 2,
+    "FJ3300": 2,
+    "FJ3192": 2
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3310": 5410,
+    "FJ3329": 516,
+    "FJ3319": 414,
+    "FJ3328": 380,
+    "FJ3320": 422,
+    "FJ3311": 408,
+    "FJ3321": 438,
+    "FJ3312": 438,
+    "FJ3324": 406,
+    "FJ3315": 396,
+    "FJ3300": 2232,
+    "FJ3293": 324,
+    "FJ3301": 292,
+    "FJ3294": 294,
+    "FJ3302": 350,
+    "FJ3295": 284,
+    "FJ3305": 136,
+    "FJ3298": 226,
+    "FJ3192": 4905,
+    "FJ3182": 378,
+    "FJ3189": 200,
+    "FJ3179": 240,
+    "FJ3190": 260,
+    "FJ3180": 336,
+    "FJ3191": 244,
+    "FJ3181": 226,
+    "FJ3195": 210,
+    "FJ3185": 214,
+    "phalanges-pedis__proximalis": 2366,
+    "phalanges-pedis__media": 1992,
+    "phalanges-pedis__distalis": 2135,
+    "insertio__proximalis__m-abductor-hallucis": 2366,
+    "insertio__media__m-flexor-digitorum-brevis": 1992,
+    "insertio__distalis__FJ1415": 899
+   }
+  },
+  "mandibula": {
+   "file": "mandibula.glb",
+   "nodes": {
+    "fj": [
+     "FJ3289"
+    ],
+    "landmarks": {
+     "mandibula-caput-condylaris": "mandibula__caput-condylaris",
+     "mandibula-processus-coronoideus": "mandibula__processus-coronoideus",
+     "mandibula-angulus": "mandibula__angulus",
+     "mandibula-corpus-foramen-mentale": "mandibula__corpus-foramen-mentale"
+    },
+    "landmarkParts": {
+     "mandibula-caput-condylaris": "FJ3289",
+     "mandibula-processus-coronoideus": "FJ3289",
+     "mandibula-angulus": "FJ3289",
+     "mandibula-corpus-foramen-mentale": "FJ3289"
+    },
+    "regionParts": [
+     "FJ3289"
+    ],
+    "attachments": {
+     "att-lat-pterygoid-ins": "insertio__caput-condylaris__m-pterygoideus-lateralis",
+     "att-temporalis-ins": "insertio__processus-coronoideus__m-temporalis",
+     "att-masseter-ins": "insertio__angulus__m-masseter",
+     "att-med-pterygoid-ins": "insertio__angulus__m-pterygoideus-medialis",
+     "att-mylohyoid-digastric-origo": "origo__corpus-foramen-mentale__FJ1583"
+    }
+   },
+   "tris": 14496,
+   "footprint_tris": 853,
+   "bytes": 414600,
+   "bounds": {
+    "min": [
+     -53.995,
+     -1506.209,
+     -175.194
+    ],
+    "max": [
+     52.554,
+     -1421.636,
+     -89.758
+    ]
+   },
+   "primary": "FJ3289",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3289": 0
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3289": 9488,
+    "mandibula__caput-condylaris": 264,
+    "mandibula__processus-coronoideus": 143,
+    "mandibula__angulus": 185,
+    "mandibula__corpus-foramen-mentale": 4416,
+    "insertio__caput-condylaris__m-pterygoideus-lateralis": 264,
+    "insertio__processus-coronoideus__m-temporalis": 143,
+    "insertio__angulus__m-masseter": 185,
+    "insertio__angulus__m-pterygoideus-medialis": 185,
+    "origo__corpus-foramen-mentale__FJ1583": 76
+   }
+  },
+  "sternum": {
+   "file": "sternum.glb",
+   "nodes": {
+    "fj": [
+     "FJ3178",
+     "FJ3290",
+     "FJ3153"
+    ],
+    "landmarks": {
+     "sternum-manubrium-angulus": "sternum__manubrium-angulus",
+     "sternum-corpus": "sternum__corpus",
+     "sternum-xiphoideus": "sternum__xiphoideus"
+    },
+    "landmarkParts": {
+     "sternum-manubrium-angulus": "FJ3290",
+     "sternum-corpus": "FJ3178",
+     "sternum-xiphoideus": "FJ3153"
+    },
+    "regionParts": [
+     "FJ3178",
+     "FJ3290",
+     "FJ3153"
+    ],
+    "attachments": {
+     "att-scm-sternal-origo": "origo__manubrium-angulus__FJ1595",
+     "att-pec-major-stern-origo": "origo__corpus__FJ1464",
+     "att-diaphragm-rectus-origo": "origo__xiphoideus__FJ3131"
+    }
+   },
+   "tris": 43432,
+   "footprint_tris": 5908,
+   "bytes": 1245476,
+   "bounds": {
+    "min": [
+     -27.45,
+     -1325.397,
+     -213.832
+    ],
+    "max": [
+     27.45,
+     -1163.891,
+     -130.801
+    ]
+   },
+   "primary": "FJ3178",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3178": 1,
+    "FJ3290": 1,
+    "FJ3153": 2
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3178": 15817,
+    "FJ3290": 6622,
+    "FJ3153": 6076,
+    "sternum__manubrium-angulus": 3562,
+    "sternum__corpus": 2679,
+    "sternum__xiphoideus": 8676,
+    "origo__manubrium-angulus__FJ1595": 967,
+    "origo__corpus__FJ1464": 3389,
+    "origo__xiphoideus__FJ3131": 1552
+   }
+  },
+  "sacrum": {
+   "file": "sacrum.glb",
+   "nodes": {
+    "fj": [
+     "FJ3393"
+    ],
+    "landmarks": {
+     "sacrum-promontorium-basis": "sacrum__promontorium-basis",
+     "sacrum-facies-pelvina-foramina": "sacrum__facies-pelvina-foramina",
+     "sacrum-crista-dorsalis": "sacrum__crista-dorsalis",
+     "sacrum-hiatus-coccyx": "sacrum__hiatus-coccyx"
+    },
+    "landmarkParts": {
+     "sacrum-promontorium-basis": "FJ3393",
+     "sacrum-facies-pelvina-foramina": "FJ3393",
+     "sacrum-crista-dorsalis": "FJ3393",
+     "sacrum-hiatus-coccyx": "FJ3393"
+    },
+    "regionParts": [
+     "FJ3393"
+    ],
+    "attachments": {
+     "att-piriformis-origo": "origo__facies-pelvina-foramina__FJ1428",
+     "att-erector-spinae-gluteus-origo": "origo__crista-dorsalis__FJ1418",
+     "att-levator-ani-coccygeus": "insertio__hiatus-coccyx__FJ2547"
+    }
+   },
+   "tris": 15874,
+   "footprint_tris": 858,
+   "bytes": 548508,
+   "bounds": {
+    "min": [
+     -59.591,
+     -927.2,
+     -83.514
+    ],
+    "max": [
+     58.203,
+     -782.837,
+     7.254
+    ]
+   },
+   "primary": "FJ3393",
+   "side": "midline",
+   "missing_parts": [
+    "HRA_sacrum",
+    "HRA_coccyx"
+   ],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3393": 0
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3393": 10275,
+    "sacrum__promontorium-basis": 755,
+    "sacrum__facies-pelvina-foramina": 1318,
+    "sacrum__crista-dorsalis": 2899,
+    "sacrum__hiatus-coccyx": 627,
+    "origo__facies-pelvina-foramina__FJ1428": 191,
+    "origo__crista-dorsalis__FJ1418": 399,
+    "insertio__hiatus-coccyx__FJ2547": 268
+   }
+  },
+  "cranium-occipitale": {
+   "file": "cranium-occipitale.glb",
+   "nodes": {
+    "fj": [
+     "FJ3309"
+    ],
+    "landmarks": {
+     "occipitale-squama-lambda": "cranium-occipitale__squama-lambda",
+     "occipitale-protuberantia-lineae-nuchae": "cranium-occipitale__protuberantia-lineae-nuchae",
+     "occipitale-condyli-foramen-magnum": "cranium-occipitale__condyli-foramen-magnum"
+    },
+    "landmarkParts": {
+     "occipitale-squama-lambda": "FJ3309",
+     "occipitale-protuberantia-lineae-nuchae": "FJ3309",
+     "occipitale-condyli-foramen-magnum": "FJ3309"
+    },
+    "regionParts": [
+     "FJ3309"
+    ],
+    "attachments": {
+     "att-occipitofrontalis-occipitalis-origo": "origo__squama-lambda__m-occipitofrontalis",
+     "att-trapezius-scm-occ-origo": "origo__protuberantia-lineae-nuchae__FJ1521",
+     "att-suboccipital-ins": "insertio__protuberantia-lineae-nuchae__FJ1538",
+     "att-rectus-capitis-ant-lat-ins": "insertio__condyli-foramen-magnum__FJ1582"
+    }
+   },
+   "tris": 32370,
+   "footprint_tris": 1654,
+   "bytes": 898348,
+   "bounds": {
+    "min": [
+     -61.961,
+     -1584.655,
+     -100.959
+    ],
+    "max": [
+     60.705,
+     -1477.77,
+     18.151
+    ]
+   },
+   "primary": "FJ3309",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3309": 0
+   },
+   "slug_map": {
+    "occipitale-squama-lambda": "squama-lambda",
+    "occipitale-protuberantia-lineae-nuchae": "protuberantia-lineae-nuchae",
+    "occipitale-condyli-foramen-magnum": "condyli-foramen-magnum"
+   },
+   "node_tris": {
+    "FJ3309": 27311,
+    "cranium-occipitale__squama-lambda": 1355,
+    "cranium-occipitale__protuberantia-lineae-nuchae": 1681,
+    "cranium-occipitale__condyli-foramen-magnum": 2023,
+    "origo__squama-lambda__m-occipitofrontalis": 1355,
+    "origo__protuberantia-lineae-nuchae__FJ1521": 146,
+    "insertio__protuberantia-lineae-nuchae__FJ1538": 129,
+    "insertio__condyli-foramen-magnum__FJ1582": 24
+   }
+  },
+  "atlas-c1": {
+   "file": "atlas-c1.glb",
+   "nodes": {
+    "fj": [
+     "FJ3176"
+    ],
+    "landmarks": {
+     "atlas-arcus-anterior-fovea-dentis": "atlas-c1__arcus-anterior-fovea-dentis",
+     "atlas-massa-lateralis-transversus": "atlas-c1__massa-lateralis-transversus",
+     "atlas-arcus-posterior-sulcus-arteriae": "atlas-c1__arcus-posterior-sulcus-arteriae"
+    },
+    "landmarkParts": {
+     "atlas-arcus-anterior-fovea-dentis": "FJ3176",
+     "atlas-massa-lateralis-transversus": "FJ3176",
+     "atlas-arcus-posterior-sulcus-arteriae": "FJ3176"
+    },
+    "regionParts": [
+     "FJ3176"
+    ],
+    "attachments": {
+     "att-longus-colli-rectus-ant-atlas": "insertio__arcus-anterior-fovea-dentis__m-longus-colli",
+     "att-obliquus-sup-inf-levator-atlas": "origo__massa-lateralis-transversus__m-obliquus-capitis-superior",
+     "att-rectus-capitis-post-minor-origo": "origo__arcus-posterior-sulcus-arteriae__m-rectus-capitis-posterior-minor"
+    }
+   },
+   "tris": 8376,
+   "footprint_tris": 2525,
+   "bytes": 303460,
+   "bounds": {
+    "min": [
+     -41.549,
+     -1481.43,
+     -87.785
+    ],
+    "max": [
+     40.231,
+     -1462.21,
+     -40.368
+    ]
+   },
+   "primary": "FJ3176",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3176": 1
+   },
+   "slug_map": {
+    "atlas-arcus-anterior-fovea-dentis": "arcus-anterior-fovea-dentis",
+    "atlas-massa-lateralis-transversus": "massa-lateralis-transversus",
+    "atlas-arcus-posterior-sulcus-arteriae": "arcus-posterior-sulcus-arteriae"
+   },
+   "node_tris": {
+    "FJ3176": 5850,
+    "atlas-c1__arcus-anterior-fovea-dentis": 504,
+    "atlas-c1__massa-lateralis-transversus": 1700,
+    "atlas-c1__arcus-posterior-sulcus-arteriae": 322,
+    "insertio__arcus-anterior-fovea-dentis__m-longus-colli": 504,
+    "origo__massa-lateralis-transversus__m-obliquus-capitis-superior": 1700,
+    "origo__arcus-posterior-sulcus-arteriae__m-rectus-capitis-posterior-minor": 321
+   }
+  },
+  "axis-c2": {
+   "file": "axis-c2.glb",
+   "nodes": {
+    "fj": [
+     "FJ3177"
+    ],
+    "landmarks": {
+     "axis-dens": "axis-c2__dens",
+     "axis-corpus-facies-superior": "axis-c2__corpus-facies-superior",
+     "axis-processus-spinosus": "axis-c2__processus-spinosus"
+    },
+    "landmarkParts": {
+     "axis-dens": "FJ3177",
+     "axis-corpus-facies-superior": "FJ3177",
+     "axis-processus-spinosus": "FJ3177"
+    },
+    "regionParts": [
+     "FJ3177"
+    ],
+    "attachments": {
+     "att-longus-colli-levator-c2": "origo__corpus-facies-superior__m-longus-colli",
+     "att-suboccipital-c2-origo": "origo__processus-spinosus__m-rectus-capitis-posterior-major",
+     "att-semispinalis-multifidus-c2-ins": "insertio__processus-spinosus__m-semispinalis-cervicis"
+    }
+   },
+   "tris": 16472,
+   "footprint_tris": 5430,
+   "bytes": 634964,
+   "bounds": {
+    "min": [
+     -26.111,
+     -1478.35,
+     -86.539
+    ],
+    "max": [
+     24.574,
+     -1432.941,
+     -36.443
+    ]
+   },
+   "primary": "FJ3177",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3177": 1
+   },
+   "slug_map": {
+    "axis-dens": "dens",
+    "axis-corpus-facies-superior": "corpus-facies-superior",
+    "axis-processus-spinosus": "processus-spinosus"
+   },
+   "node_tris": {
+    "FJ3177": 11135,
+    "axis-c2__dens": 663,
+    "axis-c2__corpus-facies-superior": 3918,
+    "axis-c2__processus-spinosus": 756,
+    "origo__corpus-facies-superior__m-longus-colli": 3918,
+    "origo__processus-spinosus__m-rectus-capitis-posterior-major": 756,
+    "insertio__processus-spinosus__m-semispinalis-cervicis": 756
+   }
+  },
+  "vertebrae-cervicales": {
+   "file": "vertebrae-cervicales.glb",
+   "nodes": {
+    "fj": [
+     "FJ3161",
+     "FJ3164",
+     "FJ3167",
+     "FJ3170",
+     "FJ3172"
+    ],
+    "landmarks": {
+     "cervicales-corpus-uncinatus": "vertebrae-cervicales__corpus-uncinatus",
+     "cervicales-transversus-foramen-chassaignac": "vertebrae-cervicales__transversus-foramen-chassaignac",
+     "cervicales-spinosus-prominens": "vertebrae-cervicales__spinosus-prominens"
+    },
+    "landmarkParts": {
+     "cervicales-corpus-uncinatus": "FJ3167",
+     "cervicales-transversus-foramen-chassaignac": "FJ3167",
+     "cervicales-spinosus-prominens": "FJ3167"
+    },
+    "regionParts": [
+     "FJ3167"
+    ],
+    "attachments": {
+     "att-longus-colli-capitis-cervical": "origo__corpus-uncinatus__m-longus-colli",
+     "att-scalenes-levator-cervical-origo": "origo__transversus-foramen-chassaignac__FJ1592",
+     "att-trapezius-rhomboid-splenius-nuchae-origo": "origo__spinosus-prominens__FJ1521"
+    }
+   },
+   "tris": 17418,
+   "footprint_tris": 2309,
+   "bytes": 596944,
+   "bounds": {
+    "min": [
+     -33.229,
+     -1445.74,
+     -91.671
+    ],
+    "max": [
+     31.932,
+     -1364.71,
+     -21.266
+    ]
+   },
+   "primary": "FJ3167",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3167": 1
+   },
+   "slug_map": {
+    "cervicales-corpus-uncinatus": "corpus-uncinatus",
+    "cervicales-transversus-foramen-chassaignac": "transversus-foramen-chassaignac",
+    "cervicales-spinosus-prominens": "spinosus-prominens"
+   },
+   "node_tris": {
+    "FJ3161": 2030,
+    "FJ3164": 2410,
+    "FJ3167": 5759,
+    "FJ3170": 2374,
+    "FJ3172": 1820,
+    "vertebrae-cervicales__corpus-uncinatus": 1312,
+    "vertebrae-cervicales__transversus-foramen-chassaignac": 893,
+    "vertebrae-cervicales__spinosus-prominens": 820,
+    "origo__corpus-uncinatus__m-longus-colli": 1312,
+    "origo__transversus-foramen-chassaignac__FJ1592": 485,
+    "origo__spinosus-prominens__FJ1521": 512
+   }
+  },
+  "vertebrae-thoracicae": {
+   "file": "vertebrae-thoracicae.glb",
+   "nodes": {
+    "fj": [
+     "FJ3158",
+     "FJ3160",
+     "FJ3163",
+     "FJ3166",
+     "FJ3169",
+     "FJ3171",
+     "FJ3173",
+     "FJ3174",
+     "FJ3175",
+     "FJ3154",
+     "FJ3155",
+     "FJ3156"
+    ],
+    "landmarks": {
+     "thoracicae-corpus-foveae-costales": "vertebrae-thoracicae__corpus-foveae-costales",
+     "thoracicae-transversus-fovea": "vertebrae-thoracicae__transversus-fovea",
+     "thoracicae-spinosus-articulares": "vertebrae-thoracicae__spinosus-articulares"
+    },
+    "landmarkParts": {
+     "thoracicae-corpus-foveae-costales": "FJ3171",
+     "thoracicae-transversus-fovea": "FJ3171",
+     "thoracicae-spinosus-articulares": "FJ3171"
+    },
+    "regionParts": [
+     "FJ3171"
+    ],
+    "attachments": {
+     "att-longus-colli-psoas-t12": "origo__corpus-foveae-costales__FJ1431",
+     "att-levatores-costarum-transversospinales": "origo__transversus-fovea__mm-levatores-costarum",
+     "att-trapezius-latissimus-rhomboid-thoracic-origo": "origo__spinosus-articulares__FJ1521"
+    }
+   },
+   "tris": 34834,
+   "footprint_tris": 1672,
+   "bytes": 1025852,
+   "bounds": {
+    "min": [
+     -37.383,
+     -1376.9,
+     -101.385
+    ],
+    "max": [
+     36.321,
+     -1049.96,
+     0.019
+    ]
+   },
+   "primary": "FJ3171",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3171": 1
+   },
+   "slug_map": {
+    "thoracicae-corpus-foveae-costales": "corpus-foveae-costales",
+    "thoracicae-transversus-fovea": "transversus-fovea",
+    "thoracicae-spinosus-articulares": "spinosus-articulares"
+   },
+   "node_tris": {
+    "FJ3158": 1700,
+    "FJ3160": 1938,
+    "FJ3163": 2038,
+    "FJ3166": 2066,
+    "FJ3169": 2280,
+    "FJ3171": 6096,
+    "FJ3173": 2574,
+    "FJ3174": 2424,
+    "FJ3175": 2586,
+    "FJ3154": 2790,
+    "FJ3155": 2674,
+    "FJ3156": 2772,
+    "vertebrae-thoracicae__corpus-foveae-costales": 1122,
+    "vertebrae-thoracicae__transversus-fovea": 1293,
+    "vertebrae-thoracicae__spinosus-articulares": 481,
+    "origo__corpus-foveae-costales__FJ1431": 351,
+    "origo__transversus-fovea__mm-levatores-costarum": 1293,
+    "origo__spinosus-articulares__FJ1521": 28
+   }
+  },
+  "vertebrae-lumbales": {
+   "file": "vertebrae-lumbales.glb",
+   "nodes": {
+    "fj": [
+     "FJ3157",
+     "FJ3159",
+     "FJ3162",
+     "FJ3165",
+     "FJ3168"
+    ],
+    "landmarks": {
+     "lumbales-corpus": "vertebrae-lumbales__corpus",
+     "lumbales-costarius-mamillaris": "vertebrae-lumbales__costarius-mamillaris",
+     "lumbales-spinosus-lamina-pars": "vertebrae-lumbales__spinosus-lamina-pars"
+    },
+    "landmarkParts": {
+     "lumbales-corpus": "FJ3162",
+     "lumbales-costarius-mamillaris": "FJ3162",
+     "lumbales-spinosus-lamina-pars": "FJ3162"
+    },
+    "regionParts": [
+     "FJ3162"
+    ],
+    "attachments": {
+     "att-psoas-major-minor-lumbar-origo": "origo__corpus__FJ1431",
+     "att-diaphragm-crura-origo": "origo__corpus__FJ3131",
+     "att-quadratus-lumborum-psoas-costarius": "origo__costarius-mamillaris__m-quadratus-lumborum",
+     "att-erector-spinae-thoracolumbar-fascia": "origo__spinosus-lamina-pars__m-erector-spinae"
+    }
+   },
+   "tris": 26678,
+   "footprint_tris": 2267,
+   "bytes": 762324,
+   "bounds": {
+    "min": [
+     -51.001,
+     -1071.98,
+     -115.353
+    ],
+    "max": [
+     49.574,
+     -904.595,
+     -18.245
+    ]
+   },
+   "primary": "FJ3162",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3162": 1
+   },
+   "slug_map": {
+    "lumbales-corpus": "corpus",
+    "lumbales-costarius-mamillaris": "costarius-mamillaris",
+    "lumbales-spinosus-lamina-pars": "spinosus-lamina-pars"
+   },
+   "node_tris": {
+    "FJ3157": 2972,
+    "FJ3159": 3214,
+    "FJ3162": 10032,
+    "FJ3165": 3512,
+    "FJ3168": 3892,
+    "vertebrae-lumbales__corpus": 1197,
+    "vertebrae-lumbales__costarius-mamillaris": 604,
+    "vertebrae-lumbales__spinosus-lamina-pars": 1255,
+    "origo__corpus__FJ1431": 280,
+    "origo__corpus__FJ3131": 128,
+    "origo__costarius-mamillaris__m-quadratus-lumborum": 604,
+    "origo__spinosus-lamina-pars__m-erector-spinae": 1255
+   }
+  },
+  "disci-intervertebrales": {
+   "file": "disci-intervertebrales.glb",
+   "nodes": {
+    "fj": [
+     "FJ3202",
+     "FJ3203",
+     "FJ3204",
+     "FJ3205",
+     "FJ3206",
+     "FJ3207",
+     "FJ3208",
+     "FJ3209",
+     "FJ3210",
+     "FJ3211",
+     "FJ3212",
+     "FJ3213",
+     "FJ3214",
+     "FJ3215",
+     "FJ3216",
+     "FJ3217",
+     "FJ3218",
+     "FJ3219",
+     "FJ3220",
+     "FJ3221",
+     "FJ3222",
+     "FJ3223",
+     "FJ3224"
+    ],
+    "landmarks": {
+     "disci-anulus-fibrosus": "disci-intervertebrales__anulus-fibrosus",
+     "disci-nucleus-pulposus": "disci-intervertebrales__nucleus-pulposus",
+     "disci-posterolateral-herniation": "disci-intervertebrales__posterolateral-herniation"
+    },
+    "landmarkParts": {
+     "disci-anulus-fibrosus": "FJ3216",
+     "disci-nucleus-pulposus": "FJ3216",
+     "disci-posterolateral-herniation": "FJ3216"
+    },
+    "regionParts": [
+     "FJ3216"
+    ],
+    "attachments": {
+     "att-psoas-major-disc-origo": "origo__anulus-fibrosus__FJ1431"
+    }
+   },
+   "tris": 64582,
+   "footprint_tris": 1025,
+   "bytes": 2271580,
+   "bounds": {
+    "min": [
+     -25.403,
+     -1450.94,
+     -115.991
+    ],
+    "max": [
+     23.899,
+     -894.826,
+     -30.606
+    ]
+   },
+   "primary": "FJ3216",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3216": 1
+   },
+   "slug_map": {
+    "disci-anulus-fibrosus": "anulus-fibrosus",
+    "disci-nucleus-pulposus": "nucleus-pulposus",
+    "disci-posterolateral-herniation": "posterolateral-herniation"
+   },
+   "node_tris": {
+    "FJ3202": 3712,
+    "FJ3203": 1548,
+    "FJ3204": 1836,
+    "FJ3205": 2564,
+    "FJ3206": 2630,
+    "FJ3207": 2894,
+    "FJ3208": 2940,
+    "FJ3209": 3102,
+    "FJ3210": 3336,
+    "FJ3211": 3476,
+    "FJ3212": 3498,
+    "FJ3213": 770,
+    "FJ3214": 3406,
+    "FJ3215": 3454,
+    "FJ3216": 9798,
+    "FJ3217": 3498,
+    "FJ3218": 926,
+    "FJ3219": 956,
+    "FJ3220": 892,
+    "FJ3221": 1062,
+    "FJ3222": 1232,
+    "FJ3223": 1352,
+    "FJ3224": 1450,
+    "disci-intervertebrales__anulus-fibrosus": 2529,
+    "disci-intervertebrales__nucleus-pulposus": 239,
+    "disci-intervertebrales__posterolateral-herniation": 1482,
+    "origo__anulus-fibrosus__FJ1431": 1025
+   }
+  },
+  "costae-1-2": {
+   "file": "costae-1-2.glb",
+   "nodes": {
+    "fj": [
+     "FJ3334",
+     "FJ3228",
+     "FJ3336",
+     "FJ3229"
+    ],
+    "landmarks": {
+     "costa1-caput-collum": "costae-1-2__caput-collum",
+     "costa1-lisfranc-sulci": "costae-1-2__lisfranc-sulci",
+     "costa2-tuberositas-serrati": "costae-1-2__tuberositas-serrati"
+    },
+    "landmarkParts": {
+     "costa1-caput-collum": "FJ3334",
+     "costa1-lisfranc-sulci": "FJ3334",
+     "costa2-tuberositas-serrati": "FJ3336"
+    },
+    "regionParts": [
+     "FJ3334",
+     "FJ3336"
+    ],
+    "attachments": {
+     "att-scalenus-medius-costa1-ins": "insertio__caput-collum__FJ1593",
+     "att-scalenus-ant-subclavius-costa1": "insertio__lisfranc-sulci__FJ1592",
+     "att-scalenus-post-serratus-costa2": "insertio__tuberositas-serrati__FJ1594"
+    }
+   },
+   "tris": 44350,
+   "footprint_tris": 2155,
+   "bytes": 1059924,
+   "bounds": {
+    "min": [
+     -97.162,
+     -1370.629,
+     -167.157
+    ],
+    "max": [
+     95.661,
+     -1273.51,
+     -50.647
+    ]
+   },
+   "primary": "FJ3334",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3334": 1,
+    "FJ3336": 1
+   },
+   "slug_map": {
+    "costa1-caput-collum": "caput-collum",
+    "costa1-lisfranc-sulci": "lisfranc-sulci",
+    "costa2-tuberositas-serrati": "tuberositas-serrati"
+   },
+   "node_tris": {
+    "FJ3334": 9362,
+    "FJ3228": 3276,
+    "FJ3336": 19666,
+    "FJ3229": 5594,
+    "costae-1-2__caput-collum": 2574,
+    "costae-1-2__lisfranc-sulci": 1168,
+    "costae-1-2__tuberositas-serrati": 2710,
+    "insertio__caput-collum__FJ1593": 1008,
+    "insertio__lisfranc-sulci__FJ1592": 677,
+    "insertio__tuberositas-serrati__FJ1594": 470
+   }
+  },
+  "costae-3-12": {
+   "file": "costae-3-12.glb",
+   "nodes": {
+    "fj": [
+     "FJ3338",
+     "FJ3230",
+     "FJ3340",
+     "FJ3231",
+     "FJ3342",
+     "FJ3232",
+     "FJ3344",
+     "FJ3233",
+     "FJ3346",
+     "FJ3234",
+     "FJ3347",
+     "FJ3235",
+     "FJ3348",
+     "FJ3236",
+     "FJ3330",
+     "FJ3225",
+     "FJ3331",
+     "FJ3226",
+     "FJ3332",
+     "FJ3227",
+     "FJ3333",
+     "FJ3239",
+     "FJ3335",
+     "FJ3242",
+     "FJ3337",
+     "FJ3245",
+     "FJ3339",
+     "FJ3248",
+     "FJ3341",
+     "FJ3251",
+     "FJ3343",
+     "FJ3254",
+     "FJ3345",
+     "FJ3255"
+    ],
+    "landmarks": {
+     "costae-caput-tuberculum-angulus": "costae-3-12__caput-tuberculum-angulus",
+     "costae-corpus-sulcus-van": "costae-3-12__corpus-sulcus-van",
+     "costae-cartilago-arcus-fluctuantes": "costae-3-12__cartilago-arcus-fluctuantes"
+    },
+    "landmarkParts": {
+     "costae-caput-tuberculum-angulus": "FJ3344",
+     "costae-corpus-sulcus-van": "FJ3344",
+     "costae-cartilago-arcus-fluctuantes": "FJ3343"
+    },
+    "regionParts": [
+     "FJ3344",
+     "FJ3343"
+    ],
+    "attachments": {
+     "att-iliocostalis-levatores-costae": "insertio__caput-tuberculum-angulus__mm-levatores-costarum",
+     "att-intercostals-serratus-pec-minor-costae": "origo__corpus-sulcus-van__FJ1451",
+     "att-diaphragm-abdominal-wall-costae": "origo__cartilago-arcus-fluctuantes__FJ3131"
+    }
+   },
+   "tris": 203576,
+   "footprint_tris": 16232,
+   "bytes": 5001324,
+   "bounds": {
+    "min": [
+     -137.085,
+     -1335.98,
+     -213.216
+    ],
+    "max": [
+     135.778,
+     -1008.06,
+     -3.491
+    ]
+   },
+   "primary": "FJ3344",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3344": 1,
+    "FJ3343": 1
+   },
+   "slug_map": {
+    "costae-caput-tuberculum-angulus": "caput-tuberculum-angulus",
+    "costae-corpus-sulcus-van": "corpus-sulcus-van",
+    "costae-cartilago-arcus-fluctuantes": "cartilago-arcus-fluctuantes"
+   },
+   "node_tris": {
+    "FJ3338": 7254,
+    "FJ3230": 7254,
+    "FJ3340": 8832,
+    "FJ3231": 8850,
+    "FJ3342": 9710,
+    "FJ3232": 9710,
+    "FJ3344": 28787,
+    "FJ3233": 10264,
+    "FJ3346": 10032,
+    "FJ3234": 10032,
+    "FJ3347": 8336,
+    "FJ3235": 8336,
+    "FJ3348": 7576,
+    "FJ3236": 7576,
+    "FJ3330": 6820,
+    "FJ3225": 6826,
+    "FJ3331": 4866,
+    "FJ3226": 4866,
+    "FJ3332": 2818,
+    "FJ3227": 2818,
+    "FJ3333": 676,
+    "FJ3239": 642,
+    "FJ3335": 656,
+    "FJ3242": 588,
+    "FJ3337": 652,
+    "FJ3245": 604,
+    "FJ3339": 694,
+    "FJ3248": 658,
+    "FJ3341": 1168,
+    "FJ3251": 1086,
+    "FJ3343": 2658,
+    "FJ3254": 1498,
+    "FJ3345": 2444,
+    "FJ3255": 2314,
+    "costae-3-12__caput-tuberculum-angulus": 4563,
+    "costae-3-12__corpus-sulcus-van": 7634,
+    "costae-3-12__cartilago-arcus-fluctuantes": 3478,
+    "insertio__caput-tuberculum-angulus__mm-levatores-costarum": 4563,
+    "origo__corpus-sulcus-van__FJ1451": 10234,
+    "origo__cartilago-arcus-fluctuantes__FJ3131": 1435
+   }
+  },
+  "os-frontale": {
+   "file": "os-frontale.glb",
+   "nodes": {
+    "fj": [
+     "FJ3200"
+    ],
+    "landmarks": {
+     "frontale-squama-tuber": "os-frontale__squama-tuber",
+     "frontale-glabella-linea-temporalis": "os-frontale__glabella-linea-temporalis",
+     "frontale-margo-supraorbitalis-pars-orbitalis": "os-frontale__margo-supraorbitalis-pars-orbitalis"
+    },
+    "landmarkParts": {
+     "frontale-squama-tuber": "FJ3200",
+     "frontale-glabella-linea-temporalis": "FJ3200",
+     "frontale-margo-supraorbitalis-pars-orbitalis": "FJ3200"
+    },
+    "regionParts": [
+     "FJ3200"
+    ],
+    "attachments": {
+     "att-occipitofrontalis-frontalis": "origo__squama-tuber__m-occipitofrontalis",
+     "att-corrugator-temporalis-frontale": "origo__glabella-linea-temporalis__m-corrugator-supercilii",
+     "att-orbicularis-oculi-trochlea": "origo__margo-supraorbitalis-pars-orbitalis__m-orbicularis-oculi"
+    }
+   },
+   "tris": 37726,
+   "footprint_tris": 10856,
+   "bytes": 1290040,
+   "bounds": {
+    "min": [
+     -63.65,
+     -1629.94,
+     -177.385
+    ],
+    "max": [
+     62.157,
+     -1520.89,
+     -106.639
+    ]
+   },
+   "primary": "FJ3200",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3200": 0
+   },
+   "slug_map": {
+    "frontale-squama-tuber": "squama-tuber",
+    "frontale-glabella-linea-temporalis": "glabella-linea-temporalis",
+    "frontale-margo-supraorbitalis-pars-orbitalis": "margo-supraorbitalis-pars-orbitalis"
+   },
+   "node_tris": {
+    "FJ3200": 26865,
+    "os-frontale__squama-tuber": 250,
+    "os-frontale__glabella-linea-temporalis": 2982,
+    "os-frontale__margo-supraorbitalis-pars-orbitalis": 7629,
+    "origo__squama-tuber__m-occipitofrontalis": 250,
+    "origo__glabella-linea-temporalis__m-corrugator-supercilii": 2982,
+    "origo__margo-supraorbitalis-pars-orbitalis__m-orbicularis-oculi": 7624
+   }
+  },
+  "os-parietale": {
+   "file": "os-parietale.glb",
+   "nodes": {
+    "fj": [
+     "FJ3380",
+     "FJ3274"
+    ],
+    "landmarks": {
+     "parietale-tuber-margo-sagittalis": "os-parietale__tuber-margo-sagittalis",
+     "parietale-lineae-temporales": "os-parietale__lineae-temporales",
+     "parietale-angulus-sphenoidalis-pterion": "os-parietale__angulus-sphenoidalis-pterion"
+    },
+    "landmarkParts": {
+     "parietale-tuber-margo-sagittalis": "FJ3380",
+     "parietale-lineae-temporales": "FJ3380",
+     "parietale-angulus-sphenoidalis-pterion": "FJ3380"
+    },
+    "regionParts": [
+     "FJ3380"
+    ],
+    "attachments": {
+     "att-temporalis-parietal-origo": "origo__lineae-temporales__m-temporalis"
+    }
+   },
+   "tris": 66936,
+   "footprint_tris": 2037,
+   "bytes": 1802496,
+   "bounds": {
+    "min": [
+     -76.188,
+     -1636.27,
+     -131.686
+    ],
+    "max": [
+     74.856,
+     -1517.8,
+     14.952
+    ]
+   },
+   "primary": "FJ3380",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3380": 0
+   },
+   "slug_map": {
+    "parietale-tuber-margo-sagittalis": "tuber-margo-sagittalis",
+    "parietale-lineae-temporales": "lineae-temporales",
+    "parietale-angulus-sphenoidalis-pterion": "angulus-sphenoidalis-pterion"
+   },
+   "node_tris": {
+    "FJ3380": 19905,
+    "FJ3274": 33132,
+    "os-parietale__tuber-margo-sagittalis": 11309,
+    "os-parietale__lineae-temporales": 2037,
+    "os-parietale__angulus-sphenoidalis-pterion": 553,
+    "origo__lineae-temporales__m-temporalis": 2037
+   }
+  },
+  "os-temporale": {
+   "file": "os-temporale.glb",
+   "nodes": {
+    "fj": [
+     "FJ3386",
+     "FJ3281"
+    ],
+    "landmarks": {
+     "temporale-zygomaticus-fossa-mandibularis": "os-temporale__zygomaticus-fossa-mandibularis",
+     "temporale-pars-petrosa-porus": "os-temporale__pars-petrosa-porus",
+     "temporale-mastoideus-styloideus": "os-temporale__mastoideus-styloideus"
+    },
+    "landmarkParts": {
+     "temporale-zygomaticus-fossa-mandibularis": "FJ3386",
+     "temporale-pars-petrosa-porus": "FJ3386",
+     "temporale-mastoideus-styloideus": "FJ3386"
+    },
+    "regionParts": [
+     "FJ3386"
+    ],
+    "attachments": {
+     "att-masseter-temporalis-temp-origo": "origo__zygomaticus-fossa-mandibularis__m-masseter",
+     "att-levator-veli-palatini-petrous-origo": "origo__pars-petrosa-porus__m-levator-veli-palatini",
+     "att-scm-splenius-digastric-mastoid": "insertio__mastoideus-styloideus__FJ1595",
+     "att-riolan-bouquet-styloid-origo": "origo__mastoideus-styloideus__m-stylohyoideus"
+    }
+   },
+   "tris": 25644,
+   "footprint_tris": 9591,
+   "bytes": 1128952,
+   "bounds": {
+    "min": [
+     -73.989,
+     -1551.53,
+     -133.884
+    ],
+    "max": [
+     72.585,
+     -1468.33,
+     -35.012
+    ]
+   },
+   "primary": "FJ3386",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3386": 0
+   },
+   "slug_map": {
+    "temporale-zygomaticus-fossa-mandibularis": "zygomaticus-fossa-mandibularis",
+    "temporale-pars-petrosa-porus": "pars-petrosa-porus",
+    "temporale-mastoideus-styloideus": "mastoideus-styloideus"
+   },
+   "node_tris": {
+    "FJ3386": 3891,
+    "FJ3281": 12832,
+    "os-temporale__zygomaticus-fossa-mandibularis": 626,
+    "os-temporale__pars-petrosa-porus": 6929,
+    "os-temporale__mastoideus-styloideus": 1366,
+    "origo__zygomaticus-fossa-mandibularis__m-masseter": 626,
+    "origo__pars-petrosa-porus__m-levator-veli-palatini": 6929,
+    "insertio__mastoideus-styloideus__FJ1595": 670,
+    "origo__mastoideus-styloideus__m-stylohyoideus": 1366
+   }
+  },
+  "os-sphenoidale": {
+   "file": "os-sphenoidale.glb",
+   "nodes": {
+    "fj": [
+     "FJ3394"
+    ],
+    "landmarks": {
+     "sphenoidale-sella-ala-minor": "os-sphenoidale__sella-ala-minor",
+     "sphenoidale-ala-major-foramina": "os-sphenoidale__ala-major-foramina",
+     "sphenoidale-processus-pterygoideus": "os-sphenoidale__processus-pterygoideus"
+    },
+    "landmarkParts": {
+     "sphenoidale-sella-ala-minor": "FJ3394",
+     "sphenoidale-ala-major-foramina": "FJ3394",
+     "sphenoidale-processus-pterygoideus": "FJ3394"
+    },
+    "regionParts": [
+     "FJ3394"
+    ],
+    "attachments": {
+     "att-extraocular-annulus-zinn-origo": "origo__sella-ala-minor__mm-recti-oculi",
+     "att-lat-pterygoid-sup-head-origo": "origo__ala-major-foramina__m-pterygoideus-lateralis",
+     "att-med-lat-pterygoid-plates-origo": "origo__processus-pterygoideus__m-pterygoideus-lateralis",
+     "att-tensor-veli-constrictor-origo": "origo__processus-pterygoideus__m-tensor-veli-palatini"
+    }
+   },
+   "tris": 21200,
+   "footprint_tris": 5919,
+   "bytes": 925772,
+   "bounds": {
+    "min": [
+     -56.32,
+     -1548.46,
+     -145.019
+    ],
+    "max": [
+     55.033,
+     -1478.778,
+     -90.413
+    ]
+   },
+   "primary": "FJ3394",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3394": 0
+   },
+   "slug_map": {
+    "sphenoidale-sella-ala-minor": "sella-ala-minor",
+    "sphenoidale-ala-major-foramina": "ala-major-foramina",
+    "sphenoidale-processus-pterygoideus": "processus-pterygoideus"
+   },
+   "node_tris": {
+    "FJ3394": 15829,
+    "os-sphenoidale__sella-ala-minor": 1871,
+    "os-sphenoidale__ala-major-foramina": 2952,
+    "os-sphenoidale__processus-pterygoideus": 548,
+    "origo__sella-ala-minor__mm-recti-oculi": 1871,
+    "origo__ala-major-foramina__m-pterygoideus-lateralis": 2952,
+    "origo__processus-pterygoideus__m-pterygoideus-lateralis": 548,
+    "origo__processus-pterygoideus__m-tensor-veli-palatini": 548
+   }
+  },
+  "os-ethmoidale": {
+   "file": "os-ethmoidale.glb",
+   "nodes": {
+    "fj": [
+     "FJ3199"
+    ],
+    "landmarks": {
+     "ethmoidale-crista-galli-lamina-cribrosa": "os-ethmoidale__crista-galli-lamina-cribrosa",
+     "ethmoidale-labyrinthus-papyracea": "os-ethmoidale__labyrinthus-papyracea",
+     "ethmoidale-lamina-perpendicularis-conchae": "os-ethmoidale__lamina-perpendicularis-conchae"
+    },
+    "landmarkParts": {
+     "ethmoidale-crista-galli-lamina-cribrosa": "FJ3199",
+     "ethmoidale-labyrinthus-papyracea": "FJ3199",
+     "ethmoidale-lamina-perpendicularis-conchae": "FJ3199"
+    },
+    "regionParts": [
+     "FJ3199"
+    ],
+    "attachments": {}
+   },
+   "tris": 22230,
+   "footprint_tris": 0,
+   "bytes": 579264,
+   "bounds": {
+    "min": [
+     -21.51,
+     -1532.34,
+     -167.2
+    ],
+    "max": [
+     20.201,
+     -1497.28,
+     -119.816
+    ]
+   },
+   "primary": "FJ3199",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3199": 0
+   },
+   "slug_map": {
+    "ethmoidale-crista-galli-lamina-cribrosa": "crista-galli-lamina-cribrosa",
+    "ethmoidale-labyrinthus-papyracea": "labyrinthus-papyracea",
+    "ethmoidale-lamina-perpendicularis-conchae": "lamina-perpendicularis-conchae"
+   },
+   "node_tris": {
+    "FJ3199": 15460,
+    "os-ethmoidale__crista-galli-lamina-cribrosa": 2003,
+    "os-ethmoidale__labyrinthus-papyracea": 952,
+    "os-ethmoidale__lamina-perpendicularis-conchae": 3815
+   }
+  },
+  "maxilla": {
+   "file": "maxilla.glb",
+   "nodes": {
+    "fj": [
+     "FJ3375",
+     "FJ3269"
+    ],
+    "landmarks": {
+     "maxilla-infraorbitalis-frontalis": "maxilla__infraorbitalis-frontalis",
+     "maxilla-corpus-fossa-canina-tuber": "maxilla__corpus-fossa-canina-tuber",
+     "maxilla-alveolaris-palatinus": "maxilla__alveolaris-palatinus"
+    },
+    "landmarkParts": {
+     "maxilla-infraorbitalis-frontalis": "FJ3375",
+     "maxilla-corpus-fossa-canina-tuber": "FJ3375",
+     "maxilla-alveolaris-palatinus": "FJ3375"
+    },
+    "regionParts": [
+     "FJ3375"
+    ],
+    "attachments": {
+     "att-levator-labii-obliquus-inf-origo": "origo__infraorbitalis-frontalis__m-levator-labii-superioris",
+     "att-levator-anguli-nasalis-pterygoid-origo": "origo__corpus-fossa-canina-tuber__m-levator-anguli-oris",
+     "att-buccinator-maxilla-origo": "origo__alveolaris-palatinus__m-buccinator"
+    }
+   },
+   "tris": 27356,
+   "footprint_tris": 9580,
+   "bytes": 1184064,
+   "bounds": {
+    "min": [
+     -47.611,
+     -1533.496,
+     -184.178
+    ],
+    "max": [
+     45.795,
+     -1463.763,
+     -126.814
+    ]
+   },
+   "primary": "FJ3375",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 0,
+   "region_part_levels": {
+    "FJ3375": 0
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ3375": 4262,
+    "FJ3269": 13514,
+    "maxilla__infraorbitalis-frontalis": 335,
+    "maxilla__corpus-fossa-canina-tuber": 8221,
+    "maxilla__alveolaris-palatinus": 1024,
+    "origo__infraorbitalis-frontalis__m-levator-labii-superioris": 335,
+    "origo__corpus-fossa-canina-tuber__m-levator-anguli-oris": 8221,
+    "origo__alveolaris-palatinus__m-buccinator": 1024
+   }
+  },
+  "os-zygomaticum": {
+   "file": "os-zygomaticum.glb",
+   "nodes": {
+    "fj": [
+     "FJ3392",
+     "FJ3287"
+    ],
+    "landmarks": {
+     "zygomaticum-frontalis-orbitalis": "os-zygomaticum__frontalis-orbitalis",
+     "zygomaticum-facies-lateralis": "os-zygomaticum__facies-lateralis",
+     "zygomaticum-temporalis-margo-massetericus": "os-zygomaticum__temporalis-margo-massetericus"
+    },
+    "landmarkParts": {
+     "zygomaticum-frontalis-orbitalis": "FJ3392",
+     "zygomaticum-facies-lateralis": "FJ3392",
+     "zygomaticum-temporalis-margo-massetericus": "FJ3392"
+    },
+    "regionParts": [
+     "FJ3392"
+    ],
+    "attachments": {
+     "att-zygomaticus-major-minor-origo": "origo__facies-lateralis__m-zygomaticus-major",
+     "att-masseter-zygomatic-origo": "origo__temporalis-margo-massetericus__m-masseter"
+    }
+   },
+   "tris": 19904,
+   "footprint_tris": 7357,
+   "bytes": 724004,
+   "bounds": {
+    "min": [
+     -64.764,
+     -1536.74,
+     -161.453
+    ],
+    "max": [
+     63.244,
+     -1480.62,
+     -121.584
+    ]
+   },
+   "primary": "FJ3392",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ3392": 1
+   },
+   "slug_map": {
+    "zygomaticum-frontalis-orbitalis": "frontalis-orbitalis",
+    "zygomaticum-facies-lateralis": "facies-lateralis",
+    "zygomaticum-temporalis-margo-massetericus": "temporalis-margo-massetericus"
+   },
+   "node_tris": {
+    "FJ3392": 7966,
+    "FJ3287": 3728,
+    "os-zygomaticum__frontalis-orbitalis": 853,
+    "os-zygomaticum__facies-lateralis": 6847,
+    "os-zygomaticum__temporalis-margo-massetericus": 510,
+    "origo__facies-lateralis__m-zygomaticus-major": 6847,
+    "origo__temporalis-margo-massetericus__m-masseter": 510
+   }
+  },
+  "ossa-nasi-faciei": {
+   "file": "ossa-nasi-faciei.glb",
+   "nodes": {
+    "fj": [
+     "FJ3378",
+     "FJ3272",
+     "FJ3371",
+     "FJ3265",
+     "FJ3379",
+     "FJ3273",
+     "FJ3395",
+     "FJ3369",
+     "FJ3263"
+    ],
+    "landmarks": {
+     "nasi-lacrimale": "ossa-nasi-faciei__lacrimale",
+     "vomer-concha-inferior": "ossa-nasi-faciei__concha-inferior",
+     "palatinum-lamina-horizontalis": "ossa-nasi-faciei__lamina-horizontalis"
+    },
+    "landmarkParts": {
+     "nasi-lacrimale": "FJ3378",
+     "vomer-concha-inferior": "FJ3395",
+     "palatinum-lamina-horizontalis": "FJ3379"
+    },
+    "regionParts": [
+     "FJ3378",
+     "FJ3395",
+     "FJ3379"
+    ],
+    "attachments": {
+     "att-procerus-horner-origo": "origo__lacrimale__m-procerus",
+     "att-uvulae-tensor-pterygoid-palatine": "origo__lamina-horizontalis__m-uvulae"
+    }
+   },
+   "tris": 47642,
+   "footprint_tris": 3098,
+   "bytes": 1233884,
+   "bounds": {
+    "min": [
+     -29.0,
+     -1533.49,
+     -190.833
+    ],
+    "max": [
+     27.458,
+     -1470.16,
+     -103.313
+    ]
+   },
+   "primary": "FJ3378",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3378": 2,
+    "FJ3395": 1,
+    "FJ3379": 1
+   },
+   "slug_map": {
+    "nasi-lacrimale": "lacrimale",
+    "vomer-concha-inferior": "concha-inferior",
+    "palatinum-lamina-horizontalis": "lamina-horizontalis"
+   },
+   "node_tris": {
+    "FJ3378": 5567,
+    "FJ3272": 438,
+    "FJ3371": 702,
+    "FJ3265": 640,
+    "FJ3379": 4935,
+    "FJ3273": 1938,
+    "FJ3395": 24221,
+    "FJ3369": 714,
+    "FJ3263": 738,
+    "ossa-nasi-faciei__lacrimale": 1089,
+    "ossa-nasi-faciei__concha-inferior": 4651,
+    "ossa-nasi-faciei__lamina-horizontalis": 2009,
+    "origo__lacrimale__m-procerus": 1089,
+    "origo__lamina-horizontalis__m-uvulae": 2009
+   }
+  },
+  "os-hyoideum": {
+   "file": "os-hyoideum.glb",
+   "nodes": {
+    "fj": [
+     "FJ3201"
+    ],
+    "landmarks": {
+     "hyoideum-cornu-minus": "os-hyoideum__cornu-minus",
+     "hyoideum-corpus": "os-hyoideum__corpus",
+     "hyoideum-cornu-majus": "os-hyoideum__cornu-majus"
+    },
+    "landmarkParts": {
+     "hyoideum-cornu-minus": "FJ3201",
+     "hyoideum-corpus": "FJ3201",
+     "hyoideum-cornu-majus": "FJ3201"
+    },
+    "regionParts": [
+     "FJ3201"
+    ],
+    "attachments": {
+     "att-stylohyoideus-digastricus-sling": "insertio__cornu-minus__m-stylohyoideus",
+     "att-suprahyoid-corpus-ins": "insertio__corpus__FJ1583",
+     "att-infrahyoid-corpus-ins": "insertio__corpus__FJ1596",
+     "att-hyoglossus-constrictor-thyrohyoid": "origo__cornu-majus__m-hyoglossus"
+    }
+   },
+   "tris": 19136,
+   "footprint_tris": 9017,
+   "bytes": 668256,
+   "bounds": {
+    "min": [
+     -19.712,
+     -1440.86,
+     -129.134
+    ],
+    "max": [
+     18.282,
+     -1422.221,
+     -94.229
+    ]
+   },
+   "primary": "FJ3201",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 2,
+   "region_part_levels": {
+    "FJ3201": 2
+   },
+   "slug_map": {
+    "hyoideum-cornu-minus": "cornu-minus",
+    "hyoideum-corpus": "corpus",
+    "hyoideum-cornu-majus": "cornu-majus"
+   },
+   "node_tris": {
+    "FJ3201": 11690,
+    "os-hyoideum__cornu-minus": 2692,
+    "os-hyoideum__corpus": 3558,
+    "os-hyoideum__cornu-majus": 1196,
+    "insertio__cornu-minus__m-stylohyoideus": 2692,
+    "insertio__corpus__FJ1583": 3521,
+    "insertio__corpus__FJ1596": 1608,
+    "origo__cornu-majus__m-hyoglossus": 1196
+   }
+  },
+  "ossicula-auditus": {
+   "file": "ossicula-auditus.glb",
+   "nodes": {
+    "fj": [
+     "MOD_malleus_r",
+     "MOD_malleus_l",
+     "MOD_incus_r",
+     "MOD_incus_l",
+     "MOD_stapes_r",
+     "MOD_stapes_l"
+    ],
+    "landmarks": {
+     "ossicula-malleus": "ossicula-auditus__malleus",
+     "ossicula-incus": "ossicula-auditus__incus",
+     "ossicula-stapes": "ossicula-auditus__stapes"
+    },
+    "landmarkParts": {
+     "ossicula-malleus": "MOD_malleus_r",
+     "ossicula-incus": "MOD_incus_r",
+     "ossicula-stapes": "MOD_stapes_r"
+    },
+    "regionParts": [
+     "MOD_malleus_r",
+     "MOD_incus_r",
+     "MOD_stapes_r"
+    ],
+    "attachments": {
+     "att-tensor-tympani-malleus-ins": "insertio__malleus__m-tensor-tympani",
+     "att-stapedius-ins": "insertio__stapes__m-stapedius"
+    }
+   },
+   "tris": 54280,
+   "footprint_tris": 19550,
+   "bytes": 1684128,
+   "bounds": {
+    "min": [
+     -52.853,
+     -1518.542,
+     -84.286
+    ],
+    "max": [
+     50.577,
+     -1509.938,
+     -77.261
+    ]
+   },
+   "primary": "MOD_malleus_r",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "MOD_malleus_r": 1,
+    "MOD_incus_r": 1,
+    "MOD_stapes_r": 1
+   },
+   "slug_map": {
+    "ossicula-malleus": "malleus",
+    "ossicula-incus": "incus",
+    "ossicula-stapes": "stapes"
+   },
+   "node_tris": {
+    "MOD_malleus_r": 6403,
+    "MOD_malleus_l": 3982,
+    "MOD_incus_r": 3694,
+    "MOD_incus_l": 2532,
+    "MOD_stapes_r": 7343,
+    "MOD_stapes_l": 4342,
+    "ossicula-auditus__malleus": 9525,
+    "ossicula-auditus__incus": 6434,
+    "ossicula-auditus__stapes": 10025,
+    "insertio__malleus__m-tensor-tympani": 9525,
+    "insertio__stapes__m-stapedius": 10025
+   }
+  },
+  "dentes": {
+   "file": "dentes.glb",
+   "nodes": {
+    "fj": [
+     "FJ1254",
+     "FJ1255",
+     "FJ1256",
+     "FJ1257",
+     "FJ1258",
+     "FJ1259",
+     "FJ1260",
+     "FJ1261",
+     "FJ1262",
+     "FJ1263",
+     "FJ1264",
+     "FJ1265",
+     "FJ1266",
+     "FJ1267",
+     "FJ1268",
+     "FJ1269",
+     "FJ1270",
+     "FJ1271",
+     "FJ1272",
+     "FJ1273",
+     "FJ1274",
+     "FJ1275",
+     "FJ1276",
+     "FJ1277",
+     "FJ1278",
+     "FJ1279",
+     "FJ1280",
+     "FJ1281"
+    ],
+    "landmarks": {
+     "dentes-corona-enamelum": "dentes__corona-enamelum",
+     "dentes-cervix-pulpa": "dentes__cervix-pulpa",
+     "dentes-radix-periodontium": "dentes__radix-periodontium"
+    },
+    "landmarkParts": {
+     "dentes-corona-enamelum": "FJ1276",
+     "dentes-cervix-pulpa": "FJ1276",
+     "dentes-radix-periodontium": "FJ1276"
+    },
+    "regionParts": [
+     "FJ1276"
+    ],
+    "attachments": {}
+   },
+   "tris": 46208,
+   "footprint_tris": 0,
+   "bytes": 1069916,
+   "bounds": {
+    "min": [
+     -33.447,
+     -1484.52,
+     -183.349
+    ],
+    "max": [
+     32.158,
+     -1427.15,
+     -126.34
+    ]
+   },
+   "primary": "FJ1276",
+   "side": "right",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ1276": 1
+   },
+   "slug_map": {},
+   "node_tris": {
+    "FJ1254": 1762,
+    "FJ1255": 1176,
+    "FJ1256": 1616,
+    "FJ1257": 1122,
+    "FJ1258": 918,
+    "FJ1259": 960,
+    "FJ1260": 1180,
+    "FJ1261": 2156,
+    "FJ1262": 1610,
+    "FJ1263": 1844,
+    "FJ1264": 1466,
+    "FJ1265": 1288,
+    "FJ1266": 1378,
+    "FJ1267": 1392,
+    "FJ1268": 1762,
+    "FJ1269": 1180,
+    "FJ1270": 1620,
+    "FJ1271": 1124,
+    "FJ1272": 920,
+    "FJ1273": 958,
+    "FJ1274": 1178,
+    "FJ1275": 1850,
+    "FJ1276": 735,
+    "FJ1277": 1610,
+    "FJ1278": 1466,
+    "FJ1279": 1288,
+    "FJ1280": 1368,
+    "FJ1281": 1392,
+    "dentes__corona-enamelum": 3705,
+    "dentes__cervix-pulpa": 769,
+    "dentes__radix-periodontium": 3415
+   }
+  },
+  "cartilagines-laryngis-nasi": {
+   "file": "cartilagines-laryngis-nasi.glb",
+   "nodes": {
+    "fj": [
+     "FJ2808",
+     "FJ2769",
+     "FJ2792",
+     "FJ2775",
+     "FJ2793",
+     "FJ2776",
+     "FJ2795",
+     "FJ2773",
+     "FJ2557",
+     "FJ2556",
+     "FJ2558",
+     "FJ2554",
+     "FJ2555"
+    ],
+    "landmarks": {
+     "laryngis-thyroidea": "cartilagines-laryngis-nasi__thyroidea",
+     "laryngis-arytenoidea-nasi": "cartilagines-laryngis-nasi__arytenoidea-nasi",
+     "laryngis-cricoidea": "cartilagines-laryngis-nasi__cricoidea"
+    },
+    "landmarkParts": {
+     "laryngis-thyroidea": "FJ2808",
+     "laryngis-arytenoidea-nasi": "FJ2792",
+     "laryngis-cricoidea": "FJ2769"
+    },
+    "regionParts": [
+     "FJ2808",
+     "FJ2792",
+     "FJ2769"
+    ],
+    "attachments": {
+     "att-linea-obliqua-thyroid-muscles": "insertio__thyroidea__FJ1597",
+     "att-thyroarytenoideus-vocalis-origo": "origo__thyroidea__m-thyroarytenoideus",
+     "att-arytenoid-adductors-ins": "insertio__arytenoidea-nasi__m-cricoarytenoideus-lateralis",
+     "att-pca-cricothyroid-origo": "origo__cricoidea__m-cricoarytenoideus-posterior"
+    }
+   },
+   "tris": 29170,
+   "footprint_tris": 6902,
+   "bytes": 877608,
+   "bounds": {
+    "min": [
+     -19.98,
+     -1512.86,
+     -208.456
+    ],
+    "max": [
+     18.683,
+     -1386.97,
+     -91.506
+    ]
+   },
+   "primary": "FJ2808",
+   "side": "midline",
+   "missing_parts": [],
+   "subdivision_levels": 1,
+   "region_part_levels": {
+    "FJ2808": 1,
+    "FJ2792": 2,
+    "FJ2769": 1
+   },
+   "slug_map": {
+    "laryngis-thyroidea": "thyroidea",
+    "laryngis-arytenoidea-nasi": "arytenoidea-nasi",
+    "laryngis-cricoidea": "cricoidea"
+   },
+   "node_tris": {
+    "FJ2808": 9777,
+    "FJ2769": 5208,
+    "FJ2792": 4127,
+    "FJ2775": 536,
+    "FJ2793": 172,
+    "FJ2776": 136,
+    "FJ2795": 170,
+    "FJ2773": 174,
+    "FJ2557": 414,
+    "FJ2556": 424,
+    "FJ2558": 476,
+    "FJ2554": 366,
+    "FJ2555": 414,
+    "cartilagines-laryngis-nasi__thyroidea": 663,
+    "cartilagines-laryngis-nasi__arytenoidea-nasi": 4513,
+    "cartilagines-laryngis-nasi__cricoidea": 1600,
+    "insertio__thyroidea__FJ1597": 126,
+    "origo__thyroidea__m-thyroarytenoideus": 663,
+    "insertio__arytenoidea-nasi__m-cricoarytenoideus-lateralis": 4513,
+    "origo__cricoidea__m-cricoarytenoideus-posterior": 1600
+   }
+  }
+ }
+}

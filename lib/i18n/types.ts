@@ -15,6 +15,7 @@ export interface TranslationDictionary {
     downloadShort: string;
     menuOpen: string;
     menuClose: string;
+    osteology: string;
   };
   footer: {
     description: string;

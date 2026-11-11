@@ -15,6 +15,7 @@ export const tr: TranslationDictionary = {
     downloadShort: "İndir",
     menuOpen: "Menüyü Aç",
     menuClose: "Menüyü Kapat",
+    osteology: "Kemik Anatomisi",
   },
   footer: {
     description:

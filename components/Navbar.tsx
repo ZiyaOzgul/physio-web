@@ -24,6 +24,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
       "/zilli-sinav": "Zilli Kadavra Sınavı Simülatörü (OSCE) | Anatomi 3D",
       "/cihaz-deneyimi": "Çoklu Cihaz & Tablet/Mobil Deneyimi | Anatomi 3D",
       "/topluluk-ve-indir": "Fakülte Topluluğu & Uygulamayı İndir | Anatomi 3D",
+      "/kemik-anatomisi": "3D Osteoloji Atlası & Kemik Anatomisi | Anatomi 3D",
       "/profil": "Öğrenci Profili | Anatomi 3D",
       "/kvkk": "Kullanım Koşulları & KVKK Aydınlatma Metni | Anatomi 3D",
     };
@@ -34,6 +35,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
       "/zilli-sinav": "Cadaver Bell Exam Simulator (OSCE) | Anatomy 3D",
       "/cihaz-deneyimi": "Cross-Device Tablet & Mobile Studio | Anatomy 3D",
       "/topluluk-ve-indir": "Faculty Study Pods & Download App | Anatomy 3D",
+      "/kemik-anatomisi": "3D Bone Anatomy & Osteology Atlas | Anatomy 3D",
       "/profil": "Student Profile | Anatomy 3D",
       "/kvkk": "Terms of Use, Privacy & GDPR Compliance | Anatomy 3D",
     };
@@ -46,6 +48,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
   const navLinks = [
     { href: "/", label: t.nav.home },
     { href: "/atlas", label: t.nav.atlas },
+    { href: "/kemik-anatomisi", label: t.nav.osteology },
     { href: "/ogrenme-yolu", label: t.nav.learn },
     { href: "/zilli-sinav", label: t.nav.exam },
     { href: "/cihaz-deneyimi", label: t.nav.device },

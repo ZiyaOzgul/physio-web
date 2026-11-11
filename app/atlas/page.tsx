@@ -399,6 +399,13 @@ export default function AtlasPage() {
                 >
                   {t.atlasPage.presetNeuro}
                 </button>
+                <Link
+                  href="/kemik-anatomisi"
+                  className="px-3 py-1 text-[11px] font-bold font-archivo rounded whitespace-nowrap transition-all cursor-pointer bg-[#003752] text-white hover:bg-[#1f4e6b] shadow-xs flex items-center gap-1"
+                >
+                  <span className="material-symbols-outlined text-[14px]">skeleton</span>
+                  <span>{language === "tr" ? "KEMİK ANATOMİSİ (43 KEMİK)" : "BONE ANATOMY (43 BONES)"}</span>
+                </Link>
               </div>
             </div>
 
@@ -637,6 +644,31 @@ export default function AtlasPage() {
                       </div>
                     );
                   })}
+                </div>
+
+                {/* 3D Osteoloji / Kemik Anatomisi Hızlı Erişim */}
+                <div className="mt-2 p-3.5 rounded-xl bg-gradient-to-br from-[#003752] to-[#006591] text-white flex flex-col gap-2 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[12px] font-bold font-archivo uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[18px]">skeleton</span>
+                      {language === "tr" ? "3D Osteoloji Atlası" : "3D Osteology Atlas"}
+                    </span>
+                    <span className="px-1.5 py-0.5 rounded bg-white/20 text-[10px] font-mono font-bold">
+                      43 KEMİK
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-sky-100 leading-snug">
+                    {language === "tr"
+                      ? "Femur, humerus, skapula ve tüm kemikleri tek tek izole inceleyin; numaralı çıkıntıları ve kas tutunmalarını görün."
+                      : "Inspect isolated 3D bones with numbered landmarks, tubercles, and muscle attachments."}
+                  </p>
+                  <Link
+                    href="/kemik-anatomisi"
+                    className="self-start mt-0.5 px-3 py-1.5 rounded-lg bg-white text-[#003752] hover:bg-sky-50 text-[11px] font-bold flex items-center gap-1 transition-all shadow-xs"
+                  >
+                    <span>{language === "tr" ? "Kemik Anatomisini Aç" : "Open Bone Anatomy"}</span>
+                    <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </Link>
                 </div>
               </div>
 
