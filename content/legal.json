@@ -1,0 +1,110 @@
+{
+ "updated": {
+  "tr": "Son güncelleme: Ekim 2026",
+  "en": "Last updated: October 2026"
+ },
+ "privacy": {
+  "title": {
+   "tr": "Gizlilik ve Veri Yönetimi",
+   "en": "Privacy & Data Management"
+  },
+  "sections": [
+   {
+    "title": {
+     "tr": "1. Toplanan Veriler ve İşleme Amacı",
+     "en": "1. Data Collected & Purpose"
+    },
+    "body": {
+     "tr": "Anatomi 3D; yalnızca anatomi eğitimini kişiselleştirmek amacıyla hesap kimlik bilgilerini (e-posta, ad, @kullanıcı_adı), akademik tercihlerini (okunan bölüm, hedeflenen öğrenme derinliği) ve çalışma istatistiklerini (kazanılan XP, günlük seri, tamamlanan dersler, sistem hakimiyet yüzdeleri ve rozetler) işler.",
+     "en": "Anatomi 3D processes account identity fields (email, display name, @handle), academic preferences (department, target study depth), and learning metrics (XP, daily streak, completed lessons, system mastery percentages, and badges) solely to personalize your anatomy curriculum."
+    }
+   },
+   {
+    "title": {
+     "tr": "2. Veri Saklama ve Güvenlik (RLS)",
+     "en": "2. Storage & Security (RLS)"
+    },
+    "body": {
+     "tr": "Çalışma verilerin çevrimdışı kullanımda cihazının güvenli yerel belleğinde (AsyncStorage) tutulur. Bulut hesabı ile giriş yaptığında verilerin TLS şifrelemesiyle Supabase (physio-app) altyapısına aktarılır ve Satır Düzeyinde Güvenlik (Row Level Security — RLS) politikalarıyla yalnızca senin oturumuna yetkilendirilir.",
+     "en": "Offline study data is stored in secure local storage (AsyncStorage) on your device. When signed in with a cloud account, your data is transmitted over TLS to Supabase (physio-app) and protected by Row Level Security (RLS) policies scoped strictly to your authenticated session."
+    }
+   },
+   {
+    "title": {
+     "tr": "3. Üçüncü Taraflarla Paylaşım",
+     "en": "3. Third-Party Sharing"
+    },
+    "body": {
+     "tr": "Kişisel verilerin ve çalışma geçmişin hiçbir koşulda reklam ağlarına, veri aracılık şirketlerine veya üçüncü taraflara satılmaz ve pazarlama amacıyla paylaşılmaz.",
+     "en": "Your personal data and study history are never sold, rented, or shared with advertising networks or third-party data brokers."
+    }
+   },
+   {
+    "title": {
+     "tr": "4. KVKK ve GDPR Kapsamındaki Hakların",
+     "en": "4. Your Rights Under KVKK & GDPR"
+    },
+    "body": {
+     "tr": "6698 sayılı KVKK kapsamında verilerine erişme, profil bilgilerini düzeltme, yerel çalışma geçmişini sıfırlama ve bulut hesabının silinmesini talep etme hakkına sahipsin.",
+     "en": "You have the right to access your data, update your profile details, reset your local learning history at any time, and request deletion of your cloud account."
+    }
+   }
+  ]
+ },
+ "terms": {
+  "title": {
+   "tr": "Kullanım Koşulları ve Tıbbi Uyarı",
+   "en": "Terms of Use & Medical Disclaimer"
+  },
+  "disclaimerTitle": {
+   "tr": "Yalnızca Akademik ve Anatomik Eğitim Amaçlıdır",
+   "en": "For Academic & Anatomical Education Only"
+  },
+  "disclaimerBody": {
+   "tr": "Anatomi 3D; tıp, diş hekimliği, fizyoterapi ve rehabilitasyon, hemşirelik ve sağlık bilimleri öğrencileri için geliştirilmiş bir 3B anatomi eğitim uygulamasıdır. Uygulama içerisindeki hiçbir 3B model, ders içeriği, soru veya açıklama tıbbi tanı, teşhis veya klinik tedavi tavsiyesi niteliği taşımaz. Klinik kararlar için daima güncel tıbbi kılavuzlara ve uzman hekim görüşüne başvurulmalıdır.",
+   "en": "Anatomi 3D is a 3D anatomy education platform designed for students of medicine, dentistry, physiotherapy & rehabilitation, nursing, and health sciences. None of the 3D models, lessons, quizzes, or descriptions in the app constitute medical diagnosis, clinical advice, or treatment recommendations. Always consult qualified physicians and clinical guidelines for medical decisions."
+  },
+  "sections": [
+   {
+    "title": {
+     "tr": "1. Hizmet Kapsamı",
+     "en": "1. Scope of Service"
+    },
+    "body": {
+     "tr": "Uygulama; etkileşimli 3B insan anatomisi atlası, bölgesel odak paketleri, ünite sınavları, zamanlı Latince zilli sınav (spot exam) simülasyonu ve bölüme özel eğitim yol haritası sunar.",
+     "en": "The application provides an interactive 3D human anatomy atlas, regional focus packs, unit quizzes, timed Latin spot exam simulations, and a department-tailored study roadmap."
+    }
+   },
+   {
+    "title": {
+     "tr": "2. Hesap ve Topluluk Kuralları",
+     "en": "2. Account & Community Rules"
+    },
+    "body": {
+     "tr": "Kullanıcılar oluşturdukları @kullanıcı_adı ve profil bilgilerinde yanıltıcı klinik unvan kullanmamayı ve topluluk sıralamasında akademik dürüstlük ilkelerine uymayı kabul eder.",
+     "en": "Users agree not to use misleading clinical credentials in their @handle or profile details and to uphold academic integrity across community leaderboards."
+    }
+   },
+   {
+    "title": {
+     "tr": "3. Fikri Mülkiyet ve İçerik Hakları",
+     "en": "3. Intellectual Property & Licenses"
+    },
+    "body": {
+     "tr": "Uygulama arayüzü, yazılım mimarisi, soru algoritmaları ve eğitim kurgusu Anatomi 3D projesine aittir. 3B anatomik modeller ise Hakkında sayfasında belirtilen açık bilimsel lisanslar (CC-BY-SA 4.0) kapsamında kullanılmaktadır.",
+     "en": "The application interface, software architecture, question algorithms, and curriculum design belong to the Anatomi 3D project. 3D anatomical models are provided under the open scientific licenses (CC-BY-SA 4.0) detailed on the About page."
+    }
+   },
+   {
+    "title": {
+     "tr": "4. Güncellemeler ve Hizmet Sürekliliği",
+     "en": "4. Updates & Service Continuity"
+    },
+    "body": {
+     "tr": "Anatomik isimlendirmeler (Terminologia Anatomica), ders soruları ve 3B bölge paketleri akademik doğrulama süreçleri doğrultusunda periyodik olarak güncellenebilir.",
+     "en": "Anatomical nomenclature (Terminologia Anatomica), lesson questions, and 3D regional packs may be updated periodically following academic review."
+    }
+   }
+  ]
+ }
+}

@@ -1,55 +1,90 @@
 @import "tailwindcss";
 
+/*
+ * Same visual system as the mobile app (src/theme/tokens.ts, "Industry"): one steel-blue accent on a neutral
+ * ground, ink text, hairline frames, one card radius (14) and one control radius (10). No gradients, glass,
+ * glow or drop shadows; Barlow Condensed for headings and controls, Barlow for text.
+ */
 :root {
-  --background: #f8f9ff;
-  --foreground: #0b1c30;
-  --primary: #003752;
-  --primary-container: #1f4e6b;
-  --secondary: #006591;
-  --secondary-container: #39b8fd;
-  --tertiary: #6d001c;
-  --surface: #f8f9ff;
-  --surface-container-lowest: #ffffff;
-  --surface-container-low: #eff4ff;
-  --surface-container: #e5eeff;
-  --surface-container-high: #dce9ff;
-  --surface-container-highest: #d3e4fe;
-  --on-surface: #0b1c30;
-  --on-surface-variant: #41474d;
-  --outline: #72787e;
-  --outline-variant: #c1c7ce;
+  --ground: #f2f2f3;
+  --ink: #1d1f20;
+  --ink-soft: #5d5d60;
+  --ink-muted: #7a7a7d;
+  --line: #dcdcdf;
+  --line-strong: #b7b7ba;
+  --fill: #ececee;
+  --card: #ffffff;
+  --accent: #5980a6;
+  --accent-100: #eef6ff;
+  --accent-200: #d6ebff;
+  --accent-300: #b5d9fd;
+  --accent-700: #416180;
+  --accent-800: #2c455d;
+  --danger: #b8494b;
+  --success: #3f8a5f;
+  --stage: #e9e9ea;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: #003752;
-  --color-primary-container: #1f4e6b;
-  --color-secondary: #006591;
-  --color-secondary-container: #39b8fd;
-  --color-tertiary: #6d001c;
-  --color-surface: #f8f9ff;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #eff4ff;
-  --color-surface-container: #e5eeff;
-  --color-surface-container-high: #dce9ff;
-  --color-surface-container-highest: #d3e4fe;
-  --color-on-surface: #0b1c30;
-  --color-on-surface-variant: #41474d;
-  --color-outline: #72787e;
-  --color-outline-variant: #c1c7ce;
-  --font-headline: var(--font-archivo);
-  --font-body: var(--font-jakarta);
-  --font-mono: var(--font-mono);
+  --color-ground: var(--ground);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fill: var(--fill);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-stage: var(--stage);
+  --font-sans: var(--font-barlow), system-ui, sans-serif;
+  --font-archivo: var(--font-barlow-condensed), var(--font-barlow), sans-serif;
+  --font-headline: var(--font-barlow-condensed), var(--font-barlow), sans-serif;
+  /* Numbers, ids and small tracked labels: the body face with tabular figures (no monospace costume). */
+  --font-data: var(--font-barlow), system-ui, sans-serif;
+  --radius-card: 14px;
+  --radius-control: 10px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--ground);
+  color: var(--ink);
   overflow-x: hidden;
 }
 
-/* Material Symbols Outlined */
+.font-data {
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Small tracked label above a heading. */
+.kicker {
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-700);
+}
+
+/* Material Symbols Outlined: thin stroke, like the app's Lucide icons at 1.5. */
 .material-symbols-outlined {
   font-family: 'Material Symbols Outlined';
   font-weight: normal;
@@ -62,24 +97,34 @@ body {
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
+  font-variation-settings: 'wght' 300, 'opsz' 24;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #eff4ff;
+  background: var(--fill);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #93bfe0;
-  border-radius: 3px;
+  background: var(--line-strong);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #006591;
+  background: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

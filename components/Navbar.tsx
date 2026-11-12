@@ -56,40 +56,34 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
   ];
 
   return (
-    <header className="fixed top-0 w-full z-50 bg-[#ffffff]/95 backdrop-blur-xl border-b border-[#e5eeff] shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-      <div className="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between gap-4">
+    <header className="fixed top-0 w-full z-50 bg-ground border-b border-line">
+      <div className="h-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 2xl:px-12 flex items-center justify-between gap-4">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
-          <div className="w-8 sm:w-9 h-8 sm:h-9 rounded-lg bg-[#003752] flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
-            <span className="material-symbols-outlined text-[20px] sm:text-[22px]">view_in_ar</span>
-          </div>
+        <Link href="/" className="flex items-center gap-2.5 shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="" width={40} height={40} className="w-10 h-10 object-contain" />
           <div className="flex flex-col whitespace-nowrap">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="font-bold uppercase tracking-tight text-[#003752] text-[16px] sm:text-[17px] leading-tight font-archivo">
-                ANATOMI 3D
-              </span>
-              <span className="hidden sm:inline-block text-[10px] uppercase px-2 py-0.5 rounded bg-[#e5eeff] text-[#006591] font-semibold tracking-wide">
-                {t.nav.brandSubtitle}
-              </span>
-            </div>
-            <span className="text-[10px] sm:text-[11px] text-[#41474d] leading-tight">
+            <span className="font-archivo font-semibold uppercase tracking-wide text-ink text-[19px] leading-none">
+              Anatomi 3D
+            </span>
+            <span className="hidden 2xl:block text-[11px] text-ink-soft leading-tight mt-1">
               {t.nav.brandTagline}
             </span>
           </div>
         </Link>
 
         {/* Desktop Nav Links - Single Line */}
-        <nav className="hidden xl:flex items-center gap-1 text-[#41474d] shrink-0">
+        <nav className="hidden xl:flex items-center gap-1 text-[#5d5d60] shrink-0">
           {navLinks.map((link) => {
             const isActive = activePath === link.href;
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-2 text-[14px] transition-colors rounded-lg whitespace-nowrap ${
+                className={`relative px-2.5 py-2 text-[14px] transition-colors whitespace-nowrap ${
                   isActive
-                    ? "bg-[#e5eeff] text-[#003752] font-semibold shadow-sm"
-                    : "hover:bg-[#eff4ff] hover:text-[#0b1c30]"
+                    ? "text-ink font-semibold after:absolute after:left-2.5 after:right-2.5 after:-bottom-[23px] after:h-[2px] after:bg-accent"
+                    : "text-ink-soft hover:text-ink"
                 }`}
               >
                 {link.label}
@@ -101,14 +95,14 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
         {/* Action Buttons */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Language Switcher Pill */}
-          <div className="flex items-center p-0.5 rounded-lg bg-[#eff4ff] border border-[#dce9ff] text-[11px] font-bold font-archivo">
+          <div className="flex items-center p-0.5 rounded-lg bg-[#ececee] border border-[#e3e3e6] text-[11px] font-bold font-archivo">
             <button
               type="button"
               onClick={() => setLanguage("tr")}
               className={`px-2 py-1 rounded-md transition-all cursor-pointer ${
                 language === "tr"
-                  ? "bg-[#003752] text-white shadow-xs"
-                  : "text-[#41474d] hover:text-[#003752]"
+                  ? "bg-[#416180] text-white"
+                  : "text-[#5d5d60] hover:text-[#1d1f20]"
               }`}
               title="Türkçe"
             >
@@ -119,8 +113,8 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
               onClick={() => setLanguage("en")}
               className={`px-2 py-1 rounded-md transition-all cursor-pointer ${
                 language === "en"
-                  ? "bg-[#003752] text-white shadow-xs"
-                  : "text-[#41474d] hover:text-[#003752]"
+                  ? "bg-[#416180] text-white"
+                  : "text-[#5d5d60] hover:text-[#1d1f20]"
               }`}
               title="English"
             >
@@ -130,41 +124,41 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
 
           <Link
             href="/atlas"
-            className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#eff4ff] hover:bg-[#e5eeff] text-[#006591] text-[13px] font-semibold transition-all whitespace-nowrap"
+            className="hidden md:inline-flex xl:hidden 2xl:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-line-strong hover:border-ink text-ink text-[13px] font-semibold transition-colors whitespace-nowrap"
           >
             <span className="material-symbols-outlined text-[17px]">deployed_code</span>
             <span>{t.nav.startWebAtlas}</span>
           </Link>
           <Link
             href="/topluluk-ve-indir"
-            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-lg bg-[#003752] hover:bg-[#1f4e6b] text-white text-[13px] font-semibold shadow-sm transition-all whitespace-nowrap"
+            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-lg bg-[#416180] hover:bg-[#2c455d] text-white text-[13px] font-semibold transition-all whitespace-nowrap"
           >
-            <span className="material-symbols-outlined text-[17px]">install_mobile</span>
-            <span className="hidden sm:inline">{t.nav.downloadApp}</span>
-            <span className="sm:hidden">{t.nav.downloadShort}</span>
+            <span className="material-symbols-outlined text-[17px]">smartphone</span>
+            <span className="hidden sm:inline xl:hidden 2xl:inline">{t.nav.downloadApp}</span>
+            <span className="sm:hidden xl:inline 2xl:hidden">{t.nav.downloadShort}</span>
           </Link>
           {/* Student Profile Button & Popover (real data from the shared Supabase project) */}
           <div className="relative hidden sm:block">
             <button
               type="button"
               onClick={() => setProfileOpen((prev) => !prev)}
-              className="w-8 h-8 rounded-full bg-[#003752] hover:bg-[#1f4e6b] flex items-center justify-center text-white shrink-0 ml-0.5 shadow-sm transition-transform hover:scale-105 cursor-pointer"
+              className="w-8 h-8 rounded-full bg-[#416180] hover:bg-[#2c455d] flex items-center justify-center text-white shrink-0 ml-0.5 transition-transform cursor-pointer"
               title={language === "tr" ? "Öğrenci Profili" : "Student Profile"}
             >
               <span className="material-symbols-outlined text-[18px]">person</span>
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-2.5 w-64 rounded-2xl bg-[#ffffff] border border-[#dce9ff] shadow-xl p-4 z-50 flex flex-col gap-3">
+              <div className="absolute right-0 mt-2.5 w-64 rounded-[14px] bg-[#ffffff] border border-[#e3e3e6] p-4 z-50 flex flex-col gap-3">
                 {session ? (
                   <>
-                    <div className="flex flex-col border-b border-[#e5eeff] pb-2.5">
-                      <span className="text-[13px] font-bold text-[#003752] font-archivo truncate">
+                    <div className="flex flex-col border-b border-[#dcdcdf] pb-2.5">
+                      <span className="text-[13px] font-bold text-[#1d1f20] font-archivo truncate">
                         {typeof profile?.display_name === "object" && profile?.display_name !== null
                           ? ((profile.display_name as Record<string, string>)[language] ?? (profile.display_name as Record<string, string>).tr ?? session.user.email)
                           : (profile?.display_name ?? session.user.email)}
                       </span>
-                      <span className="text-[11px] text-[#41474d] truncate">
+                      <span className="text-[11px] text-[#5d5d60] truncate">
                         {profile
                           ? `@${
                               typeof profile.handle === "object" && profile.handle !== null
@@ -176,20 +170,20 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
                     </div>
                     {profile && (
                       <div className="grid grid-cols-2 gap-2">
-                        <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
-                          <span className="text-[10px] text-[#41474d]">
+                        <div className="p-2 rounded-[10px] bg-[#ececee] flex flex-col">
+                          <span className="text-[10px] text-[#5d5d60]">
                             {language === "tr" ? "Aktif Seri" : "Active Streak"}
                           </span>
-                          <span className="text-[13px] font-bold text-[#6d001c] font-mono">
-                            🔥 {profile.streak} {language === "tr" ? "Gün" : "Days"}
+                          <span className="text-[13px] font-bold text-[#8f3537] font-data">
+                            {profile.streak} {language === "tr" ? "Gün" : "Days"}
                           </span>
                         </div>
-                        <div className="p-2 rounded-xl bg-[#eff4ff] flex flex-col">
-                          <span className="text-[10px] text-[#41474d]">
+                        <div className="p-2 rounded-[10px] bg-[#ececee] flex flex-col">
+                          <span className="text-[10px] text-[#5d5d60]">
                             {language === "tr" ? "Toplam XP" : "Total XP"}
                           </span>
-                          <span className="text-[13px] font-bold text-[#006591] font-mono">
-                            ⚡ {profile.total_xp} XP
+                          <span className="text-[13px] font-bold text-[#416180] font-data">
+                            {profile.total_xp} XP
                           </span>
                         </div>
                       </div>
@@ -198,7 +192,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
                       <Link
                         href="/profil"
                         onClick={() => setProfileOpen(false)}
-                        className="px-3 py-1.5 rounded-lg bg-[#eff4ff] hover:bg-[#dce9ff] text-[#003752] text-[12px] font-semibold flex items-center justify-between transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-[#ececee] hover:bg-[#e3e3e6] text-[#1d1f20] text-[12px] font-semibold flex items-center justify-between transition-colors"
                       >
                         <span>{language === "tr" ? "Profilim & Hesap Ayarları" : "My Profile & Account"}</span>
                         <span className="material-symbols-outlined text-[15px]">chevron_right</span>
@@ -206,7 +200,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
                       <Link
                         href="/kvkk"
                         onClick={() => setProfileOpen(false)}
-                        className="px-3 py-1.5 rounded-lg hover:bg-[#eff4ff] text-[#41474d] text-[12px] font-medium flex items-center justify-between transition-colors"
+                        className="px-3 py-1.5 rounded-lg hover:bg-[#ececee] text-[#5d5d60] text-[12px] font-medium flex items-center justify-between transition-colors"
                       >
                         <span>{language === "tr" ? "Veri & İzin Tercihleri" : "Privacy & Consent"}</span>
                         <span className="material-symbols-outlined text-[15px]">tune</span>
@@ -217,7 +211,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
                           setProfileOpen(false);
                           void signOut();
                         }}
-                        className="px-3 py-1.5 rounded-lg hover:bg-[#ffdad6] text-[#ba1a1a] text-[12px] font-medium flex items-center justify-between transition-colors cursor-pointer"
+                        className="px-3 py-1.5 rounded-lg hover:bg-[#f7e5e5] text-[#b8494b] text-[12px] font-medium flex items-center justify-between transition-colors cursor-pointer"
                       >
                         <span>{language === "tr" ? "Çıkış Yap" : "Sign Out"}</span>
                         <span className="material-symbols-outlined text-[15px]">logout</span>
@@ -227,10 +221,10 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
                 ) : (
                   <>
                     <div className="flex flex-col gap-1">
-                      <span className="text-[13px] font-bold text-[#003752] font-archivo">
+                      <span className="text-[13px] font-bold text-[#1d1f20] font-archivo">
                         {language === "tr" ? "Henüz giriş yapmadınız" : "You are not signed in"}
                       </span>
-                      <span className="text-[11px] text-[#41474d]">
+                      <span className="text-[11px] text-[#5d5d60]">
                         {language === "tr"
                           ? "Mobil uygulamadaki hesabınızla giriş yapın."
                           : "Sign in with your mobile app account."}
@@ -239,7 +233,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
                     <Link
                       href="/profil"
                       onClick={() => setProfileOpen(false)}
-                      className="px-3 py-2 rounded-lg bg-[#003752] hover:bg-[#1f4e6b] text-white text-[12px] font-semibold text-center transition-colors"
+                      className="px-3 py-2 rounded-lg bg-[#416180] hover:bg-[#2c455d] text-white text-[12px] font-semibold text-center transition-colors"
                     >
                       {language === "tr" ? "Giriş Yap" : "Sign In"}
                     </Link>
@@ -252,7 +246,7 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
           {/* Mobile hamburger button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 text-[#003752] hover:bg-[#eff4ff] rounded-lg transition-colors ml-0.5"
+            className="xl:hidden p-2 text-[#1d1f20] hover:bg-[#ececee] rounded-lg transition-colors ml-0.5"
             aria-label={mobileMenuOpen ? t.nav.menuClose : t.nav.menuOpen}
           >
             <span className="material-symbols-outlined text-[24px]">
@@ -264,18 +258,18 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#ffffff] border-b border-[#e5eeff] px-6 py-4 space-y-2 shadow-lg animate-in slide-in-from-top-2 duration-150">
+        <div className="xl:hidden bg-[#ffffff] border-b border-[#dcdcdf] px-6 py-4 space-y-2 animate-in slide-in-from-top-2 duration-150">
           {/* Mobile Language Switcher Row */}
-          <div className="flex items-center justify-between pb-3 border-b border-[#e5eeff]">
-            <span className="text-xs font-semibold text-[#41474d]">Dil / Language:</span>
-            <div className="flex items-center p-0.5 rounded-lg bg-[#eff4ff] border border-[#dce9ff] text-[12px] font-bold font-archivo">
+          <div className="flex items-center justify-between pb-3 border-b border-[#dcdcdf]">
+            <span className="text-xs font-semibold text-[#5d5d60]">Dil / Language:</span>
+            <div className="flex items-center p-0.5 rounded-lg bg-[#ececee] border border-[#e3e3e6] text-[12px] font-bold font-archivo">
               <button
                 type="button"
                 onClick={() => setLanguage("tr")}
                 className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
                   language === "tr"
-                    ? "bg-[#003752] text-white shadow-xs"
-                    : "text-[#41474d] hover:text-[#003752]"
+                    ? "bg-[#416180] text-white"
+                    : "text-[#5d5d60] hover:text-[#1d1f20]"
                 }`}
               >
                 Türkçe (TR)
@@ -285,8 +279,8 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
                 onClick={() => setLanguage("en")}
                 className={`px-3 py-1 rounded-md transition-all cursor-pointer ${
                   language === "en"
-                    ? "bg-[#003752] text-white shadow-xs"
-                    : "text-[#41474d] hover:text-[#003752]"
+                    ? "bg-[#416180] text-white"
+                    : "text-[#5d5d60] hover:text-[#1d1f20]"
                 }`}
               >
                 English (EN)
@@ -301,18 +295,18 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
               onClick={() => setMobileMenuOpen(false)}
               className={`block px-4 py-2.5 rounded-lg text-sm font-medium ${
                 activePath === link.href
-                  ? "bg-[#e5eeff] text-[#003752] font-semibold"
-                  : "text-[#41474d] hover:bg-[#eff4ff]"
+                  ? "bg-[#dcdcdf] text-[#1d1f20] font-semibold"
+                  : "text-[#5d5d60] hover:bg-[#ececee]"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="pt-2 border-t border-[#e5eeff] flex flex-col gap-2">
+          <div className="pt-2 border-t border-[#dcdcdf] flex flex-col gap-2">
             <Link
               href="/profil"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg border border-[#dce9ff] text-[#003752] font-semibold text-sm"
+              className="w-full text-center py-2.5 rounded-lg border border-[#e3e3e6] text-[#1d1f20] font-semibold text-sm"
             >
               {session
                 ? language === "tr"
@@ -325,14 +319,14 @@ export default function Navbar({ activePath = "/" }: NavbarProps) {
             <Link
               href="/atlas"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg bg-[#eff4ff] text-[#006591] font-semibold text-sm"
+              className="w-full text-center py-2.5 rounded-lg bg-[#ececee] text-[#416180] font-semibold text-sm"
             >
               {t.nav.startWebAtlas}
             </Link>
             <Link
               href="/topluluk-ve-indir"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-2.5 rounded-lg bg-[#003752] text-white font-semibold text-sm"
+              className="w-full text-center py-2.5 rounded-lg bg-[#416180] text-white font-semibold text-sm"
             >
               {t.nav.downloadApp}
             </Link>

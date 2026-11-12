@@ -10,694 +10,289 @@ import IPhoneFrame from "@/components/IPhoneFrame";
 import type { DissectionLayersState } from "@/components/AnatomyViewer3D";
 import { useLanguage } from "@/context/LanguageContext";
 
-// Dynamic Anatomy Viewer 3D
 const AnatomyViewer3D = dynamic(() => import("@/components/AnatomyViewer3D"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[520px] rounded-xl bg-[#eff4ff] flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-9 h-9 rounded-full border-2 border-[#006591]/20 border-t-[#006591] animate-spin" />
-        <span className="font-mono text-xs text-[#006591] tracking-wider font-semibold">
-          3D DİSEKSİYON ATLASI HAZIRLANIYOR...
-        </span>
-      </div>
+    <div className="w-full h-[520px] rounded-[14px] border border-line bg-stage flex items-center justify-center">
+      <div className="w-9 h-9 rounded-full border-2 border-line-strong border-t-accent animate-spin" />
     </div>
   ),
 });
 
-const REGIONS = [
-  {
-    id: "head-neck",
-    name: "Baş ve Boyun",
-    latin: "Caput et Collum",
-    structureCount: "664 YAPI",
-    icon: "psychology",
-    modelId: "brain",
-    description:
-      "Kranium tabanı, mimik ve çiğneme kasları, yüz damarları, plexus cervicalis ve kraniyal sinir çıkış foraminaları.",
-  },
-  {
-    id: "thorax",
-    name: "Göğüs ve Toraks",
-    latin: "Cavitas Thoracis",
-    structureCount: "636 YAPI",
-    icon: "cardiology",
-    modelId: "heart",
-    description:
-      "Kaburgalar, interkostal kaslar, mediastinum kompartmanları, kalp odacıkları, koroner dolaşım ve trakeobronşiyal ağaç.",
-  },
-  {
-    id: "abdomen",
-    name: "Karın ve Visseral Ağ",
-    latin: "Abdomen et Viscera",
-    structureCount: "358 YAPI",
-    icon: "emergency",
-    modelId: "abdomen",
-    description:
-      "Ön karın duvarı katmanları, periton kıvrımları, karaciğer segmentleri, çölyak trunkus ve mezenterik vasküler ağ.",
-  },
-  {
-    id: "pelvis",
-    name: "Pelvis ve Perine",
-    latin: "Pelvis et Perineum",
-    structureCount: "256 YAPI",
-    icon: "accessibility_new",
-    modelId: "skeletal",
-    description:
-      "Os coxae ve sakrum bağları, levator ani kas grubu, ürogenital diyafram, internal iliak arter dalları ve organ ilişkileri.",
-  },
-  {
-    id: "locomotor",
-    name: "Lokomotor & Ekstremiteler",
-    latin: "Membrum Superius et Inferius",
-    structureCount: "654 YAPI",
-    icon: "directions_run",
-    modelId: "muscular",
-    description:
-      "Omuz ve kalça eklemleri, brakiyal pleksus dallanmaları, karpal tünel, uyluk fasyası ve bacak kompartmanları.",
-  },
-  {
-    id: "neuro",
-    name: "Nöroanatomi & MSS",
-    latin: "Systema Nervosum Centrale",
-    structureCount: "387 YAPI",
-    icon: "neurology",
-    modelId: "brain",
-    description:
-      "Serebral korteks lobları, bazal gangliyonlar, beyin sapı çekirdekleri, ventriküler sistem ve Willis poligonu.",
-  },
+/**
+ * Structures per region, counted from the app's own region packs (members.json of the male body); limbs = both arms
+ * and both legs. Update together with the models.
+ */
+const REGIONS: ReadonlyArray<{ id: string; count: number }> = [
+  { id: "head-neck", count: 809 },
+  { id: "thorax", count: 639 },
+  { id: "abdomen", count: 370 },
+  { id: "pelvis", count: 226 },
+  { id: "locomotor", count: 1048 },
+  { id: "neuro", count: 434 },
 ];
+
+const MODULES = [
+  { n: "01", href: "/atlas", shot: "/screens/atlas.png", key: "f1" },
+  { n: "02", href: "/ogrenme-yolu", shot: "/screens/learn.png", key: "f2" },
+  { n: "03", href: "/zilli-sinav", shot: "/screens/exam-phone.png", key: "f3" },
+] as const;
+
+function Arrow() {
+  return (
+    <span className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1" aria-hidden>
+      arrow_forward
+    </span>
+  );
+}
 
 export default function HomePage() {
   const { t, language } = useLanguage();
+  const tr = language === "tr";
   const [heroLayers, setHeroLayers] = useState<DissectionLayersState>({
     skeleton: true,
     muscle: true,
-    vascular: true,
+    vascular: false,
     nervous: false,
-    organs: true,
+    organs: false,
   });
-  const [heroMuscleOpacity, setHeroMuscleOpacity] = useState(0.85);
+  const [heroMuscleOpacity, setHeroMuscleOpacity] = useState(1);
+  const number = (n: number) => n.toLocaleString(tr ? "tr-TR" : "en-US");
+
+  const stats = [
+    { value: t.hero.statStudents, label: t.hero.statStudentsLabel },
+    { value: t.hero.statFaculties, label: t.hero.statFacultiesLabel },
+    { value: t.hero.statTa2, label: t.hero.statTa2Label },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f9ff] text-[#0b1c30]">
+    <div className="min-h-screen flex flex-col bg-ground text-ink">
       <Navbar activePath="/" />
 
-      <main className="w-full pt-20 bg-[#f8f9ff]">
-        {/* ================= HERO SECTION (Stitch 1:1) ================= */}
-        <section className="relative w-full overflow-hidden bg-[#f8f9ff] py-8 sm:py-12 lg:py-20">
-          {/* Subtle technical grid backdrop decoration */}
-          <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(#006591_1px,transparent_1px)] [background-size:24px_24px]" />
-          <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#39b8fd]/15 rounded-full blur-3xl pointer-events-none" />
+      <main className="w-full pt-20">
+        {/* Hero: the claim on the left, the real model on the right. */}
+        <section className="w-full border-b border-line">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 py-10 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-5 flex flex-col">
+              <span className="kicker">{t.hero.badge}</span>
+              <h1 className="mt-4 font-archivo font-semibold text-ink text-[44px] sm:text-[56px] lg:text-[64px] leading-[0.98] tracking-[-0.01em]">
+                {t.hero.title}
+              </h1>
+              <p className="mt-5 text-[17px] leading-relaxed text-ink-soft max-w-[46ch]">{t.hero.subtitle}</p>
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
-              {/* Left Editorial Presentation */}
-              <div className="lg:col-span-6 flex flex-col space-y-6">
-                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#dce9ff] w-fit shadow-xs">
-                  <span className="w-2 h-2 rounded-full bg-[#006591] animate-pulse" />
-                  <span className="text-[12px] font-bold uppercase tracking-wider text-[#003752] font-archivo">
-                    {t.hero.badge}
-                  </span>
-                </div>
-
-                <div className="space-y-4">
-                  <h1 className="text-[40px] sm:text-[48px] lg:text-[52px] leading-[1.08] text-[#003752] tracking-tight font-bold font-archivo">
-                    {t.hero.title}
-                  </h1>
-                  <p className="text-[16px] sm:text-[17px] leading-relaxed text-[#41474d] max-w-xl">
-                    {t.hero.subtitle}
-                  </p>
-                </div>
-
-                {/* CTAs */}
-                <div className="flex flex-wrap items-center gap-4 pt-2">
-                  <Link
-                    href="/atlas"
-                    className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#003752] hover:bg-[#1f4e6b] text-white font-semibold text-[15px] shadow-md transition-all hover:shadow-lg active:scale-98"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">view_in_ar</span>
-                    <span>{t.hero.ctaTry}</span>
-                  </Link>
-                  <Link
-                    href="/topluluk-ve-indir"
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#eff4ff] hover:bg-[#dce9ff] text-[#006591] font-semibold text-[15px] transition-all"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">download_for_offline</span>
-                    <span>{t.hero.ctaStores}</span>
-                  </Link>
-                </div>
-
-                {/* Live Metrics & Proof Pills */}
-                <div className="pt-6 grid grid-cols-3 gap-3 sm:gap-4">
-                  <div className="p-3.5 sm:p-4 rounded-xl bg-[#ffffff] shadow-sm border border-[#e5eeff] flex flex-col">
-                    <span className="text-[26px] sm:text-[30px] leading-none text-[#003752] font-bold font-archivo">
-                      {t.hero.statStudents}
-                    </span>
-                    <span className="text-[11px] sm:text-[12px] text-[#41474d] mt-1 font-medium">
-                      {t.hero.statStudentsLabel}
-                    </span>
-                  </div>
-                  <div className="p-3.5 sm:p-4 rounded-xl bg-[#ffffff] shadow-sm border border-[#e5eeff] flex flex-col">
-                    <span className="text-[26px] sm:text-[30px] leading-none text-[#006591] font-bold font-archivo">
-                      {t.hero.statFaculties}
-                    </span>
-                    <span className="text-[11px] sm:text-[12px] text-[#41474d] mt-1 font-medium">
-                      {t.hero.statFacultiesLabel}
-                    </span>
-                  </div>
-                  <div className="p-3.5 sm:p-4 rounded-xl bg-[#ffffff] shadow-sm border border-[#e5eeff] flex flex-col">
-                    <span className="text-[26px] sm:text-[30px] leading-none text-[#6d001c] font-bold font-archivo">
-                      {t.hero.statTa2}
-                    </span>
-                    <span className="text-[11px] sm:text-[12px] text-[#41474d] mt-1 font-medium">
-                      {t.hero.statTa2Label}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right 3D Viewport Column */}
-              <div className="lg:col-span-6 relative">
-                <AnatomyViewer3D
-                  activeLayers={heroLayers}
-                  onLayersChange={setHeroLayers}
-                  muscleOpacity={heroMuscleOpacity}
-                  onMuscleOpacityChange={setHeroMuscleOpacity}
-                  showCard={true}
-                  showHud={true}
-                  showLayersWidget={false}
-                  showLayerSwitcher={true}
-                  showCameraControls={true}
-                  showFooter={true}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= 3 ANA ÇALIŞMA GÜCÜ (Stitch 1:1) ================= */}
-        <section className="w-full bg-[#ffffff] py-20 border-y border-[#e5eeff]">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-12">
-            <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#dce9ff] text-[#006591] text-[11px] font-bold uppercase tracking-wider font-archivo">
-                <span>{t.features.badge}</span>
-              </div>
-              <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold tracking-tight font-archivo">
-                {t.features.title}
-              </h2>
-              <p className="text-[15px] text-[#41474d] max-w-2xl leading-relaxed">
-                {t.features.desc}
-              </p>
-            </div>
-
-            {/* 3 Feature Cards Grid with Actual Screenshots */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Feature 1: 6 Katmanlı Diseksiyon Atlası */}
-              <Link
-                href="/atlas"
-                className="flex flex-col bg-[#f8f9ff] rounded-2xl overflow-hidden border border-[#e5eeff] shadow-sm hover:shadow-md transition-all group"
-              >
-                <div className="p-6 space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#dce9ff] flex items-center justify-center text-[#003752] group-hover:scale-105 transition-transform">
-                    <span className="material-symbols-outlined text-[24px]">layers</span>
-                  </div>
-                  <h3 className="text-[22px] text-[#003752] font-bold font-archivo">
-                    {t.features.f1Title}
-                  </h3>
-                  <p className="text-[14px] text-[#41474d] leading-relaxed">
-                    {t.features.f1Desc}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      {t.features.f1Tag1}
-                    </span>
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      {t.features.f1Tag2}
-                    </span>
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      {t.features.f1Tag3}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4 pt-0 mt-auto">
-                  <div className="w-full h-72 rounded-xl bg-[#ffffff] border border-[#e5eeff] overflow-hidden flex items-center justify-center p-2">
-                    <Image
-                      src="/screens/atlas.png"
-                      alt={t.features.f1Title}
-                      width={600}
-                      height={400}
-                      className="h-full w-auto object-contain drop-shadow-sm group-hover:scale-102 transition-transform"
-                    />
-                  </div>
-                </div>
-              </Link>
-
-              {/* Feature 2: Komite Odaklı Öğrenme Yolu */}
-              <Link
-                href="/ogrenme-yolu"
-                className="flex flex-col bg-[#f8f9ff] rounded-2xl overflow-hidden border border-[#e5eeff] shadow-sm hover:shadow-md transition-all group"
-              >
-                <div className="p-6 space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#dce9ff] flex items-center justify-center text-[#006591] group-hover:scale-105 transition-transform">
-                    <span className="material-symbols-outlined text-[24px]">route</span>
-                  </div>
-                  <h3 className="text-[22px] text-[#003752] font-bold font-archivo">
-                    {t.features.f2Title}
-                  </h3>
-                  <p className="text-[14px] text-[#41474d] leading-relaxed">
-                    {t.features.f2Desc}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#006591] text-[11px] font-semibold">
-                      {t.features.f2Tag1}
-                    </span>
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#006591] text-[11px] font-semibold">
-                      {t.features.f2Tag2}
-                    </span>
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#006591] text-[11px] font-semibold">
-                      {t.features.f2Tag3}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4 pt-0 mt-auto">
-                  <div className="w-full h-72 rounded-xl bg-[#ffffff] border border-[#e5eeff] overflow-hidden flex items-center justify-center p-2">
-                    <Image
-                      src="/screens/learn.png"
-                      alt={t.features.f2Title}
-                      width={600}
-                      height={400}
-                      className="h-full w-auto object-contain drop-shadow-sm group-hover:scale-102 transition-transform"
-                    />
-                  </div>
-                </div>
-              </Link>
-
-              {/* Feature 3: Zilli Sınav Simülatörü */}
-              <Link
-                href="/zilli-sinav"
-                className="flex flex-col bg-[#f8f9ff] rounded-2xl overflow-hidden border border-[#e5eeff] shadow-sm hover:shadow-md transition-all group"
-              >
-                <div className="p-6 space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#ffdada] flex items-center justify-center text-[#6d001c] group-hover:scale-105 transition-transform">
-                    <span className="material-symbols-outlined text-[24px]">notification_important</span>
-                  </div>
-                  <h3 className="text-[22px] text-[#003752] font-bold font-archivo">
-                    {t.features.f3Title}
-                  </h3>
-                  <p className="text-[14px] text-[#41474d] leading-relaxed">
-                    {t.features.f3Desc}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    <span className="px-2.5 py-1 rounded bg-[#ffdada]/60 text-[#6d001c] text-[11px] font-semibold">
-                      {t.features.f3Tag1}
-                    </span>
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      {t.features.f3Tag2}
-                    </span>
-                    <span className="px-2.5 py-1 rounded bg-[#eff4ff] text-[#003752] text-[11px] font-semibold">
-                      {t.features.f3Tag3}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4 pt-0 mt-auto">
-                  <div className="w-full h-72 rounded-xl bg-[#ffffff] border border-[#e5eeff] overflow-hidden flex items-center justify-center p-2">
-                    <Image
-                      src="/screens/exam-phone.png"
-                      alt={t.features.f3Title}
-                      width={600}
-                      height={400}
-                      className="h-full w-auto object-contain drop-shadow-sm group-hover:scale-102 transition-transform"
-                    />
-                  </div>
-                </div>
-              </Link>
-            </div>
-
-            {/* New Feature Banner: 3D Osteoloji & Kemik Anatomisi */}
-            <div className="rounded-3xl bg-gradient-to-br from-[#003752] via-[#004e75] to-[#006591] text-white p-8 sm:p-10 shadow-lg relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-              <div className="flex flex-col gap-3 max-w-2xl relative z-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm self-start text-[11px] font-mono font-bold tracking-wider uppercase text-sky-200">
-                  <span className="material-symbols-outlined text-[15px]">sparkles</span>
-                  <span>{language === "tr" ? "YENİ ÖZELLİK • 43 İZOLE KEMİK MODELİ" : "NEW FEATURE • 43 ISOLATED BONES"}</span>
-                </div>
-                <h3 className="text-[26px] sm:text-[32px] font-bold font-archivo tracking-tight">
-                  {language === "tr" ? "3D Osteoloji & Kemik Anatomisi Atlası" : "3D Osteology & Bone Anatomy Atlas"}
-                </h3>
-                <p className="text-[14px] text-sky-100 leading-relaxed">
-                  {language === "tr"
-                    ? "İskelet sistemindeki her bir kemiği tek tek izole 3D ortamda inceleyin. 200'den fazla numaralandırılmış anatomik çıkıntı, kas origo-insersiyo tutunma alanları ve klinik kırık incileri artık webde."
-                    : "Inspect every bone in isolated high-detail 3D. Over 200 numbered osteological landmarks, muscle origin and insertion footprints, and clinical board pearls are now live on the web."}
-                </p>
-                <div className="flex flex-wrap items-center gap-2 pt-2">
-                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white text-[12px] font-semibold">
-                    🦴 {language === "tr" ? "43 Bireysel Kemik" : "43 Individual Bones"}
-                  </span>
-                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white text-[12px] font-semibold">
-                    📍 {language === "tr" ? "Numaralı 3D İğneler" : "Numbered 3D Pins"}
-                  </span>
-                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white text-[12px] font-semibold">
-                    🔴 {language === "tr" ? "Origo & İnsersiyo Kas Haritası" : "Origin & Insertion Map"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 relative z-10">
+              <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
-                  href="/kemik-anatomisi"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white text-[#003752] hover:bg-sky-50 font-bold text-[14px] flex items-center justify-center gap-2 shadow-md transition-all group"
+                  href="/atlas"
+                  className="group inline-flex items-center gap-2.5 h-12 px-6 rounded-[10px] bg-accent-700 hover:bg-accent-800 text-white font-archivo font-semibold uppercase tracking-wide text-[16px] transition-colors"
                 >
-                  <span className="material-symbols-outlined text-[20px] text-[#006591]">view_in_ar</span>
-                  <span>{language === "tr" ? "Kemik Atlasını Başlat" : "Explore Bone Atlas"}</span>
-                  <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">
-                    arrow_forward
-                  </span>
+                  <span>{t.hero.ctaTry}</span>
+                  <Arrow />
+                </Link>
+                <Link
+                  href="/topluluk-ve-indir"
+                  className="inline-flex items-center h-12 px-5 rounded-[10px] border border-line-strong hover:border-ink text-ink font-archivo font-semibold uppercase tracking-wide text-[16px] transition-colors"
+                >
+                  {t.hero.ctaStores}
                 </Link>
               </div>
 
-              <div className="absolute right-0 bottom-0 w-96 h-96 bg-sky-400/10 rounded-full blur-3xl pointer-events-none" />
+              <dl className="mt-10 grid grid-cols-3 border-t border-line">
+                {stats.map((s, i) => (
+                  <div key={s.label} className={`pt-4 flex flex-col-reverse ${i > 0 ? "pl-4 border-l border-line" : ""}`}>
+                    <dt className="mt-1 text-[12px] text-ink-soft leading-snug">{s.label}</dt>
+                    <dd className="font-archivo font-semibold text-ink text-[34px] leading-none font-data">{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="lg:col-span-7">
+              <AnatomyViewer3D
+                activeLayers={heroLayers}
+                onLayersChange={setHeroLayers}
+                muscleOpacity={heroMuscleOpacity}
+                onMuscleOpacityChange={setHeroMuscleOpacity}
+                showCard={true}
+                showHud={true}
+                showLayersWidget={false}
+                showLayerSwitcher={true}
+                showCameraControls={true}
+                showFooter={false}
+                showGenderSwitcher={true}
+                height="h-[440px] sm:h-[540px] lg:h-[620px]"
+              />
+              <p className="mt-3 text-[12px] text-ink-muted">
+                {tr
+                  ? "Sürükle: döndür · Tekerlek: yakınlaştır · Tıkla: yapının adını gör. Model uygulamadakiyle aynıdır."
+                  : "Drag to rotate · scroll to zoom · click a structure for its name. Same model as in the app."}
+              </p>
             </div>
           </div>
         </section>
 
-        {/* ================= BÖLGELERE GÖRE 3D DİSEKSİYON KATALOĞU (Stitch 1:1) ================= */}
-        <section className="w-full bg-[#f8f9ff] py-20" id="atlas-bolgeleri">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-12">
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#006591] px-3 py-1 rounded bg-[#eff4ff] font-archivo">
-                {t.regions.badge}
-              </span>
-              <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold font-archivo">
-                {t.regions.title}
-              </h2>
-              <p className="text-[15px] text-[#41474d]">
-                {t.regions.desc}
-              </p>
+        {/* Three modules: numbered columns divided by hairlines, not three look-alike cards. */}
+        <section className="w-full border-b border-line">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 py-16 lg:py-20">
+            <div className="max-w-2xl">
+              <span className="kicker">{t.features.badge}</span>
+              <h2 className="mt-3 font-archivo font-semibold text-ink text-[36px] sm:text-[44px] leading-[1.02]">{t.features.title}</h2>
+              <p className="mt-4 text-[16px] leading-relaxed text-ink-soft">{t.features.desc}</p>
             </div>
 
-            {/* 6 Region Cards with subtle scale animation and pointer cursor */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {REGIONS.map((reg) => {
-                const regData = t.regions.items[reg.id] || reg;
+            <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 border-t border-line">
+              {MODULES.map((m, i) => {
+                const title = t.features[`${m.key}Title`];
+                const tags = [t.features[`${m.key}Tag1`], t.features[`${m.key}Tag2`], t.features[`${m.key}Tag3`]];
                 return (
                   <Link
-                    key={reg.id}
-                    href={`/atlas?region=${reg.id}`}
-                    className="p-6 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-[1.03] cursor-pointer flex flex-col justify-between group"
+                    key={m.key}
+                    href={m.href}
+                    className={`group flex flex-col pt-6 pb-8 lg:pb-0 ${i > 0 ? "lg:pl-8 lg:border-l border-line" : ""} ${i < 2 ? "lg:pr-8 border-b lg:border-b-0 border-line" : ""}`}
                   >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="px-2.5 py-1 rounded-md bg-[#dce9ff] text-[#003752] text-[11px] font-bold font-archivo">
-                          {regData.structureCount || reg.structureCount}
-                        </span>
-                        <span className="material-symbols-outlined text-[22px] text-[#006591] group-hover:rotate-6 transition-transform">
-                          {reg.icon}
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="text-[20px] text-[#003752] font-bold font-archivo">
-                          {regData.name || reg.name}
-                        </h4>
-                        <p className="text-[12px] text-[#006591] font-mono mt-0.5 font-medium">
-                          {regData.latin || reg.latin}
-                        </p>
-                      </div>
-                      <p className="text-[13px] text-[#41474d] leading-relaxed">
-                        {regData.description || reg.description}
-                      </p>
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-archivo font-semibold text-accent-700 text-[15px] font-data">{m.n}</span>
+                      <h3 className="font-archivo font-semibold text-ink text-[26px] leading-tight">{title}</h3>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-[#f0f4f9] flex items-center justify-between text-[#006591] font-semibold text-[13px] group-hover:text-[#003752] transition-colors">
-                      <span>{t.regions.inspectRegion}</span>
-                      <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">
-                        arrow_forward
-                      </span>
+                    <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{t.features[`${m.key}Desc`]}</p>
+                    <p className="mt-3 text-[12px] text-ink-muted">{tags.join(" · ")}</p>
+                    <div className="mt-6 h-72 rounded-[14px] border border-line bg-card flex items-center justify-center p-3 overflow-hidden">
+                      <Image src={m.shot} alt={title} width={600} height={400} className="h-full w-auto object-contain" />
                     </div>
+                    <span className="mt-4 inline-flex items-center gap-2 font-archivo font-semibold uppercase tracking-wide text-[14px] text-accent-700 group-hover:text-ink transition-colors">
+                      {tr ? "Aç" : "Open"} <Arrow />
+                    </span>
                   </Link>
                 );
               })}
             </div>
-          </div>
-        </section>
 
-        {/* ================= ÖĞRENME ALIŞKANLIĞI & OYUNLAŞTIRMA (Stitch 1:1) ================= */}
-        <section className="w-full bg-[#ffffff] py-20 border-y border-[#e5eeff]">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Gamification Details */}
-              <div className="lg:col-span-6 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#006591]/10 text-[#006591] text-[11px] font-bold uppercase tracking-wider font-archivo">
-                  <span>{t.habit.badge}</span>
-                </div>
-                <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold font-archivo leading-tight">
-                  {t.habit.title}
-                </h2>
-                <p className="text-[15px] text-[#41474d] leading-relaxed">
-                  {t.habit.desc}
+            {/* Bone atlas: one plain row, the accent rule on the left does the emphasis. */}
+            <Link
+              href="/kemik-anatomisi"
+              className="group mt-14 flex flex-col lg:flex-row lg:items-center justify-between gap-6 rounded-[14px] border border-line bg-card px-6 py-6 border-l-[3px] border-l-accent hover:border-line-strong hover:border-l-accent transition-colors"
+            >
+              <div className="max-w-3xl">
+                <span className="kicker">{tr ? "Kemik atlası" : "Bone atlas"}</span>
+                <h3 className="mt-2 font-archivo font-semibold text-ink text-[28px] leading-tight">
+                  {tr ? "Her kemik tek tek: röperler ve kas tutunma yerleri" : "Every bone on its own: landmarks and muscle attachments"}
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">
+                  {tr
+                    ? "43 kemik izole 3D ortamda. Numaralı çıkıntılar, origo ve insersiyo alanları, klinik notlar."
+                    : "43 bones in isolated 3D. Numbered landmarks, origin and insertion footprints, clinical notes."}
                 </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                  <div className="p-4 rounded-xl bg-[#f8f9ff] border border-[#e5eeff] shadow-sm space-y-2 cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-md">
-                    <div className="flex items-center gap-2 text-[#003752]">
-                      <span className="material-symbols-outlined text-[22px] text-[#006591]">
-                        local_fire_department
-                      </span>
-                      <span className="text-[16px] font-bold font-archivo">
-                        {t.habit.streakTitle}
-                      </span>
-                    </div>
-                    <p className="text-[12px] text-[#41474d] leading-relaxed">
-                      {t.habit.streakDesc}
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-[#f8f9ff] border border-[#e5eeff] shadow-sm space-y-2 cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-md">
-                    <div className="flex items-center gap-2 text-[#003752]">
-                      <span className="material-symbols-outlined text-[22px] text-[#6d001c]">
-                        military_tech
-                      </span>
-                      <span className="text-[16px] font-bold font-archivo">
-                        {t.habit.badgesTitle}
-                      </span>
-                    </div>
-                    <p className="text-[12px] text-[#41474d] leading-relaxed">
-                      {t.habit.badgesDesc}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Live Leaderboard Snippet Mock */}
-                <div className="p-5 rounded-2xl bg-[#eff4ff] border border-[#dce9ff] space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[12px] uppercase text-[#003752] font-bold font-archivo tracking-wider">
-                      {t.habit.facultyAlignment}
-                    </span>
-                    <span className="text-[11px] text-[#006591] font-semibold">
-                      {language === "tr" ? "Dönem 2 / Komite 1" : "Year 2 / Block 1"}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#ffffff] text-[13px] border border-[#e5eeff]">
-                      <div className="flex items-center gap-3">
-                        <span className="font-bold text-[#003752] w-5">01</span>
-                        <span className="font-medium text-[#0b1c30]">
-                          {language === "tr" ? "Defne K. (Hacettepe Tıp)" : "Daphne K. (Hacettepe Med)"}
-                        </span>
-                      </div>
-                      <span className="font-mono text-[11px] text-[#006591] font-bold">1.450 XP</span>
-                    </div>
-                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#ffffff] text-[13px] border border-[#e5eeff]">
-                      <div className="flex items-center gap-3">
-                        <span className="font-bold text-[#003752] w-5">02</span>
-                        <span className="font-medium text-[#0b1c30]">
-                          {language === "tr" ? "Kerem S. (Cerrahpaşa Tıp)" : "Kerem S. (Cerrahpaşa Med)"}
-                        </span>
-                      </div>
-                      <span className="font-mono text-[11px] text-[#006591] font-bold">1.320 XP</span>
-                    </div>
-                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-[#003752] text-white text-[13px] shadow-sm">
-                      <div className="flex items-center gap-3">
-                        <span className="font-bold text-[#39b8fd] w-5">04</span>
-                        <span className="font-semibold text-white">
-                          {language === "tr" ? "Ziya Özgül (Siz)" : "Ziya Özgül (You)"}
-                        </span>
-                      </div>
-                      <span className="font-mono text-[11px] text-[#39b8fd] font-bold">980 XP</span>
-                    </div>
-                  </div>
-                </div>
               </div>
-
-              {/* Phone Mockup with Profile & Streak Screenshot in iPhone frame */}
-              <div className="lg:col-span-6 flex justify-center">
-                <IPhoneFrame
-                  screenSrc="/screens/streak2.png"
-                  altText={t.habit.title}
-                  caption={language === "tr" ? "Canlı Öğrenci Profili • Streak Takibi" : "Live Student Profile • Streak Tracking"}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= TIP FAKÜLTELERİNDEN GERİ BİLDİRİMLER (Stitch 1:1) ================= */}
-        <section className="w-full bg-[#f8f9ff] py-20">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-12">
-            <div className="text-center max-w-xl mx-auto space-y-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#006591] px-3 py-1 rounded bg-[#eff4ff] font-archivo">
-                {t.testimonials.badge}
+              <span className="inline-flex items-center gap-2 shrink-0 font-archivo font-semibold uppercase tracking-wide text-[15px] text-accent-700 group-hover:text-ink transition-colors">
+                {tr ? "Kemik atlasını aç" : "Open the bone atlas"} <Arrow />
               </span>
-              <h2 className="text-[32px] sm:text-[36px] text-[#003752] font-bold font-archivo">
-                {t.testimonials.title}
-              </h2>
-              <p className="text-[15px] text-[#41474d]">
-                {language === "tr"
-                  ? "Kadavra laboratuvarına girmeden önce ve komite sınavı gecelerinde Anatomi 3D kullananlar anlatıyor."
-                  : "Experiences from medical students and anatomy chairs using Anatomy 3D before cadaver dissection labs and board exams."}
-              </p>
+            </Link>
+          </div>
+        </section>
+
+        {/* Regions: an index, the way an atlas lists its plates. */}
+        <section className="w-full border-b border-line" id="atlas-bolgeleri">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-4">
+              <span className="kicker">{t.regions.badge}</span>
+              <h2 className="mt-3 font-archivo font-semibold text-ink text-[36px] sm:text-[44px] leading-[1.02]">{t.regions.title}</h2>
+              <p className="mt-4 text-[16px] leading-relaxed text-ink-soft">{t.regions.desc}</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Review 1 */}
-              <div className="p-6 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm flex flex-col justify-between space-y-4">
-                <div className="space-y-3">
-                  <div className="flex text-amber-500 gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <span key={i} className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        star
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-[14px] text-[#41474d] italic leading-relaxed">
-                    &quot;{t.testimonials.q2}&quot;
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 pt-3 border-t border-[#f0f4f9]">
-                  <div className="w-10 h-10 rounded-full bg-[#dce9ff] flex items-center justify-center font-bold text-[#003752] text-sm">
-                    SY
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-[#003752]">{t.testimonials.q2Author}</span>
-                    <span className="text-[11px] text-[#41474d]">{t.testimonials.q2Role}</span>
-                  </div>
-                </div>
-              </div>
+            <ul className="lg:col-span-8 border-t border-line">
+              {REGIONS.map((reg) => {
+                const data = t.regions.items[reg.id];
+                if (!data) return null;
+                return (
+                  <li key={reg.id} className="border-b border-line">
+                    <Link
+                      href={`/atlas?region=${reg.id}`}
+                      className="group grid grid-cols-[1fr_auto] sm:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_auto] items-center gap-x-6 gap-y-1 py-5 hover:bg-fill transition-colors -mx-3 px-3"
+                    >
+                      <div>
+                        <h3 className="font-archivo font-semibold text-ink text-[22px] leading-tight">{data.name}</h3>
+                        <p className="text-[13px] italic text-ink-soft">{data.latin}</p>
+                      </div>
+                      <p className="hidden sm:block text-[13px] leading-relaxed text-ink-soft">{data.description}</p>
+                      <div className="flex items-center gap-4 text-accent-700 group-hover:text-ink transition-colors">
+                        <span className="font-archivo font-semibold text-[20px] font-data">{number(reg.count)}</span>
+                        <Arrow />
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+              <li className="pt-3 text-[12px] text-ink-muted">
+                {tr ? "Sayılar: bölgedeki tanımlı yapı sayısı (erkek model)." : "Numbers: named structures in the region (male model)."}
+              </li>
+            </ul>
+          </div>
+        </section>
 
-              {/* Review 2 */}
-              <div className="p-6 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm flex flex-col justify-between space-y-4">
-                <div className="space-y-3">
-                  <div className="flex text-amber-500 gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <span key={i} className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        star
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-[14px] text-[#41474d] italic leading-relaxed">
-                    &quot;{language === "tr"
-                      ? "Kitaplardaki 2D çizimlerde plexus brachialis dallarını 3 boyutlu kafamda canlandıramıyordum. Katman katman kasları kaldırıp arkadaki sinir köklerini görmek her şeyi yerine oturttu."
-                      : "Visualizing the brachial plexus cords in 2D textbook sketches was a nightmare. Being able to peel muscles layer by layer and isolate nerve trunks in 3D made everything click."}&quot;
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 pt-3 border-t border-[#f0f4f9]">
-                  <div className="w-10 h-10 rounded-full bg-[#dce9ff] flex items-center justify-center font-bold text-[#003752] text-sm">
-                    BA
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-[#003752]">
-                      {language === "tr" ? "Berk Altınok" : "Berk Altinok"}
-                    </span>
-                    <span className="text-[11px] text-[#41474d]">
-                      {language === "tr" ? "İstanbul (Çapa) Tıp Fakültesi • Dönem 1" : "Istanbul Faculty of Medicine (Capa) • Year 1"}
-                    </span>
-                  </div>
-                </div>
-              </div>
+        {/* Habit: text and the real profile screen. */}
+        <section className="w-full border-b border-line">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-6">
+              <span className="kicker">{t.habit.badge}</span>
+              <h2 className="mt-3 font-archivo font-semibold text-ink text-[36px] sm:text-[44px] leading-[1.02]">{t.habit.title}</h2>
+              <p className="mt-4 text-[16px] leading-relaxed text-ink-soft">{t.habit.desc}</p>
 
-              {/* Review 3 */}
-              <div className="p-6 rounded-2xl bg-[#ffffff] border border-[#e5eeff] shadow-sm flex flex-col justify-between space-y-4">
-                <div className="space-y-3">
-                  <div className="flex text-amber-500 gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <span key={i} className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        star
-                      </span>
-                    ))}
+              <dl className="mt-8 border-t border-line">
+                {[
+                  { icon: "local_fire_department", title: t.habit.streakTitle, desc: t.habit.streakDesc },
+                  { icon: "military_tech", title: t.habit.badgesTitle, desc: t.habit.badgesDesc },
+                ].map((row) => (
+                  <div key={row.title} className="flex gap-4 py-4 border-b border-line">
+                    <span className="material-symbols-outlined text-[24px] text-accent-700 mt-0.5" aria-hidden>
+                      {row.icon}
+                    </span>
+                    <div>
+                      <dt className="font-archivo font-semibold text-ink text-[20px] leading-tight">{row.title}</dt>
+                      <dd className="mt-1 text-[14px] text-ink-soft">{row.desc}</dd>
+                    </div>
                   </div>
-                  <p className="text-[14px] text-[#41474d] italic leading-relaxed">
-                    &quot;{t.testimonials.q1}&quot;
-                  </p>
-                </div>
-                <div className="flex items-center gap-3 pt-3 border-t border-[#f0f4f9]">
-                  <div className="w-10 h-10 rounded-full bg-[#dce9ff] flex items-center justify-center font-bold text-[#006591] text-sm">
-                    MK
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-[#003752]">{t.testimonials.q1Author}</span>
-                    <span className="text-[11px] text-[#41474d]">{t.testimonials.q1Role}</span>
-                  </div>
-                </div>
-              </div>
+                ))}
+              </dl>
+
+              <Link
+                href="/ogrenme-yolu"
+                className="group mt-6 inline-flex items-center gap-2 font-archivo font-semibold uppercase tracking-wide text-[15px] text-accent-700 hover:text-ink transition-colors"
+              >
+                {t.habit.studyPathBtn} <Arrow />
+              </Link>
+            </div>
+
+            <div className="lg:col-span-6 flex justify-center">
+              <IPhoneFrame
+                screenSrc="/screens/streak2.png"
+                altText={t.habit.title}
+                caption={tr ? "Uygulamadaki profil ekranı" : "The profile screen in the app"}
+              />
             </div>
           </div>
         </section>
 
-        {/* ================= FINAL CALL TO ACTION (Stitch 1:1) ================= */}
-        <section className="w-full bg-[#ffffff] py-16 border-t border-[#e5eeff]" id="indir">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12">
-            <div className="relative rounded-3xl bg-[#003752] text-white overflow-hidden p-8 lg:p-14 shadow-xl">
-              <div className="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-[#39b8fd]/20 blur-3xl pointer-events-none" />
-              <div className="absolute -left-20 -top-20 w-72 h-72 rounded-full bg-[#006591]/30 blur-2xl pointer-events-none" />
-
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                <div className="lg:col-span-8 space-y-4">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/10 text-[#c9e6ff] text-[11px] font-bold uppercase tracking-wider font-archivo">
-                    {t.cta.badge}
-                  </span>
-                  <h2 className="text-[32px] sm:text-[38px] font-bold text-white font-archivo leading-tight">
-                    {t.cta.title}
-                  </h2>
-                  <p className="text-[15px] text-white/80 max-w-xl leading-relaxed">
-                    {t.cta.desc}
-                  </p>
-                  <div className="pt-2 flex flex-wrap items-center gap-4">
-                    <Link
-                      href="/topluluk-ve-indir"
-                      className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-white text-[#003752] hover:bg-[#eff4ff] text-[14px] font-bold shadow-md transition-all"
-                    >
-                      <span className="material-symbols-outlined text-[20px]">phone_iphone</span>
-                      <span>{t.cta.btnDownload}</span>
-                    </Link>
-                    <Link
-                      href="/atlas"
-                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#1f4e6b] text-white hover:bg-[#006591] text-[14px] font-semibold transition-all border border-white/10"
-                    >
-                      <span className="material-symbols-outlined text-[18px]">open_in_browser</span>
-                      <span>{t.cta.btnAtlas}</span>
-                    </Link>
-                  </div>
-                  <p className="text-[12px] text-white/60 pt-1">
-                    {t.cta.syncNote}
-                  </p>
-                </div>
-
-                {/* QR Code & Device Verification Card */}
-                <div className="lg:col-span-4 flex justify-center lg:justify-end">
-                  <div className="p-5 rounded-2xl bg-[#ffffff] text-[#0b1c30] shadow-2xl flex flex-col items-center text-center space-y-3 max-w-[240px]">
-                    <div className="w-36 h-36 bg-[#eff4ff] rounded-xl p-2 flex items-center justify-center">
-                      <svg className="w-full h-full text-[#003752]" fill="currentColor" viewBox="0 0 100 100">
-                        <path d="M10 10h30v30h-30zM15 15v20h20v-20zM20 20h10v10h-10zM60 10h30v30h-30zM65 15v20h20v-20zM70 20h10v10h-10zM10 60h30v30h-30zM15 65v20h20v-20zM20 70h10v10h-10zM60 60h10v10h-10zM80 60h10v10h-10zM70 70h10v10h-10zM60 80h10v10h-10zM80 80h10v10h-10z" />
-                      </svg>
-                    </div>
-                    <div className="space-y-0.5">
-                      <span className="text-[12px] uppercase font-bold text-[#003752] font-archivo">
-                        {language === "tr" ? "Kamerayla Okutun" : "Scan with Camera"}
-                      </span>
-                      <p className="text-[11px] text-[#41474d]">
-                        {language === "tr" ? "Tüm cihazlarda kesintisiz 3D" : "Seamless 3D across devices"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+        {/* Closing call: one dark panel, no glow. */}
+        <section className="w-full" id="indir">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 py-16">
+            <div className="rounded-[14px] bg-ink text-white px-7 py-10 lg:px-14 lg:py-14 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+              <div className="max-w-2xl">
+                <span className="kicker !text-accent-300">{t.cta.badge}</span>
+                <h2 className="mt-3 font-archivo font-semibold text-[38px] sm:text-[48px] leading-[1.0]">{t.cta.title}</h2>
+                <p className="mt-4 text-[16px] leading-relaxed text-white/75">{t.cta.desc}</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 shrink-0">
+                <Link
+                  href="/topluluk-ve-indir"
+                  className="inline-flex items-center h-12 px-6 rounded-[10px] bg-white text-ink hover:bg-accent-200 font-archivo font-semibold uppercase tracking-wide text-[16px] transition-colors"
+                >
+                  {t.cta.btnDownload}
+                </Link>
+                <Link
+                  href="/atlas"
+                  className="inline-flex items-center h-12 px-5 rounded-[10px] border border-white/30 hover:border-white text-white font-archivo font-semibold uppercase tracking-wide text-[16px] transition-colors"
+                >
+                  {t.cta.btnAtlas}
+                </Link>
               </div>
             </div>
           </div>

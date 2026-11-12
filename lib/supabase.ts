@@ -25,9 +25,18 @@ export interface SupabaseSession {
   user: SupabaseUser;
 }
 
+/**
+ * Columns of `profiles` the site reads. The table is public (profiles of other users), so its `email` column is closed
+ * in the database: `select=*` is refused. The owner's e-mail comes from the session.
+ */
+const PROFILE_COLUMNS = [
+  "id", "handle", "display_name", "title_id", "avatar_id", "department", "study_depth", "daily_goal",
+  "preferred_difficulty", "body_sex", "featured_badge_ids", "total_xp", "streak", "total_correct", "best_combo",
+  "completed_lessons", "day_log", "group_stats", "created_at", "updated_at",
+].join(",");
+
 export interface RemoteProfile {
   id: string;
-  email: string | null;
   handle: string;
   display_name: string;
   title_id: string;
@@ -207,7 +216,7 @@ async function getRows<T>(path: string, accessToken: string): Promise<T[] | null
 
 export async function fetchProfile(session: SupabaseSession): Promise<RemoteProfile | null> {
   const rows = await getRows<RemoteProfile>(
-    `profiles?id=eq.${encodeURIComponent(session.user.id)}&select=*`,
+    `profiles?id=eq.${encodeURIComponent(session.user.id)}&select=${PROFILE_COLUMNS}`,
     session.access_token,
   );
   return rows?.[0] ?? null;

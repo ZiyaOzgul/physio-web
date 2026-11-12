@@ -17,32 +17,6 @@ export interface TranslationDictionary {
     menuClose: string;
     osteology: string;
   };
-  footer: {
-    description: string;
-    badgeMedical: string;
-    badgeTa2: string;
-    modulesTitle: string;
-    moduleLocomotor: string;
-    moduleCardio: string;
-    moduleNeuro: string;
-    moduleVisceral: string;
-    moduleExam: string;
-    academicTitle: string;
-    academicCurriculum: string;
-    academicLab: string;
-    academicLicense: string;
-    academicCadaver: string;
-    academicCommunity: string;
-    legalTitle: string;
-    legalKvkk: string;
-    legalCookies: string;
-    legalAccuracy: string;
-    legalTerms: string;
-    legalAudit: string;
-    appsTitle: string;
-    appsSubtitle: string;
-    copyright: string;
-  };
   hero: {
     badge: string;
     title: string;
@@ -106,29 +80,6 @@ export interface TranslationDictionary {
     badgesCount: string;
     facultyAlignment: string;
     studyPathBtn: string;
-  };
-  examShowcase: {
-    badge: string;
-    title: string;
-    desc: string;
-    cadTable: string;
-    timer45: string;
-    bellRule: string;
-    bellRuleDesc: string;
-    pinAccuracy: string;
-    pinAccuracyDesc: string;
-    simulationBadge: string;
-    openExamBtn: string;
-  };
-  testimonials: {
-    badge: string;
-    title: string;
-    q1: string;
-    q1Author: string;
-    q1Role: string;
-    q2: string;
-    q2Author: string;
-    q2Role: string;
   };
   cta: {
     badge: string;
@@ -209,59 +160,5 @@ export interface TranslationDictionary {
     resetTimer: string;
     viewStationDetails: string;
     activePinBadge: string;
-  };
-  learnPage: {
-    curriculum: string;
-    roadmap: string;
-    period: string;
-    streak14: string;
-    uninterrupted: string;
-    goalXP: string;
-    todayGoal: string;
-    masteryPercent: string;
-    committeeAverage: string;
-    term12Committees: string;
-    term3Clinical: string;
-    tusExamPrep: string;
-    difficultyLabel: string;
-    easy: string;
-    medium: string;
-    hard: string;
-    spineNeuralTitle: string;
-    axisYRot: string;
-    zoom100: string;
-    stepperTitle: string;
-    stepperSub: string;
-    level25: string;
-    node1Title: string;
-    node1Sub: string;
-    activeStation: string;
-  };
-  devicePage: {
-    ecosystemBadge: string;
-    ecosystemDesc: string;
-    cloudSyncActive: string;
-    deviceMatrixLink: string;
-    hardwarePerf: string;
-    metalVulkan: string;
-    heroTitle: string;
-    heroDesc: string;
-    allModes: string;
-    tabletMode: string;
-    phoneMode: string;
-    allShort: string;
-  };
-  communityPage: {
-    heroBadge: string;
-    heroTitle: string;
-    heroDesc: string;
-    btnDirectDownload: string;
-    btnJoinCommunity: string;
-    registeredStudents: string;
-    activeGroups: string;
-    communityDiscussions: string;
-    facultyPartnerships: string;
-    qrTitle: string;
-    qrSub: string;
   };
 }

@@ -253,7 +253,7 @@ export default function CadaverExamSimulator3D({
 
     const scene = new THREE.Scene();
     sceneRef.current = scene;
-    scene.background = new THREE.Color("#0a1926");
+    scene.background = new THREE.Color("#e9e9ea");
 
     const w = container.clientWidth || 600;
     const h = container.clientHeight || 560;
@@ -299,11 +299,11 @@ export default function CadaverExamSimulator3D({
     surgicalKey.position.set(2, 5, 3);
     scene.add(surgicalKey);
 
-    const surgicalFill = new THREE.DirectionalLight(0xe0f2fe, 1.2);
+    const surgicalFill = new THREE.DirectionalLight(0xffffff, 1.0);
     surgicalFill.position.set(-3, 3, 2);
     scene.add(surgicalFill);
 
-    const surgicalRim = new THREE.DirectionalLight(0x38bdf8, 0.9);
+    const surgicalRim = new THREE.DirectionalLight(0xffffff, 0.5);
     surgicalRim.position.set(0, 4, -3);
     scene.add(surgicalRim);
 
@@ -651,7 +651,7 @@ export default function CadaverExamSimulator3D({
   };
 
   return (
-    <div className="relative w-full h-full min-h-[500px] rounded-2xl bg-[#0a1926] overflow-hidden flex items-center justify-center">
+    <div className="relative w-full h-full min-h-[500px] rounded-[14px] bg-stage overflow-hidden flex items-center justify-center">
       {/* 3D WebGL Canvas */}
       <div
         ref={containerRef}
@@ -660,9 +660,9 @@ export default function CadaverExamSimulator3D({
 
       {/* Loading Overlay */}
       {loading && (
-        <div className="absolute inset-0 bg-[#0a1926]/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3 z-30 pointer-events-none">
-          <div className="w-10 h-10 rounded-full border-2 border-rose-500/30 border-t-rose-500 animate-spin" />
-          <span className="text-xs font-mono text-rose-300 tracking-wider font-semibold">
+        <div className="absolute inset-0 bg-stage/90 flex flex-col items-center justify-center gap-3 z-30 pointer-events-none">
+          <div className="w-10 h-10 rounded-full border-2 border-[#b8494b]/30 border-t-[#b8494b] animate-spin" />
+          <span className="text-xs font-data text-[#e9c3c4] tracking-wider font-semibold">
             {loadText}
           </span>
         </div>
@@ -671,19 +671,19 @@ export default function CadaverExamSimulator3D({
       {/* Optional Top Station Badge Overlay (hidden by default to avoid covering page HUD cards) */}
       {showTopBadges && (
         <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
-          <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#ffffff]/95 backdrop-blur-md shadow-sm border border-[#e5eeff]">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse" />
-            <span className="font-['Archivo_Narrow'] text-[12px] font-bold uppercase text-[#003752] tracking-wider whitespace-nowrap">
+          <div className="pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#dcdcdf]">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#b8494b]" />
+            <span className="font-archivo text-[12px] font-bold uppercase text-[#1d1f20] tracking-wider whitespace-nowrap">
               {currentStation.name}
             </span>
           </div>
 
           {/* Telemetry Badge */}
-          <div className="pointer-events-auto flex items-center gap-2 bg-[#ffffff]/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-sm border border-[#e5eeff] font-mono text-[11px] text-[#41474d]">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-bold text-[#003752]">{t.examPage.stainlessTable}</span>
-            <span className="text-[#c1c7ce]">•</span>
-            <span className="text-[#006591] font-semibold">{currentStation.pins.length} {t.examPage.pins}</span>
+          <div className="pointer-events-auto flex items-center gap-2 bg-white px-3 py-1.5 rounded-[10px] border border-[#dcdcdf] font-data text-[11px] text-[#5d5d60]">
+            <span className="w-2 h-2 rounded-full bg-[#3f8a5f]" />
+            <span className="font-bold text-[#1d1f20]">{t.examPage.stainlessTable}</span>
+            <span className="text-[#b7b7ba]">•</span>
+            <span className="text-[#416180] font-semibold">{currentStation.pins.length} {t.examPage.pins}</span>
           </div>
         </div>
       )}
@@ -697,10 +697,10 @@ export default function CadaverExamSimulator3D({
               key={pin.number}
               type="button"
               onClick={() => onSelectPin?.(pin.number)}
-              className={`px-3 py-1.5 rounded-xl font-['Archivo_Narrow'] text-[11px] font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer backdrop-blur-md hover:scale-[1.05] ${
+              className={`px-3 py-1.5 rounded-[10px] font-archivo text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer] ${
                 isSelected
-                  ? "bg-[#003752] text-white scale-[1.05] border border-sky-400 ring-2 ring-sky-400/40"
-                  : "bg-[#ffffff]/90 text-[#003752] hover:bg-[#ffffff] border border-[#e5eeff]"
+                  ? "bg-[#416180] text-white scale-[1.05] border border-[#94bce3] ring-2 ring-[#94bce3]/40"
+                  : "bg-white text-[#1d1f20] hover:bg-[#ffffff] border border-[#dcdcdf]"
               }`}
             >
               <span
@@ -714,15 +714,15 @@ export default function CadaverExamSimulator3D({
       </div>
 
       {/* Camera Controls on Bottom Right with Explicit cursor-pointer */}
-      <div className="absolute bottom-4 right-4 z-20 pointer-events-auto flex items-center gap-1 p-1 rounded-xl bg-[#ffffff]/95 backdrop-blur-md shadow-md border border-[#e5eeff]">
+      <div className="absolute bottom-4 right-4 z-20 pointer-events-auto flex items-center gap-1 p-1 rounded-[10px] bg-white border border-[#dcdcdf]">
         <button
           type="button"
           onClick={toggleAutoRotate}
           title={isAutoRotating ? (language === "tr" ? "Döndürmeyi Durdur" : "Stop Rotation") : (language === "tr" ? "Otomatik Döndürmeyi Başlat" : "Start Auto-Rotate")}
           className={`p-1.5 rounded-lg transition-all cursor-pointer ${
             isAutoRotating
-              ? "bg-[#003752] text-[#39b8fd]"
-              : "text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752]"
+              ? "bg-[#416180] text-[#5980a6]"
+              : "text-[#5d5d60] hover:bg-[#ececee] hover:text-[#1d1f20]"
           }`}
         >
           <span className="material-symbols-outlined text-[18px]">
@@ -733,7 +733,7 @@ export default function CadaverExamSimulator3D({
           type="button"
           onClick={() => handleZoom(-0.35)}
           title={t.viewer.zoomIn}
-          className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+          className="p-1.5 rounded-lg text-[#5d5d60] hover:bg-[#ececee] hover:text-[#1d1f20] transition-all cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">zoom_in</span>
         </button>
@@ -741,7 +741,7 @@ export default function CadaverExamSimulator3D({
           type="button"
           onClick={() => handleZoom(0.35)}
           title={t.viewer.zoomOut}
-          className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+          className="p-1.5 rounded-lg text-[#5d5d60] hover:bg-[#ececee] hover:text-[#1d1f20] transition-all cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">zoom_out</span>
         </button>
@@ -749,7 +749,7 @@ export default function CadaverExamSimulator3D({
           type="button"
           onClick={handleResetCamera}
           title={t.viewer.resetCamera}
-          className="p-1.5 rounded-lg text-[#41474d] hover:bg-[#eff4ff] hover:text-[#003752] transition-all cursor-pointer"
+          className="p-1.5 rounded-lg text-[#5d5d60] hover:bg-[#ececee] hover:text-[#1d1f20] transition-all cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">center_focus_strong</span>
         </button>
@@ -757,8 +757,8 @@ export default function CadaverExamSimulator3D({
 
       {/* Interactive Guidance Bar at Bottom Center */}
       <div className="absolute bottom-14 left-1/2 -translate-x-1/2 z-10 pointer-events-none hidden sm:flex">
-        <div className="bg-[#003752]/80 backdrop-blur-md px-3.5 py-1 rounded-full text-white text-[10px] flex items-center gap-2 border border-sky-400/20">
-          <span className="material-symbols-outlined text-[14px] text-[#39b8fd]">
+        <div className="bg-[#416180]/80 px-3.5 py-1 rounded-full text-white text-[10px] flex items-center gap-2 border border-[#94bce3]/20">
+          <span className="material-symbols-outlined text-[14px] text-[#5980a6]">
             pan_tool
           </span>
           <span>

@@ -4,185 +4,86 @@ import React from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
+/**
+ * Site footer. Links only to pages that exist; no company name, version number or accreditation that the project has
+ * not provided. The model credit is required by the source licences.
+ */
 export default function Footer() {
   const { language, t } = useLanguage();
+  const tr = language === "tr";
+
+  const columns: ReadonlyArray<{ title: string; links: ReadonlyArray<{ href: string; label: string }> }> = [
+    {
+      title: tr ? "Çalışma" : "Study",
+      links: [
+        { href: "/atlas", label: t.nav.atlas },
+        { href: "/kemik-anatomisi", label: t.nav.osteology },
+        { href: "/ogrenme-yolu", label: t.nav.learn },
+        { href: "/zilli-sinav", label: t.nav.exam },
+      ],
+    },
+    {
+      title: tr ? "Uygulama" : "App",
+      links: [
+        { href: "/topluluk-ve-indir", label: tr ? "Mobil uygulama" : "Mobile app" },
+        { href: "/cihaz-deneyimi", label: t.nav.device },
+        { href: "/profil", label: tr ? "Profil" : "Profile" },
+      ],
+    },
+    {
+      title: tr ? "Yasal" : "Legal",
+      links: [
+        { href: "/kvkk#gizlilik", label: tr ? "Gizlilik" : "Privacy" },
+        { href: "/kvkk#kosullar", label: tr ? "Kullanım koşulları" : "Terms of use" },
+        { href: "/kvkk#lisanslar", label: tr ? "Model lisansları" : "Model licences" },
+      ],
+    },
+  ];
 
   return (
-    <footer className="w-full bg-[#eaf1f8] border-t border-[#d3e0ed] text-[#0b1c30] shadow-[0_-1px_6px_rgba(0,0,0,0.03)] mt-auto">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
-          {/* Brand Info */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#003752] flex items-center justify-center text-white shadow-sm">
-                <span className="material-symbols-outlined text-[20px]">view_in_ar</span>
-              </div>
-              <span className="text-[18px] text-[#003752] font-bold tracking-tight uppercase font-archivo">
-                ANATOMI 3D
-              </span>
+    <footer className="w-full bg-ground border-t border-line text-ink mt-auto">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 pt-14 pb-10">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-10">
+          <div className="col-span-2 lg:col-span-5">
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="" width={36} height={36} className="w-9 h-9 object-contain" />
+              <span className="text-[19px] text-ink font-semibold tracking-wide uppercase font-archivo">Anatomi 3D</span>
             </Link>
-            <p className="text-[14px] leading-relaxed text-[#41474d] max-w-sm">
-              {t.footer.description}
+            <p className="mt-4 text-[14px] leading-relaxed text-ink-soft max-w-sm">
+              {tr
+                ? "Sağlık bilimleri öğrencileri için 3D anatomi atlası, öğrenme yolu ve zilli sınav."
+                : "A 3D anatomy atlas, learning path and spot exam for health-science students."}
             </p>
-            <div className="pt-2 flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#ffffff] text-[#003752] text-[11px] font-medium border border-[#d3e0ed]">
-                <span className="material-symbols-outlined text-[16px] text-[#006591]">verified</span>
-                {t.footer.badgeMedical}
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#ffffff] text-[#006591] text-[11px] font-medium border border-[#d3e0ed]">
-                <span className="material-symbols-outlined text-[16px]">school</span>
-                {t.footer.badgeTa2}
-              </span>
+          </div>
+
+          {columns.map((col) => (
+            <div key={col.title} className="lg:col-span-2">
+              <h4 className="kicker">{col.title}</h4>
+              <ul className="mt-4 space-y-2.5 text-[14px]">
+                {col.links.map((link) => (
+                  <li key={link.href}>
+                    <Link className="text-ink-soft hover:text-ink transition-colors" href={link.href}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-
-          {/* Module Links */}
-          <div className="space-y-3">
-            <h4 className="text-[15px] text-[#003752] font-bold tracking-wide uppercase font-archivo">
-              {t.footer.modulesTitle}
-            </h4>
-            <ul className="space-y-2 text-[14px] text-[#41474d]">
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  {t.footer.moduleLocomotor}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  {t.footer.moduleCardio}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  {t.footer.moduleNeuro}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/atlas">
-                  {t.footer.moduleVisceral}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/zilli-sinav">
-                  {t.footer.moduleExam}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Academic & Faculty */}
-          <div className="space-y-3">
-            <h4 className="text-[15px] text-[#003752] font-bold tracking-wide uppercase font-archivo">
-              {t.footer.academicTitle}
-            </h4>
-            <ul className="space-y-2 text-[14px] text-[#41474d]">
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/ogrenme-yolu">
-                  {t.footer.academicCurriculum}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/cihaz-deneyimi">
-                  {t.footer.academicLab}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/topluluk-ve-indir">
-                  {t.footer.academicLicense}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/topluluk-ve-indir">
-                  {t.footer.academicCadaver}
-                </Link>
-              </li>
-              <li>
-                <Link className="hover:text-[#003752] transition-colors" href="/topluluk-ve-indir">
-                  {t.footer.academicCommunity}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Mobile Platforms */}
-          <div className="space-y-3">
-            <h4 className="text-[15px] text-[#003752] font-bold tracking-wide uppercase font-archivo">
-              {t.footer.appsTitle}
-            </h4>
-            <p className="text-[12px] text-[#41474d] leading-relaxed">
-              {language === "tr"
-                ? "Çevrimdışı 3D motoruyla sinyal almayan morfoloji bodrumlarında bile kesintisiz pratik yapın."
-                : "Practice uninterrupted even in morphology basements with zero reception using our offline 3D engine."}
-            </p>
-            <div className="flex flex-col gap-2.5 pt-1">
-              <Link
-                href="/topluluk-ve-indir"
-                className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#ffffff] hover:bg-[#dce9ff] text-[#0b1c30] border border-[#d3e0ed] transition-all shadow-sm"
-              >
-                <span className="material-symbols-outlined text-[22px] text-[#003752]">
-                  phone_iphone
-                </span>
-                <div className="flex flex-col text-left">
-                  <span className="text-[10px] text-[#41474d]">
-                    {language === "tr" ? "App Store üzerinden" : "Available on"}
-                  </span>
-                  <span className="text-[13px] text-[#003752] font-semibold leading-tight">
-                    iOS {language === "tr" ? "İndir" : "Download"}
-                  </span>
-                </div>
-              </Link>
-              <Link
-                href="/topluluk-ve-indir"
-                className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#ffffff] hover:bg-[#dce9ff] text-[#0b1c30] border border-[#d3e0ed] transition-all shadow-sm"
-              >
-                <span className="material-symbols-outlined text-[22px] text-[#006591]">
-                  android
-                </span>
-                <div className="flex flex-col text-left">
-                  <span className="text-[10px] text-[#41474d]">
-                    {language === "tr" ? "Google Play ile" : "Get it on"}
-                  </span>
-                  <span className="text-[13px] text-[#003752] font-semibold leading-tight">
-                    Android {language === "tr" ? "İndir" : "Download"}
-                  </span>
-                </div>
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Medical Disclaimer Banner */}
-        <div className="pt-6 mt-6 bg-[#ffffff]/80 border border-[#d3e0ed] rounded-xl p-5 mb-8">
-          <div className="flex items-start gap-3">
-            <span className="material-symbols-outlined text-[#006591] text-[20px] mt-0.5 shrink-0">
-              clinical_notes
-            </span>
-            <p className="text-[12px] text-[#41474d] leading-relaxed">
-              <strong className="font-semibold text-[#0b1c30]">
-                {language === "tr" ? "Tıbbi Uyarı & Sorumluluk Reddi:" : "Medical Disclaimer:"}
-              </strong>{" "}
-              {language === "tr"
-                ? "Anatomi3D platformu yalnızca tıbbi eğitim, araştırma ve akademik anatomi pratikleri amacıyla hazırlanmıştır. İçerikler doğrudan tanı, tedavi veya cerrahi müdahale kararları için bağımsız bir kılavuz niteliği taşımaz. Klinik uygulamalarda güncel tıp literatürü ve resmi teşhis protokolleri esas alınmalıdır."
-                : "The Anatomi3D platform is designed solely for medical education, academic research, and anatomical dissection training. Content does not serve as an independent guide for clinical diagnosis, treatment, or surgical interventions. Official medical literature and diagnostic protocols must always be consulted in clinical practice."}
-            </p>
-          </div>
-        </div>
+        <p className="mt-12 pl-4 border-l-[3px] border-line-strong text-[13px] leading-relaxed text-ink-soft max-w-[80ch]">
+          {tr
+            ? "Yalnızca eğitim amaçlıdır. İçerik tanı veya tedavi tavsiyesi değildir; klinik kararlar için güncel kılavuzlara ve hekim görüşüne başvurun. Yapı açıklamaları yapay zekâyla yazılmıştır ve uzman incelemesini beklemektedir."
+            : "For education only. The content is not diagnostic or treatment advice; for clinical decisions consult current guidelines and a physician. The structure descriptions were written with AI and await expert review."}
+        </p>
 
-        {/* Legal & Copyright */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#41474d]">
-          <p>© 2026 Anatomi3D Health Tech Corp. {t.footer.copyright}</p>
-          <div className="flex items-center gap-6">
-            <Link className="hover:text-[#003752] transition-colors" href="/kvkk">
-              {t.footer.legalTerms}
-            </Link>
-            <Link className="hover:text-[#003752] transition-colors" href="/kvkk">
-              {t.footer.legalKvkk}
-            </Link>
-            <Link className="hover:text-[#003752] transition-colors" href="/kvkk">
-              {t.footer.legalCookies}
-            </Link>
-            <span className="text-[#72787e] font-mono">v4.2.0</span>
-          </div>
+        <div className="mt-8 pt-6 border-t border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[12px] text-ink-muted">
+          <p>© 2026 Anatomi 3D</p>
+          <p>
+            3D model: BodyParts3D © DBCLS (CC BY-SA 2.1 JP) · Z-Anatomy (CC BY-SA 4.0) · HRA (CC BY 4.0) · MakeHuman (CC0)
+          </p>
         </div>
       </div>
     </footer>

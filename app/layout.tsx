@@ -1,31 +1,26 @@
 import type { Metadata } from "next";
-import { Archivo_Narrow, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Barlow, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
 
-const archivo = Archivo_Narrow({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
+// The app's families (Barlow Condensed for headings and controls, Barlow for text).
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600"],
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
+const barlow = Barlow({
+  variable: "--font-barlow",
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
 });
 
-const mono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
 export const metadata: Metadata = {
-  title: "ANATOMİ 3D • Tıp Fakültesi Sürümü | Klinik ve Dijital Anatomi Sistemi",
+  title: "Anatomi 3D · 3D anatomi atlası",
   description:
-    "2.900+ mikroskobik ve topografik anatomik yapı, 6 hassas diseksiyon katmanı, kişiselleştirilmiş komite müfredatı ve gerçekçi zilli pratik sınav simülasyonu. iOS ve Android'de.",
+    "Latince, Türkçe ve İngilizce adlarıyla 3.418 yapı, 12 katman, erkek ve kadın modeli; öğrenme yolu ve süreli zilli sınav.",
   icons: {
     icon: "/favicon.png",
     apple: "/icon.png",
@@ -40,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${archivo.variable} ${jakarta.variable} ${mono.variable} h-full scroll-smooth antialiased`}
+      className={`${barlowCondensed.variable} ${barlow.variable} h-full scroll-smooth antialiased`}
     >
       <head>
         <link
@@ -48,7 +43,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-[#f8f9ff] text-[#0b1c30] selection:bg-[#39b8fd]/30 selection:text-[#003752]">
+      <body className="min-h-full flex flex-col font-sans bg-ground text-ink selection:bg-accent-200 selection:text-ink">
         <LanguageProvider>
           <AuthProvider>{children}</AuthProvider>
         </LanguageProvider>

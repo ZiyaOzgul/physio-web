@@ -33,8 +33,8 @@ interface ProjectedPin {
 
 // Mobile-matched clinical studio tokens
 const SCENE_BG_COLOR = 0xe9e9ea; // mobile tokens.colors.sceneBackground (#e9e9ea)
-const ORIGO_COLOR = 0xdc2626; // mobile red origo
-const INSERTIO_COLOR = 0x2563eb; // mobile blue insertio
+const ORIGO_COLOR = 0xc8463c; // = app tokens.origo (osteology GLB footprints)
+const INSERTIO_COLOR = 0x3c6ec8; // = app tokens.insertio
 
 /**
  * Mobile-identical bone shader injector:
@@ -235,7 +235,7 @@ export default function OsteologyViewer3D({
     keyLight.position.set(2, 3, 3);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xdbeafe, 0.7);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.6);
     fillLight.position.set(-3, 1, 1);
     scene.add(fillLight);
 
@@ -623,7 +623,7 @@ export default function OsteologyViewer3D({
   };
 
   return (
-    <div className="relative w-full h-full min-h-[460px] bg-[#e9e9ea] rounded-3xl overflow-hidden select-none border border-[#d2d6dc] shadow-sm">
+    <div className="relative w-full h-full min-h-[460px] bg-[#e9e9ea] rounded-[14px] overflow-hidden select-none border border-[#d2d6dc]">
       {/* 3D Canvas Container */}
       <div
         ref={containerRef}
@@ -633,9 +633,9 @@ export default function OsteologyViewer3D({
 
       {/* Loading Spinner */}
       {loading && (
-        <div className="absolute inset-0 bg-[#e9e9ea]/80 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-30">
-          <div className="w-9 h-9 rounded-full border-3 border-slate-300 border-t-[#006591] animate-spin" />
-          <span className="text-[12px] font-semibold text-[#003752]">
+        <div className="absolute inset-0 bg-[#e9e9ea]/80 flex flex-col items-center justify-center gap-3 z-30">
+          <div className="w-9 h-9 rounded-full border-3 border-[#d4d4d7] border-t-[#5980a6] animate-spin" />
+          <span className="text-[12px] font-semibold text-[#1d1f20]">
             {language === "tr" ? "3D Kemik Modeli Hazırlanıyor…" : "Loading 3D Bone Model…"}
           </span>
         </div>
@@ -644,8 +644,8 @@ export default function OsteologyViewer3D({
       {/* Error Notice */}
       {loadError && (
         <div className="absolute inset-0 bg-[#e9e9ea]/95 flex flex-col items-center justify-center gap-2 p-6 text-center z-30">
-          <span className="material-symbols-outlined text-[32px] text-rose-500">warning</span>
-          <p className="text-[13px] font-medium text-slate-700">{loadError}</p>
+          <span className="material-symbols-outlined text-[32px] text-[#b8494b]">warning</span>
+          <p className="text-[13px] font-medium text-[#424244]">{loadError}</p>
         </div>
       )}
 
@@ -664,11 +664,11 @@ export default function OsteologyViewer3D({
                   e.stopPropagation();
                   onSelectLandmark(landmark.id);
                 }}
-                className={`absolute pointer-events-auto transform -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-150 flex items-center justify-center font-mono font-bold text-white shadow-sm cursor-pointer group ${
+                className={`absolute pointer-events-auto transform -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-150 flex items-center justify-center font-data font-bold text-white cursor-pointer group ${
                   isSelected
-                    ? "w-7 h-7 text-[12px] scale-110 ring-3 ring-white ring-offset-2 ring-offset-[#003752] z-30 opacity-100"
+                    ? "w-7 h-7 text-[12px] scale-110 ring-3 ring-white ring-offset-2 ring-offset-[#416180] z-30 opacity-100"
                     : facing
-                      ? "w-5.5 h-5.5 text-[10.5px] hover:scale-120 z-10 opacity-95"
+                      ? "w-5.5 h-5.5 text-[10.5px] z-10 opacity-95"
                       : "w-4.5 h-4.5 text-[9.5px] opacity-30 hover:opacity-90 z-0"
                 }`}
                 style={{
@@ -681,12 +681,12 @@ export default function OsteologyViewer3D({
                 {landmark.number}
 
                 {/* Hover Tooltip */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center whitespace-nowrap bg-[#003752] text-white px-2 py-0.5 rounded-lg shadow-xl text-[10.5px] pointer-events-none z-40">
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:flex flex-col items-center whitespace-nowrap bg-[#416180] text-white px-2 py-0.5 rounded-lg text-[10.5px] pointer-events-none z-40">
                   <span className="font-bold font-archivo">{landmark.latinName}</span>
-                  <span className="text-[9.5px] text-sky-200">
+                  <span className="text-[9.5px] text-[#d6ebff]">
                     {language === "tr" ? landmark.name.tr : landmark.name.en}
                   </span>
-                  <div className="w-1.5 h-1.5 bg-[#003752] rotate-45 -mb-0.5 transform translate-y-0.5" />
+                  <div className="w-1.5 h-1.5 bg-[#416180] rotate-45 -mb-0.5 transform translate-y-0.5" />
                 </div>
               </button>
             );
@@ -697,14 +697,14 @@ export default function OsteologyViewer3D({
       {/* Floating Top Controls Toolbar */}
       <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2 pointer-events-none z-20">
         {/* Left: Toggles */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-white/90 backdrop-blur-md border border-slate-300/80 shadow-xs pointer-events-auto">
+        <div className="flex items-center gap-1 p-1 rounded-[10px] bg-white/90 border border-[#d4d4d7]/80 pointer-events-auto">
           <button
             type="button"
             onClick={onTogglePins}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
               showPins
-                ? "bg-[#003752] text-white shadow-2xs"
-                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                ? "bg-[#416180] text-white shadow-2xs"
+                : "text-[#5d5d60] hover:bg-[#ececee] hover:text-[#1d1f20]"
             }`}
             title={language === "tr" ? "İğneleri Aç/Kapat" : "Toggle Pins"}
           >
@@ -719,8 +719,8 @@ export default function OsteologyViewer3D({
             onClick={onToggleAllZones}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
               showAllZones
-                ? "bg-[#003752] text-white shadow-2xs"
-                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                ? "bg-[#416180] text-white shadow-2xs"
+                : "text-[#5d5d60] hover:bg-[#ececee] hover:text-[#1d1f20]"
             }`}
             title={language === "tr" ? "Renkli Bölgeleri Aç/Kapat" : "Toggle Color Zones"}
           >
@@ -730,11 +730,11 @@ export default function OsteologyViewer3D({
         </div>
 
         {/* Right: Camera Presets */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-white/90 backdrop-blur-md border border-slate-300/80 shadow-xs pointer-events-auto">
+        <div className="flex items-center gap-1 p-1 rounded-[10px] bg-white/90 border border-[#d4d4d7]/80 pointer-events-auto">
           <button
             type="button"
             onClick={() => focusSurface("anterior")}
-            className="px-2 py-1 rounded-lg text-[10.5px] font-bold text-slate-700 hover:bg-sky-50 hover:text-[#006591] transition-colors cursor-pointer"
+            className="px-2 py-1 rounded-lg text-[10.5px] font-bold text-[#424244] hover:bg-[#eef6ff] hover:text-[#416180] transition-colors cursor-pointer"
             title={language === "tr" ? "Ön Yüz (Anterior)" : "Anterior View"}
           >
             {language === "tr" ? "Ön" : "Ant"}
@@ -742,7 +742,7 @@ export default function OsteologyViewer3D({
           <button
             type="button"
             onClick={() => focusSurface("posterior")}
-            className="px-2 py-1 rounded-lg text-[10.5px] font-bold text-slate-700 hover:bg-sky-50 hover:text-[#006591] transition-colors cursor-pointer"
+            className="px-2 py-1 rounded-lg text-[10.5px] font-bold text-[#424244] hover:bg-[#eef6ff] hover:text-[#416180] transition-colors cursor-pointer"
             title={language === "tr" ? "Arka Yüz (Posterior)" : "Posterior View"}
           >
             {language === "tr" ? "Arka" : "Post"}
@@ -750,7 +750,7 @@ export default function OsteologyViewer3D({
           <button
             type="button"
             onClick={() => focusSurface("lateral")}
-            className="px-2 py-1 rounded-lg text-[10.5px] font-bold text-slate-700 hover:bg-sky-50 hover:text-[#006591] transition-colors cursor-pointer"
+            className="px-2 py-1 rounded-lg text-[10.5px] font-bold text-[#424244] hover:bg-[#eef6ff] hover:text-[#416180] transition-colors cursor-pointer"
             title={language === "tr" ? "Yan Yüz (Lateral)" : "Lateral View"}
           >
             {language === "tr" ? "Yan" : "Lat"}
@@ -758,7 +758,7 @@ export default function OsteologyViewer3D({
           <button
             type="button"
             onClick={resetCamera}
-            className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-[#5d5d60] hover:bg-[#ececee] transition-colors cursor-pointer"
             title={language === "tr" ? "Kamerayı Merkeze Sıfırla" : "Reset Camera"}
           >
             <span className="material-symbols-outlined text-[16px]">restart_alt</span>
@@ -768,17 +768,17 @@ export default function OsteologyViewer3D({
 
       {/* Muscle Footprint Legend (Only in muscles tab) */}
       {inspectorTab === "muscles" && (
-        <div className="absolute bottom-3 left-3 flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-slate-300/80 shadow-xs pointer-events-auto text-[10.5px] font-semibold z-20">
+        <div className="absolute bottom-3 left-3 flex items-center gap-2.5 px-2.5 py-1.5 rounded-[10px] bg-white border border-[#d4d4d7]/80 pointer-events-auto text-[10.5px] font-semibold z-20">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-600 shadow-2xs" />
-            <span className="text-slate-800">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#b8494b] shadow-2xs" />
+            <span className="text-[#2b2b2d]">
               {language === "tr" ? "Origo (Başlangıç)" : "Origin"}
             </span>
           </div>
-          <div className="w-[1px] h-3 bg-slate-300" />
+          <div className="w-[1px] h-3 bg-[#d4d4d7]" />
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-600 shadow-2xs" />
-            <span className="text-slate-800">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#5980a6] shadow-2xs" />
+            <span className="text-[#2b2b2d]">
               {language === "tr" ? "İnsersiyo (Tutunma)" : "Insertion"}
             </span>
           </div>
@@ -786,7 +786,7 @@ export default function OsteologyViewer3D({
       )}
 
       {/* Floating Bottom Navigation Hint */}
-      <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-white/80 backdrop-blur-md border border-slate-300/60 text-[10.5px] text-slate-600 pointer-events-none hidden md:flex items-center gap-1.5 z-10">
+      <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-white/80 border border-[#d4d4d7]/60 text-[10.5px] text-[#5d5d60] pointer-events-none hidden md:flex items-center gap-1.5 z-10">
         <span className="material-symbols-outlined text-[14px]">3d_rotation</span>
         <span>{language === "tr" ? "Döndür: Sol tık • Yakınlaş: Tekerlek" : "Rotate: Drag • Zoom: Scroll"}</span>
       </div>

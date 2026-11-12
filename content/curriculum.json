@@ -1,0 +1,510 @@
+{
+ "units": [
+  {
+   "id": "unit-skeletal",
+   "title": {
+    "tr": "İskelet Sistemi",
+    "en": "Skeletal System"
+   },
+   "description": {
+    "tr": "Osteoloji ve artroloji",
+    "en": "Osteology and arthrology"
+   }
+  },
+  {
+   "id": "unit-muscular",
+   "title": {
+    "tr": "Kas Sistemi",
+    "en": "Muscular System"
+   },
+   "description": {
+    "tr": "Miyoloji: origo, insersiyo, inervasyon",
+    "en": "Myology: origin, insertion, innervation"
+   }
+  },
+  {
+   "id": "unit-circulation",
+   "title": {
+    "tr": "Dolaşım ve Sinir",
+    "en": "Circulation & Nerves"
+   },
+   "description": {
+    "tr": "Anjiyoloji ve nöroanatomi",
+    "en": "Angiology and neuroanatomy"
+   }
+  }
+ ],
+ "lessons": [
+  {
+   "id": "easy-1-1",
+   "unitId": "unit-skeletal",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Kafatası",
+    "en": "Skull"
+   },
+   "questions": 8
+  },
+  {
+   "id": "easy-1-2",
+   "unitId": "unit-skeletal",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Columna vertebralis",
+    "en": "Vertebral column"
+   },
+   "questions": 8
+  },
+  {
+   "id": "easy-1-3",
+   "unitId": "unit-skeletal",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Thorax",
+    "en": "Thorax"
+   },
+   "questions": 8
+  },
+  {
+   "id": "easy-1-4",
+   "unitId": "unit-skeletal",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Üst ekstremite kemikleri",
+    "en": "Upper limb bones"
+   },
+   "questions": 8
+  },
+  {
+   "id": "easy-1-5",
+   "unitId": "unit-skeletal",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Alt ekstremite kemikleri",
+    "en": "Lower limb bones"
+   },
+   "questions": 8
+  },
+  {
+   "id": "easy-2-1",
+   "unitId": "unit-muscular",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Gövde kasları",
+    "en": "Trunk muscles"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-2-2",
+   "unitId": "unit-muscular",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Omuz kuşağı",
+    "en": "Shoulder girdle"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-2-3",
+   "unitId": "unit-muscular",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Üst ekstremite kasları",
+    "en": "Upper limb muscles"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-2-4",
+   "unitId": "unit-muscular",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Kalça ve uyluk",
+    "en": "Hip and thigh"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-2-5",
+   "unitId": "unit-muscular",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Bacak ve ayak",
+    "en": "Leg and foot"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-3-1",
+   "unitId": "unit-circulation",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Kalp",
+    "en": "Heart"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-3-2",
+   "unitId": "unit-circulation",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Büyük arterler",
+    "en": "Great arteries"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-3-3",
+   "unitId": "unit-circulation",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Venöz dönüş",
+    "en": "Venous return"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-3-4",
+   "unitId": "unit-circulation",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Merkezi sinir sistemi",
+    "en": "Central nervous system"
+   },
+   "questions": 7
+  },
+  {
+   "id": "easy-3-5",
+   "unitId": "unit-circulation",
+   "difficulty": "easy",
+   "title": {
+    "tr": "Periferik sinirler",
+    "en": "Peripheral nerves"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-1-1",
+   "unitId": "unit-skeletal",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Kafatası",
+    "en": "Skull"
+   },
+   "questions": 8
+  },
+  {
+   "id": "medium-1-2",
+   "unitId": "unit-skeletal",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Columna vertebralis",
+    "en": "Vertebral column"
+   },
+   "questions": 8
+  },
+  {
+   "id": "medium-1-3",
+   "unitId": "unit-skeletal",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Thorax",
+    "en": "Thorax"
+   },
+   "questions": 8
+  },
+  {
+   "id": "medium-1-4",
+   "unitId": "unit-skeletal",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Üst ekstremite kemikleri",
+    "en": "Upper limb bones"
+   },
+   "questions": 8
+  },
+  {
+   "id": "medium-1-5",
+   "unitId": "unit-skeletal",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Alt ekstremite kemikleri",
+    "en": "Lower limb bones"
+   },
+   "questions": 8
+  },
+  {
+   "id": "medium-2-1",
+   "unitId": "unit-muscular",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Gövde kasları",
+    "en": "Trunk muscles"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-2-2",
+   "unitId": "unit-muscular",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Omuz kuşağı",
+    "en": "Shoulder girdle"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-2-3",
+   "unitId": "unit-muscular",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Üst ekstremite kasları",
+    "en": "Upper limb muscles"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-2-4",
+   "unitId": "unit-muscular",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Kalça ve uyluk",
+    "en": "Hip and thigh"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-2-5",
+   "unitId": "unit-muscular",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Bacak ve ayak",
+    "en": "Leg and foot"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-3-1",
+   "unitId": "unit-circulation",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Kalp",
+    "en": "Heart"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-3-2",
+   "unitId": "unit-circulation",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Büyük arterler",
+    "en": "Great arteries"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-3-3",
+   "unitId": "unit-circulation",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Venöz dönüş",
+    "en": "Venous return"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-3-4",
+   "unitId": "unit-circulation",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Merkezi sinir sistemi",
+    "en": "Central nervous system"
+   },
+   "questions": 7
+  },
+  {
+   "id": "medium-3-5",
+   "unitId": "unit-circulation",
+   "difficulty": "medium",
+   "title": {
+    "tr": "Periferik sinirler",
+    "en": "Peripheral nerves"
+   },
+   "questions": 7
+  },
+  {
+   "id": "hard-1-1",
+   "unitId": "unit-skeletal",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Kafatası",
+    "en": "Skull"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-1-2",
+   "unitId": "unit-skeletal",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Columna vertebralis",
+    "en": "Vertebral column"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-1-3",
+   "unitId": "unit-skeletal",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Thorax",
+    "en": "Thorax"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-1-4",
+   "unitId": "unit-skeletal",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Üst ekstremite kemikleri",
+    "en": "Upper limb bones"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-1-5",
+   "unitId": "unit-skeletal",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Alt ekstremite kemikleri",
+    "en": "Lower limb bones"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-2-1",
+   "unitId": "unit-muscular",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Gövde kasları",
+    "en": "Trunk muscles"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-2-2",
+   "unitId": "unit-muscular",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Omuz kuşağı",
+    "en": "Shoulder girdle"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-2-3",
+   "unitId": "unit-muscular",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Üst ekstremite kasları",
+    "en": "Upper limb muscles"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-2-4",
+   "unitId": "unit-muscular",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Kalça ve uyluk",
+    "en": "Hip and thigh"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-2-5",
+   "unitId": "unit-muscular",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Bacak ve ayak",
+    "en": "Leg and foot"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-3-1",
+   "unitId": "unit-circulation",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Kalp",
+    "en": "Heart"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-3-2",
+   "unitId": "unit-circulation",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Büyük arterler",
+    "en": "Great arteries"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-3-3",
+   "unitId": "unit-circulation",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Venöz dönüş",
+    "en": "Venous return"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-3-4",
+   "unitId": "unit-circulation",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Merkezi sinir sistemi",
+    "en": "Central nervous system"
+   },
+   "questions": 8
+  },
+  {
+   "id": "hard-3-5",
+   "unitId": "unit-circulation",
+   "difficulty": "hard",
+   "title": {
+    "tr": "Periferik sinirler",
+    "en": "Peripheral nerves"
+   },
+   "questions": 8
+  }
+ ],
+ "questionTypes": [
+  "choice",
+  "identifyPart",
+  "labelParts",
+  "locatePart",
+  "matchParts",
+  "pickPart",
+  "trueFalse"
+ ],
+ "xpPerCorrect": {
+  "easy": 10,
+  "medium": 15,
+  "hard": 20
+ },
+ "comboThreshold": 3,
+ "comboBonusXp": 5,
+ "goalOptions": [
+  20,
+  50,
+  100
+ ]
+}
