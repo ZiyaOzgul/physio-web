@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import IPhoneFrame from "@/components/IPhoneFrame";
+import PhonePeek from "@/components/PhonePeek";
 import type { DissectionLayersState } from "@/components/AnatomyViewer3D";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -33,9 +33,9 @@ const REGIONS: ReadonlyArray<{ id: string; count: number }> = [
 ];
 
 const MODULES = [
-  { n: "01", href: "/atlas", shot: "/screens/atlas.png", key: "f1" },
-  { n: "02", href: "/ogrenme-yolu", shot: "/screens/learn.png", key: "f2" },
-  { n: "03", href: "/zilli-sinav", shot: "/screens/exam-phone.png", key: "f3" },
+  { n: "01", href: "/atlas", shot: "/screens/atlas.webp", key: "f1" },
+  { n: "02", href: "/ogrenme-yolu", shot: "/screens/learn.webp", key: "f2" },
+  { n: "03", href: "/zilli-sinav", shot: "/screens/exam.webp", key: "f3" },
 ] as const;
 
 function Arrow() {
@@ -155,9 +155,9 @@ export default function HomePage() {
                     </div>
                     <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{t.features[`${m.key}Desc`]}</p>
                     <p className="mt-3 text-[12px] text-ink-muted">{tags.join(" · ")}</p>
-                    <div className="mt-6 h-72 rounded-[14px] border border-line bg-card flex items-center justify-center p-3 overflow-hidden">
-                      <Image src={m.shot} alt={title} width={600} height={400} className="h-full w-auto object-contain" />
-                    </div>
+                    {/* Spacer: the three previews line up whatever the length of the text above them. */}
+                    <div className="flex-1 min-h-6" />
+                    <PhonePeek src={m.shot} alt={title} />
                     <span className="mt-4 inline-flex items-center gap-2 font-archivo font-semibold uppercase tracking-wide text-[14px] text-accent-700 group-hover:text-ink transition-colors">
                       {tr ? "Aç" : "Open"} <Arrow />
                     </span>
@@ -263,9 +263,9 @@ export default function HomePage() {
 
             <div className="lg:col-span-6 flex justify-center">
               <IPhoneFrame
-                screenSrc="/screens/streak2.png"
-                altText={t.habit.title}
-                caption={tr ? "Uygulamadaki profil ekranı" : "The profile screen in the app"}
+                screenSrc="/screens/streak.webp"
+                altText={tr ? "Uygulamada çalışma takvimi ve sistem hakimiyeti" : "Study calendar and mastery by system in the app"}
+                caption={tr ? "Profil: son 28 gün ve sistem hakimiyeti" : "Profile: the last 28 days and mastery by system"}
               />
             </div>
           </div>

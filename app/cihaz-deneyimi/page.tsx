@@ -192,14 +192,14 @@ export default function DevicePage() {
             </div>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-12 justify-items-center">
               <IPhoneFrame
-                screenSrc="/screens/dorsal.png"
+                screenSrc="/screens/back.webp"
                 altText={tr ? "Sırt bölgesi, katmanlar açık" : "The back region with layers on"}
                 caption={tr ? "Atlas: sırt bölgesi" : "Atlas: the back"}
               />
               <IPhoneFrame
-                screenSrc="/screens/streak2.png"
-                altText={tr ? "Çalışma serisi ve sistem hakimiyeti" : "Study streak and mastery by system"}
-                caption={tr ? "Profil: seri ve hakimiyet" : "Profile: streak and mastery"}
+                screenSrc="/screens/atlas-part.webp"
+                altText={tr ? "Atlasta seçilen bir yapının paneli" : "The panel of a selected structure in the atlas"}
+                caption={tr ? "Atlas: dokunulan yapının adı ve açıklaması" : "Atlas: the name and description of a tapped structure"}
               />
             </div>
             <div className="mt-12 flex justify-center">

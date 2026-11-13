@@ -76,9 +76,9 @@ export default function AppPage() {
 
             <div className="lg:col-span-5 flex justify-center">
               <IPhoneFrame
-                screenSrc="/screens/profile.png"
-                altText={tr ? "Uygulamadaki profil ekranı" : "The profile screen in the app"}
-                caption={tr ? "Uygulamadaki profil ekranı" : "The profile screen in the app"}
+                screenSrc="/screens/home.webp"
+                altText={tr ? "Uygulamanın ana ekranı" : "The app's home screen"}
+                caption={tr ? "Ana ekran: seviye, günlük hedef ve sıradaki ders" : "Home: level, daily goal and the next lesson"}
               />
             </div>
           </div>
@@ -116,9 +116,9 @@ export default function AppPage() {
           <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12 py-16 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
               <IPhoneFrame
-                screenSrc="/screens/streak2.png"
-                altText={tr ? "Çalışma serisi ve sistem hakimiyeti" : "Study streak and mastery by system"}
-                caption={tr ? "28 günlük çalışma takvimi" : "The 28-day study calendar"}
+                screenSrc="/screens/learn.webp"
+                altText={tr ? "Uygulamada kişisel öğrenme yolu" : "The personal learning path in the app"}
+                caption={tr ? "Öğrenme yolu: dört aşama, ilerleme yüzdeleri" : "Learning path: four stages with progress"}
               />
             </div>
             <div className="lg:col-span-7 order-1 lg:order-2">

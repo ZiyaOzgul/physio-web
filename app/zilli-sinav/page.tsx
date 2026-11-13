@@ -343,17 +343,17 @@ export default function ZilliSinavPage() {
                   </h2>
                   <p className="text-[14px] text-[#5d5d60] leading-relaxed">
                     {language === "tr"
-                      ? "Tıp fakültesi kadavra salonundaki o meşhur zil sesini, süre stresini ve pin teşhisini Anatomi 3D mobil uygulamasıyla dilediğiniz her an gerçeğe birebir simüle edin."
-                      : "Simulate medical school cadaver lab practical exams with authentic 45-second bells, timed pressure, and milimetric pins on your phone anytime."}
+                      ? "Uygulamada her istasyon çelik masada duran bir bölge ya da organ preparatıdır. Numaralı iğnelerin gösterdiği yapıların Latince adını süre bitmeden yazarsınız."
+                      : "In the app every station is a region or organ specimen on a steel table. You type the Latin names of the structures the numbered needles point at before time runs out."}
                   </p>
                 </div>
 
                 {/* iPhone Device Frame with real app screenshot */}
                 <div className="flex justify-center py-2">
                   <IPhoneFrame
-                    screenSrc="/screens/exam-phone.png"
+                    screenSrc="/screens/exam.webp"
                     altText={language === "tr" ? "Anatomi 3D Zilli Sınav Masası Mobil Ekranı" : "Anatomy 3D Bell Exam Mobile Screen"}
-                    caption={language === "tr" ? "Masa #01: Abdomen Regio • 45s Zil" : "Station #01: Abdomen Regio • 45s Bell"}
+                    caption={language === "tr" ? "Uygulamada bir istasyon: göğüs, 5 iğne" : "A station in the app: the thorax, 5 needles"}
                   />
                 </div>
 
@@ -368,7 +368,7 @@ export default function ZilliSinavPage() {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[13px] text-[#1d1f20] font-bold">
-                        {language === "tr" ? "45 Saniyelik Zil Çalar" : "45-Second Bell Rings"}
+                        {language === "tr" ? "Süre başlar (20–60 sn)" : "The clock starts (20–60 s)"}
                       </span>
                       <span className="text-[12px] text-[#5d5d60]">
                         {language === "tr"
